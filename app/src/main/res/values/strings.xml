@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Supply7</string>
+    <string name="action_sign_in">Login</string>
+    <string name="action_register">Register</string>
+    <string name="prompt_email">Email (@std.yeditepe.edu.tr)</string>
+    <string name="prompt_password">Password</string>
+    <string name="error_invalid_email">Use std.yeditepe.edu.tr email</string>
+    <string name="welcome_message">Welcome to Supply7</string>
+    <string name="label_reviews">Reviews</string>
+</resources>

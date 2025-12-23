@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <!-- Header -->
+    <ImageView
+        android:id="@+id/btnClose"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_launcher_foreground"
+        app:tint="@color/primary_pink"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Filters"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_dark"
+        app:layout_constraintBottom_toBottomOf="@+id/btnClose"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnClose" />
+
+    <TextView
+        android:id="@+id/btnReset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="Reset"
+        android:textColor="@color/primary_pink"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btnClose"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnClose" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnApplyFilters"
+        app:layout_constraintTop_toBottomOf="@+id/btnClose"
+        android:layout_marginTop="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Department/Faculty -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Department/Faculty"
+                android:textColor="@color/text_dark"
+                android:drawableEnd="@drawable/ic_launcher_foreground"
+                android:drawableTint="@color/primary_pink"
+                android:paddingVertical="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground"/>
+            <!-- Placeholder for expandable logic, keeping it simple visual for now -->
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#EEE"/>
+
+            <!-- Item Condition -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Item Condition"
+                android:textColor="@color/text_dark"
+                android:paddingTop="12dp"
+                android:paddingBottom="8dp"/>
+
+            <RadioGroup
+                android:id="@+id/radioGroupCondition"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/radioNew"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="New"
+                    android:buttonTint="@color/primary_pink"/>
+                
+                <RadioButton
+                    android:id="@+id/radioLikeNew"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Like-New"
+                    android:buttonTint="@color/primary_pink"/>
+                
+                <RadioButton
+                    android:id="@+id/radioUsed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Used-Good"
+                    android:buttonTint="@color/primary_pink"/>
+            </RadioGroup>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#EEE" android:layout_marginTop="8dp"/>
+
+            <!-- Price Range -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Price Range"
+                android:textColor="@color/text_dark"
+                android:paddingTop="12dp"/>
+            
+            <com.google.android.material.slider.RangeSlider
+                android:id="@+id/sliderPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:valueFrom="0.0"
+                android:valueTo="1000.0"
+                app:values="@array/initial_slider_values"
+                app:thumbColor="@color/primary_pink"
+                app:trackColorActive="@color/primary_pink"
+                app:trackColorInactive="#E0E0E0"/>
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView android:id="@+id/textMinPrice" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="₺0"/>
+                <TextView android:id="@+id/textMaxPrice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="₺1000"/>
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#EEE" android:layout_marginTop="12dp"/>
+
+            <!-- Discounted & Seller Rating -->
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switchDiscounted"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Discounted Products"
+                android:textColor="@color/text_dark"
+                android:layout_marginTop="12dp"
+                app:thumbTint="@color/primary_pink"
+                app:trackTint="@color/primary_pink_light"/>
+
+             <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switchTopSeller"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="4 Star And Above Sellers"
+                android:textColor="@color/text_dark"
+                android:layout_marginTop="8dp"
+                app:thumbTint="@color/primary_pink"
+                app:trackTint="@color/primary_pink_light"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnApplyFilters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Apply Filters (3)"
+        android:backgroundTint="@color/primary_pink"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        app:cornerRadius="8dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

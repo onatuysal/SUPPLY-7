@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="16dp">
+
+    <!-- Header / Search Bar Mock -->
+    <LinearLayout
+        android:id="@+id/layoutHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_launcher_foreground"
+            app:tint="@color/primary_pink"
+            android:contentDescription="Back" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            app:cardCornerRadius="20dp"
+            app:cardBackgroundColor="#F8BBD0" 
+            app:cardElevation="0dp">
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="12dp">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_launcher_foreground"
+                    app:tint="@color/primary_pink"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Search"
+                    android:textColor="@color/primary_pink"
+                    android:layout_marginStart="8dp"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_launcher_foreground"
+            app:tint="@color/primary_pink"
+            android:contentDescription="Notification"/>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/layoutHeader"
+        app:layout_constraintBottom_toTopOf="@+id/layoutButtons">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Product Image -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/white">
+                <ImageView
+                    android:id="@+id/imageProduct"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_launcher_foreground"
+                    android:scaleType="centerCrop"
+                    android:background="#EEE"/>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Title & Price -->
+            <TextView
+                android:id="@+id/textTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Resim Çantası"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_dark"/>
+
+            <TextView
+                android:id="@+id/textPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="₺250"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_dark"/>
+
+            <!-- Description -->
+            <TextView
+                android:id="@+id/textDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="35x50 resim çantası. İhtiyaç fazlası olduğundan satmak istiyorum."
+                android:textSize="14sp"
+                android:textColor="@color/text_dark"
+                android:lineSpacingExtra="4dp"/>
+
+            <!-- Details Grid -->
+            <!-- Details Rows -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:orientation="vertical">
+
+                <!-- Row 1 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="16dp">
+                    
+                    <LinearLayout android:orientation="vertical" android:layout_width="0dp" android:layout_weight="1">
+                        <TextView android:text="Category" android:textSize="12sp" android:textColor="@color/text_light"/>
+                        <TextView android:id="@+id/textCategory" android:text="Stationery" android:textSize="14sp" android:textColor="@color/text_dark" android:textStyle="bold"/>
+                    </LinearLayout>
+                    
+                    <LinearLayout android:orientation="vertical" android:layout_width="0dp" android:layout_weight="1">
+                        <TextView android:text="Faculty" android:textSize="12sp" android:textColor="@color/text_light"/>
+                        <TextView android:id="@+id/textFaculty" android:text="Art" android:textSize="14sp" android:textColor="@color/text_dark" android:textStyle="bold"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Row 2 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="16dp">
+
+                    <LinearLayout android:orientation="vertical" android:layout_width="0dp" android:layout_weight="1">
+                        <TextView android:text="Condition" android:textSize="12sp" android:textColor="@color/text_light"/>
+                        <TextView android:id="@+id/textCondition" android:text="Underused" android:textSize="14sp" android:textColor="@color/text_dark" android:textStyle="bold"/>
+                    </LinearLayout>
+                    
+                    <LinearLayout android:orientation="vertical" android:layout_width="0dp" android:layout_weight="1">
+                        <TextView android:text="Department" android:textSize="12sp" android:textColor="@color/text_light"/>
+                        <TextView android:id="@+id/textDepartment" android:text="Fine Arts" android:textSize="14sp" android:textColor="@color/text_dark" android:textStyle="bold"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Row 3 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout android:orientation="vertical" android:layout_width="0dp" android:layout_weight="1">
+                        <TextView android:text="Brand" android:textSize="12sp" android:textColor="@color/text_light"/>
+                        <TextView android:id="@+id/textBrand" android:text="Faber Castell" android:textSize="14sp" android:textColor="@color/text_dark" android:textStyle="bold"/>
+                    </LinearLayout>
+                    
+                    <LinearLayout android:orientation="vertical" android:layout_width="0dp" android:layout_weight="1">
+                        <TextView android:text="Color" android:textSize="12sp" android:textColor="@color/text_light"/>
+                        <TextView android:id="@+id/textColor" android:text="Black" android:textSize="14sp" android:textColor="@color/text_dark" android:textStyle="bold"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Bottom Buttons -->
+    <LinearLayout
+        android:id="@+id/layoutButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- Row 1: Cancel, Buy, Message -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Cancel"
+                android:backgroundTint="#F5F5F5"
+                android:textColor="@color/text_dark"
+                android:textAllCaps="false"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+
+            <Button
+                android:id="@+id/btnBuy"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="8dp"
+                android:text="Buy"
+                android:backgroundTint="#FF80AB"  
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+                <!-- Using slightly lighter pink for button per design visual -->
+
+            <Button
+                android:id="@+id/btnMessage"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#FF80AB"
+                android:insetLeft="0dp"
+                android:insetRight="0dp"
+                android:minWidth="0dp"
+                android:padding="0dp"
+                android:text="..." 
+                android:textColor="@color/white"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+                <!-- Placeholder for message icon -->
+        </LinearLayout>
+        
+        <!-- Row 2: Offers -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            
+            <Button
+                android:id="@+id/btnPriceOffer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Send a price offer"
+                android:backgroundTint="#F8BBD0" 
+                android:textColor="@color/text_dark"
+                android:textAllCaps="false"
+                android:textSize="12sp"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+
+            <Space android:layout_width="8dp" android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/btnExchangeOffer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Send an exchange offer"
+                android:backgroundTint="#F8BBD0"
+                android:textColor="@color/text_dark"
+                android:textAllCaps="false"
+                android:textSize="12sp"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_cream"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="32dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Product"
+            android:textColor="@color/text_dark"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="24dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Photo of the Product"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <Button
+                android:id="@+id/btnAddFromCamera"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Add From Camera"
+                android:backgroundTint="#F8BBD0" 
+                android:textColor="@color/text_dark"
+                android:textAllCaps="false"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/btnAddFromGallery"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Add From Gallery"
+                android:backgroundTint="#F8BBD0" 
+                android:textColor="@color/text_dark"
+                android:textAllCaps="false"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:layout_marginStart="8dp"/>
+        </LinearLayout>
+
+        <!-- Image Preview -->
+        <ImageView
+            android:id="@+id/imagePreview"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="#EEE"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Product Name -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Product Name"
+            android:layout_marginBottom="4dp"/>
+        <EditText
+            android:id="@+id/editTextTitle"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Exp: Architecture set"
+            android:background="@drawable/ic_launcher_foreground"
+            android:backgroundTint="@color/white"
+            android:paddingHorizontal="12dp"
+            android:layout_marginBottom="16dp"/>
+            <!-- Note: Using simple background for now, should be a drawable with border radius -->
+
+        <!-- About Product -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="About Product"
+            android:layout_marginBottom="4dp"/>
+        <EditText
+            android:id="@+id/editTextDescription"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:gravity="top|start"
+            android:hint="Give info about condition, brand etc."
+            android:background="@drawable/ic_launcher_foreground"
+            android:backgroundTint="@color/white"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Category (Spinner mock with TextView for now) -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Category"
+            android:layout_marginBottom="4dp"/>
+        <EditText
+            android:id="@+id/editCategory"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Stationery"
+            android:background="@drawable/ic_launcher_foreground"
+            android:backgroundTint="@color/white"
+            android:paddingHorizontal="12dp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Department -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Department"
+            android:layout_marginBottom="4dp"/>
+        <EditText
+            android:id="@+id/editDepartment"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Electrical Engineering"
+            android:background="@drawable/ic_launcher_foreground"
+            android:backgroundTint="@color/white"
+            android:paddingHorizontal="12dp"
+            android:layout_marginBottom="16dp"/>
+
+         <!-- Faculty -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Faculty"
+            android:layout_marginBottom="4dp"/>
+        <EditText
+            android:id="@+id/editFaculty"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Architecture"
+            android:background="@drawable/ic_launcher_foreground"
+            android:backgroundTint="@color/white"
+            android:paddingHorizontal="12dp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Brand -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Brand"
+            android:layout_marginBottom="4dp"/>
+        <EditText
+            android:id="@+id/editBrand"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Faber Castell"
+            android:background="@drawable/ic_launcher_foreground"
+            android:backgroundTint="@color/white"
+            android:paddingHorizontal="12dp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Color -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Color"
+            android:layout_marginBottom="4dp"/>
+        <EditText
+            android:id="@+id/editColor"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Mixed"
+            android:background="@drawable/ic_launcher_foreground"
+            android:backgroundTint="@color/white"
+            android:paddingHorizontal="12dp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Condition -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Condition"
+            android:layout_marginBottom="4dp"/>
+        <EditText
+            android:id="@+id/editCondition"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="New / Used"
+            android:background="@drawable/ic_launcher_foreground"
+            android:backgroundTint="@color/white"
+            android:paddingHorizontal="12dp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Price -->
+         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Price"
+            android:layout_marginBottom="4dp"/>
+        <EditText
+            android:id="@+id/editTextPrice"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="0.00"
+            android:inputType="numberDecimal"
+            android:background="@drawable/ic_launcher_foreground"
+            android:backgroundTint="@color/white"
+            android:paddingHorizontal="12dp"
+            android:layout_marginBottom="24dp"/>
+
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Publish My Item"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/primary_pink"
+            android:textColor="@color/white"
+            app:cornerRadius="25dp"/>
+
+    </LinearLayout>
+</ScrollView>

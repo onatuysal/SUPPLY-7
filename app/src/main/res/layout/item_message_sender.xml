@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp">
+
+    <TextView
+        android:id="@+id/textMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#F8BBD0" 
+        android:padding="12dp"
+        android:text="Fiyatta biraz indirim yapabilir misin? :)"
+        android:textColor="@color/text_dark"
+        android:maxWidth="250dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <!-- Note: Need a proper background drawable for rounded corners. Simple color for now. -->
+
+    <ImageView
+        android:id="@+id/imageAvatar"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/ic_launcher_foreground"
+        android:background="#EEE"
+        app:layout_constraintStart_toEndOf="@+id/textMessage"
+        app:layout_constraintBottom_toBottomOf="@+id/textMessage"
+        android:visibility="gone"/> 
+    <!-- Design shows sender avatar on right sometimes? No, standard is usually just bubble. 
+         Figma shows avatar on left for receiver, and maybe avatar on right for sender. 
+         Let's assume just bubble for sender for simplicity unless specified. 
+         Wait, looking at Figma 'Messages Page Read All', sender bubble is PINK, receiver is WHITE/GRAY.
+         
+         Correction: Figma image 3 (Chat details) shows:
+         - Receiver (Zeynep) on Left with Avatar.
+         - Sender (User) on Right with Avatar.
+         -->
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        app:cardCornerRadius="16dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textMessage"
+        app:layout_constraintStart_toEndOf="@+id/textMessage">
+        <ImageView
+            android:src="@drawable/ic_launcher_foreground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

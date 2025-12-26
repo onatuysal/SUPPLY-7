@@ -7,7 +7,7 @@
     android:background="@color/white"
     android:padding="16dp">
 
-    <!-- Header / Search Bar Mock -->
+    <!-- Üst bar / back + sahte arama alanı -->
     <LinearLayout
         android:id="@+id/layoutHeader"
         android:layout_width="match_parent"
@@ -21,8 +21,8 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_launcher_foreground"
-            app:tint="@color/primary_pink"
-            android:contentDescription="Back" />
+            android:contentDescription="Back"
+            app:tint="@color/primary_pink" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="0dp"
@@ -31,26 +31,28 @@
             android:layout_marginStart="12dp"
             android:layout_marginEnd="8dp"
             app:cardCornerRadius="20dp"
-            app:cardBackgroundColor="#F8BBD0" 
+            app:cardBackgroundColor="#F8BBD0"
             app:cardElevation="0dp">
-            
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:paddingHorizontal="12dp">
+
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/ic_launcher_foreground"
-                    app:tint="@color/primary_pink"/>
+                    app:tint="@color/primary_pink" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:text="Search"
                     android:textColor="@color/primary_pink"
-                    android:layout_marginStart="8dp"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -58,49 +60,52 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_launcher_foreground"
-            app:tint="@color/primary_pink"
-            android:contentDescription="Notification"/>
+            android:contentDescription="Notification"
+            app:tint="@color/primary_pink" />
     </LinearLayout>
 
+    <!-- ScrollView: ürün detayları -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/layoutHeader"
-        app:layout_constraintBottom_toTopOf="@+id/layoutButtons">
+        app:layout_constraintTop_toBottomOf="@id/layoutHeader"
+        app:layout_constraintBottom_toTopOf="@id/layoutButtons">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Product Image -->
+            <!-- Ürün görseli -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
                 app:cardBackgroundColor="@color/white">
+
                 <ImageView
                     android:id="@+id/imageProduct"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_launcher_foreground"
+                    android:background="#EEEEEE"
                     android:scaleType="centerCrop"
-                    android:background="#EEE"/>
+                    android:src="@drawable/ic_launcher_foreground"
+                    tools:ignore="ContentDescription" />
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Title & Price -->
+            <!-- Başlık + Fiyat -->
             <TextView
                 android:id="@+id/textTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Resim Çantası"
+                android:textColor="@color/text_dark"
                 android:textSize="22sp"
-                android:textStyle="bold"
-                android:textColor="@color/text_dark"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textPrice"
@@ -108,79 +113,186 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="₺250"
+                android:textColor="@color/text_dark"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/text_dark"/>
+                android:textStyle="bold" />
 
-            <!-- Description -->
+            <!-- Açıklama -->
             <TextView
                 android:id="@+id/textDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:lineSpacingExtra="4dp"
                 android:text="35x50 resim çantası. İhtiyaç fazlası olduğundan satmak istiyorum."
-                android:textSize="14sp"
                 android:textColor="@color/text_dark"
-                android:lineSpacingExtra="4dp"/>
+                android:textSize="14sp" />
 
-            <!-- Details Grid -->
-            <!-- Details Rows -->
+            <!-- Detaylar bloğu -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:orientation="vertical">
 
-                <!-- Row 1 -->
+                <!-- Satır 1: Category / Faculty -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="16dp">
-                    
-                    <LinearLayout android:orientation="vertical" android:layout_width="0dp" android:layout_weight="1">
-                        <TextView android:text="Category" android:textSize="12sp" android:textColor="@color/text_light"/>
-                        <TextView android:id="@+id/textCategory" android:text="Stationery" android:textSize="14sp" android:textColor="@color/text_dark" android:textStyle="bold"/>
+                    android:layout_marginBottom="16dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Category"
+                            android:textColor="@color/text_light"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/textCategory"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Stationery"
+                            android:textColor="@color/text_dark"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
-                    
-                    <LinearLayout android:orientation="vertical" android:layout_width="0dp" android:layout_weight="1">
-                        <TextView android:text="Faculty" android:textSize="12sp" android:textColor="@color/text_light"/>
-                        <TextView android:id="@+id/textFaculty" android:text="Art" android:textSize="14sp" android:textColor="@color/text_dark" android:textStyle="bold"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Faculty"
+                            android:textColor="@color/text_light"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/textFaculty"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Art"
+                            android:textColor="@color/text_dark"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
 
-                <!-- Row 2 -->
+                <!-- Satır 2: Condition / Department -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="16dp">
+                    android:layout_marginBottom="16dp"
+                    android:orientation="horizontal">
 
-                    <LinearLayout android:orientation="vertical" android:layout_width="0dp" android:layout_weight="1">
-                        <TextView android:text="Condition" android:textSize="12sp" android:textColor="@color/text_light"/>
-                        <TextView android:id="@+id/textCondition" android:text="Underused" android:textSize="14sp" android:textColor="@color/text_dark" android:textStyle="bold"/>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Condition"
+                            android:textColor="@color/text_light"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/textCondition"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Underused"
+                            android:textColor="@color/text_dark"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
-                    
-                    <LinearLayout android:orientation="vertical" android:layout_width="0dp" android:layout_weight="1">
-                        <TextView android:text="Department" android:textSize="12sp" android:textColor="@color/text_light"/>
-                        <TextView android:id="@+id/textDepartment" android:text="Fine Arts" android:textSize="14sp" android:textColor="@color/text_dark" android:textStyle="bold"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Department"
+                            android:textColor="@color/text_light"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/textDepartment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Fine Arts"
+                            android:textColor="@color/text_dark"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
 
-                <!-- Row 3 -->
+                <!-- Satır 3: Brand / Color -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <LinearLayout android:orientation="vertical" android:layout_width="0dp" android:layout_weight="1">
-                        <TextView android:text="Brand" android:textSize="12sp" android:textColor="@color/text_light"/>
-                        <TextView android:id="@+id/textBrand" android:text="Faber Castell" android:textSize="14sp" android:textColor="@color/text_dark" android:textStyle="bold"/>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Brand"
+                            android:textColor="@color/text_light"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/textBrand"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Faber Castell"
+                            android:textColor="@color/text_dark"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
-                    
-                    <LinearLayout android:orientation="vertical" android:layout_width="0dp" android:layout_weight="1">
-                        <TextView android:text="Color" android:textSize="12sp" android:textColor="@color/text_light"/>
-                        <TextView android:id="@+id/textColor" android:text="Black" android:textSize="14sp" android:textColor="@color/text_dark" android:textStyle="bold"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Color"
+                            android:textColor="@color/text_light"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/textColor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Black"
+                            android:textColor="@color/text_dark"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -189,7 +301,7 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- Bottom Buttons -->
+    <!-- Alt butonlar -->
     <LinearLayout
         android:id="@+id/layoutButtons"
         android:layout_width="match_parent"
@@ -197,12 +309,12 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <!-- Row 1: Cancel, Buy, Message -->
+        <!-- Satır 1: Cancel / Buy / ... -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btnCancel"
@@ -210,72 +322,67 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Cancel"
-                android:backgroundTint="#F5F5F5"
-                android:textColor="@color/text_dark"
                 android:textAllCaps="false"
-                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+                android:textColor="@color/text_dark"
+                android:backgroundTint="#F5F5F5" />
 
             <Button
                 android:id="@+id/btnBuy"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginHorizontal="8dp"
+                android:layout_weight="1"
                 android:text="Buy"
-                android:backgroundTint="#FF80AB"  
-                android:textColor="@color/white"
                 android:textAllCaps="false"
-                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
-                <!-- Using slightly lighter pink for button per design visual -->
+                android:textColor="@color/white"
+                android:backgroundTint="#FF80AB" />
 
             <Button
                 android:id="@+id/btnMessage"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#FF80AB"
-                android:insetLeft="0dp"
-                android:insetRight="0dp"
                 android:minWidth="0dp"
                 android:padding="0dp"
-                android:text="..." 
+                android:text="..."
+                android:textAllCaps="false"
                 android:textColor="@color/white"
-                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
-                <!-- Placeholder for message icon -->
+                android:backgroundTint="#FF80AB" />
         </LinearLayout>
-        
-        <!-- Row 2: Offers -->
+
+        <!-- Satır 2: Fiyat teklifi / takas teklifi -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            
+
             <Button
-                android:id="@+id/btnPriceOffer"
+                android:id="@+id/btnMessageSeller"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:backgroundTint="#F8BBD0"
                 android:text="Send a price offer"
-                android:backgroundTint="#F8BBD0" 
-                android:textColor="@color/text_dark"
                 android:textAllCaps="false"
-                android:textSize="12sp"
-                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+                android:textColor="@color/text_dark"
+                android:textSize="12sp" />
 
-            <Space android:layout_width="8dp" android:layout_height="wrap_content"/>
+            <View
+                android:layout_width="8dp"
+                android:layout_height="0dp" />
 
             <Button
                 android:id="@+id/btnExchangeOffer"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Send an exchange offer"
                 android:backgroundTint="#F8BBD0"
-                android:textColor="@color/text_dark"
+                android:text="Send an exchange offer"
                 android:textAllCaps="false"
-                android:textSize="12sp"
-                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+                android:textColor="@color/text_dark"
+                android:textSize="12sp" />
         </LinearLayout>
 
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

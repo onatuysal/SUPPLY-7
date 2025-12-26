@@ -62,15 +62,16 @@
         </LinearLayout>
 
         <!-- Image Preview -->
+
+        <!-- Product Name -->
         <ImageView
             android:id="@+id/imagePreview"
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:layout_marginBottom="16dp"
             android:background="#EEE"
-            android:scaleType="centerCrop"
-            android:layout_marginBottom="16dp"/>
+            android:scaleType="centerCrop" />
 
-        <!-- Product Name -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -221,11 +222,13 @@
             android:id="@+id/btnSubmit"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:alpha="1"
+            android:backgroundTint="@color/primary_pink"
+            android:enabled="true"
             android:text="Publish My Item"
             android:textAllCaps="false"
-            android:backgroundTint="@color/primary_pink"
             android:textColor="@color/white"
-            app:cornerRadius="25dp"/>
+            app:cornerRadius="25dp" />
 
     </LinearLayout>
 </ScrollView>

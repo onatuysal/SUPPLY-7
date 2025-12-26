@@ -7,16 +7,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.supply7.data.Product
 import com.example.supply7.data.ProductRepository
-import com.example.supply7.data.AuthRepository
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import java.util.UUID
 
 class AddProductViewModel : ViewModel() {
-    private val repository = ProductRepository()
-    private val authRepository = AuthRepository()
+
+    private val auth = FirebaseAuth.getInstance()
+    private val firestore = FirebaseFirestore.getInstance()
     private val storage = FirebaseStorage.getInstance()
+    private val repository = ProductRepository()
 
     private val _uploadStatus = MutableLiveData<Result<Boolean>>()
     val uploadStatus: LiveData<Result<Boolean>> = _uploadStatus
@@ -24,11 +26,15 @@ class AddProductViewModel : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
+    /**
+     * title, description, price, faculty, category, department, brand, color, condition
+     * AddProductFragment'tan geldiği gibi.
+     */
     fun addProduct(
-        title: String, 
-        description: String, 
-        price: Double, 
-        faculty: String, 
+        title: String,
+        description: String,
+        price: Double,
+        faculty: String,
         category: String,
         department: String,
         brand: String,
@@ -36,23 +42,23 @@ class AddProductViewModel : ViewModel() {
         condition: String,
         imageUri: Uri?
     ) {
-        _isLoading.value = true
         viewModelScope.launch {
+            _isLoading.value = true
             try {
-                val user = authRepository.currentUser
-                if (user == null) {
-                    _uploadStatus.value = Result.failure(Exception("User not logged in"))
-                    return@launch
+                val user = auth.currentUser ?: throw Exception("User not logged in")
+
+                // 1) Fotoğrafı Storage'a yükle
+                val imageUrl = if (imageUri != null) {
+                    uploadImageToStorage(imageUri)
+                } else {
+                    ""
                 }
 
-                var downloadUrl = ""
-                if (imageUri != null) {
-                    val ref = storage.reference.child("products/${UUID.randomUUID()}")
-                    ref.putFile(imageUri).await()
-                    downloadUrl = ref.downloadUrl.await().toString()
-                }
-
+                // 2) Product objesini oluştur
                 val product = Product(
+                    // id'yi Firestore otomatik verecekse burada boş bırakıyoruz
+                    // eğer data class'ta 'id' yoksa bunu sil
+                    id = "",
                     title = title,
                     description = description,
                     price = price,
@@ -62,12 +68,13 @@ class AddProductViewModel : ViewModel() {
                     brand = brand,
                     color = color,
                     condition = condition,
-                    imageUrl = downloadUrl,
+                    imageUrl = imageUrl,
                     sellerId = user.uid,
-                    sellerName = user.email ?: "Unknown",
+                    sellerName = user.displayName ?: (user.email ?: "Unknown"),
                     timestamp = System.currentTimeMillis()
                 )
 
+                // 3) Firestore'a kaydet
                 val result = repository.addProduct(product)
                 _uploadStatus.value = result
             } catch (e: Exception) {
@@ -77,4 +84,22 @@ class AddProductViewModel : ViewModel() {
             }
         }
     }
+
+    /**
+     * Gerçek işi yapan kısım burası:
+     * - product_images/ klasörüne atıyor
+     * - sonra aynı referanstan downloadUrl alıyor
+     * Böylece "Object does not exist at location" hatası kalkmalı.
+     */
+    private suspend fun uploadImageToStorage(imageUri: Uri): String {
+        val fileName = "product_${System.currentTimeMillis()}.jpg"
+        val ref = storage.reference.child("product_images/$fileName")
+
+        // Dosyayı bu ref'e gerçekten yüklüyoruz
+        ref.putFile(imageUri).await()
+
+        // Aynı ref'ten downloadUrl çekiyoruz
+        return ref.downloadUrl.await().toString()
+    }
 }
+

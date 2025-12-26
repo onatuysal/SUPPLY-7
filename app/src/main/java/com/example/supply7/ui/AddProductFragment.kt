@@ -1,9 +1,11 @@
 package com.example.supply7.ui
 
+import android.app.Activity
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -16,21 +18,27 @@ class AddProductFragment : Fragment(R.layout.fragment_add_product) {
 
     private val viewModel: AddProductViewModel by viewModels()
     private var binding: FragmentAddProductBinding? = null
-    private var selectedImageUri: Uri? = null // Fixed: Define member variable
+    private var selectedImageUri: Uri? = null
 
-    private val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        if (uri != null) {
-            selectedImageUri = uri
-            binding?.imagePreview?.setImageURI(uri)
-        }
-    }
 
-    private val takePicture = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
-        if (success && selectedImageUri != null) {
-            binding?.imagePreview?.setImageURI(selectedImageUri)
+    private val pickImageFromGallery =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val uri = result.data?.data
+                if (uri != null) {
+                    selectedImageUri = uri
+                    binding?.imagePreview?.setImageURI(uri)
+                }
+            }
         }
-    }
-    
+
+    private val takePicture =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+            if (success && selectedImageUri != null) {
+                binding?.imagePreview?.setImageURI(selectedImageUri)
+            }
+        }
+
     private fun createImageUri(): Uri? {
         val imageFile = java.io.File(
             requireContext().getExternalFilesDir(null),
@@ -48,10 +56,17 @@ class AddProductFragment : Fragment(R.layout.fragment_add_product) {
         val bind = FragmentAddProductBinding.bind(view)
         binding = bind
 
+
         bind.btnAddFromGallery.setOnClickListener {
-            getContent.launch("image/*")
+            val intent = Intent(
+                Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            )
+            intent.type = "image/*"
+            pickImageFromGallery.launch(intent)
         }
-        
+
+
         bind.btnAddFromCamera.setOnClickListener {
             val uri = createImageUri()
             if (uri != null) {
@@ -59,16 +74,19 @@ class AddProductFragment : Fragment(R.layout.fragment_add_product) {
                 takePicture.launch(uri)
             } else {
                 Toast.makeText(context, "Error creating image file", Toast.LENGTH_SHORT).show()
+
             }
         }
-
+        bind.btnSubmit.setOnClickListener {
+            Toast.makeText(requireContext(), "Button clicked", Toast.LENGTH_SHORT).show()
+        }
         bind.btnSubmit.setOnClickListener {
             val title = bind.editTextTitle.text.toString()
             val priceStr = bind.editTextPrice.text.toString()
             val description = bind.editTextDescription.text.toString()
             val faculty = bind.editFaculty.text.toString()
             val category = bind.editCategory.text.toString()
-            val department = bind.editDepartment.text.toString() // New
+            val department = bind.editDepartment.text.toString()
             val brand = bind.editBrand.text.toString()
             val color = bind.editColor.text.toString()
             val condition = bind.editCondition.text.toString()
@@ -79,7 +97,18 @@ class AddProductFragment : Fragment(R.layout.fragment_add_product) {
             }
 
             val price = priceStr.toDoubleOrNull() ?: 0.0
-            viewModel.addProduct(title, description, price, faculty, category, department, brand, color, condition, selectedImageUri)
+            viewModel.addProduct(
+                title,
+                description,
+                price,
+                faculty,
+                category,
+                department,
+                brand,
+                color,
+                condition,
+                selectedImageUri
+            )
         }
 
         viewModel.uploadStatus.observe(viewLifecycleOwner) { result ->
@@ -87,13 +116,16 @@ class AddProductFragment : Fragment(R.layout.fragment_add_product) {
                 Toast.makeText(context, "Product Posted!", Toast.LENGTH_SHORT).show()
                 parentFragmentManager.popBackStack()
             } else {
-                Toast.makeText(context, "Error: ${result.exceptionOrNull()?.message}", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    context,
+                    "Error: ${result.exceptionOrNull()?.message}",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            // bind.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-             bind.btnSubmit.isEnabled = !isLoading
+            bind.btnSubmit.isEnabled = !isLoading
         }
     }
 
@@ -102,3 +134,4 @@ class AddProductFragment : Fragment(R.layout.fragment_add_product) {
         binding = null
     }
 }
+

@@ -13,7 +13,8 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
 
     private val viewModel: ChatViewModel by viewModels()
     private var binding: FragmentChatBinding? = null
-    
+
+    private lateinit var chatAdapter: ChatAdapter
     private var chatId: String = ""
     private var otherUserName: String = ""
 
@@ -73,24 +74,31 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
         }
 
         val currentUserId = viewModel.currentUserId ?: ""
-        val adapter = ChatAdapter(currentUserId)
+        chatAdapter = ChatAdapter(currentUserId)
+
         bind.recyclerChat.layoutManager = LinearLayoutManager(context).apply {
             stackFromEnd = true
         }
-        
-        adapter.onAcceptOffer = { message ->
+
+        chatAdapter.onAcceptOffer = { message ->
             if (chatId.isNotBlank()) {
                 viewModel.respondToOffer(chatId, message, true)
             }
         }
-        
-        adapter.onDeclineOffer = { message ->
+
+        chatAdapter.onDeclineOffer = { message ->
             if (chatId.isNotBlank()) {
                 viewModel.respondToOffer(chatId, message, false)
             }
         }
-        
-        bind.recyclerChat.adapter = adapter
+
+        bind.recyclerChat.adapter = chatAdapter
+        viewModel.messages.observe(viewLifecycleOwner) { messages ->
+            chatAdapter.updateData(messages)
+            if (messages.isNotEmpty()) {
+                bind.recyclerChat.scrollToPosition(messages.size - 1)
+            }
+        }
 
         // Auto-send offer if present
         if (offerAmount.isNotBlank() && receiverId.isNotBlank()) {

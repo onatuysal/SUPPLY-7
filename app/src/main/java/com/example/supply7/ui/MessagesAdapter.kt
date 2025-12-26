@@ -31,15 +31,17 @@ class MessagesAdapter(
         holder.textName.text = chat.otherUserName
         holder.textLastMessage.text = chat.lastMessage
         
-        // Dynamic time (mock if missing)
+        holder.textTime.text = "12:30" // Placeholder time
         holder.textTime.text = if (chat.lastMessageTimestamp > 0) "10:23" else "" 
 
-        // Badge Logic (Mock based on position for design demo)
+        // Initial placeholder logic removed.
+        // We rely on the logic below based on data.
         // If position is 2 (Mert Demir in example), show badge
-        if (position == 2 || chat.unreadCount > 0) {
+        // Badge Logic
+        if (chat.unreadCount > 0) {
             holder.badgeUnread.visibility = View.VISIBLE
             holder.textTime.visibility = View.GONE
-            holder.badgeUnread.text = if(chat.unreadCount > 0) chat.unreadCount.toString() else "1"
+            holder.badgeUnread.text = chat.unreadCount.toString()
             holder.textLastMessage.setTextColor(android.graphics.Color.parseColor("#E73F98")) // Pink text
         } else {
             holder.badgeUnread.visibility = View.GONE
@@ -50,8 +52,12 @@ class MessagesAdapter(
         // Color logic from screenshot: 
         // Some are blue (question?), some gray (answer?). 
         // I'll stick to blue for now or alternating.
-        if (position == 0) holder.textLastMessage.setTextColor(android.graphics.Color.parseColor("#598CD8"))
-        else if (position == 1) holder.textLastMessage.setTextColor(android.graphics.Color.parseColor("#757575"))
+        // Text Color Logic based on unread status
+        if (chat.unreadCount > 0) {
+             holder.textLastMessage.setTextColor(android.graphics.Color.parseColor("#598CD8"))
+        } else {
+             holder.textLastMessage.setTextColor(android.graphics.Color.parseColor("#757575"))
+        }
         
         holder.itemView.setOnClickListener { onChatClick(chat) }
     }

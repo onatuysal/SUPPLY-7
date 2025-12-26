@@ -33,15 +33,10 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
         }
         
         bind.btnCheckout.setOnClickListener {
-            // Confirm Dialog
-            AlertDialog.Builder(requireContext())
-                .setTitle("Confirm Order")
-                .setMessage("Complete purchase for ${bind.textTotal.text}?")
-                .setPositiveButton("Pay") { _, _ ->
-                     viewModel.checkout()
-                }
-                .setNegativeButton("Cancel", null)
-                .show()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, CheckoutFragment())
+                .addToBackStack(null)
+                .commit()
         }
 
         viewModel.cartItems.observe(viewLifecycleOwner) { items ->

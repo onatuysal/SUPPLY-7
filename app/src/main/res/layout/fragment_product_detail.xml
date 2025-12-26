@@ -20,7 +20,7 @@
             android:id="@+id/btnBack"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_launcher_foreground"
+            android:src="@drawable/ic_back_arrow"
             android:contentDescription="Back"
             app:tint="@color/primary_pink" />
 
@@ -43,14 +43,14 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/ic_launcher_foreground"
+                    android:src="@drawable/ic_search_pink"
                     app:tint="@color/primary_pink" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Search"
+                    android:text="@string/search_hint"
                     android:textColor="@color/primary_pink"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -59,7 +59,7 @@
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_launcher_foreground"
+            android:src="@drawable/ic_notification"
             android:contentDescription="Notification"
             app:tint="@color/primary_pink" />
     </LinearLayout>
@@ -151,7 +151,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Category"
+                            android:text="@string/label_category"
                             android:textColor="@color/text_light"
                             android:textSize="12sp" />
 
@@ -174,7 +174,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Faculty"
+                            android:text="@string/label_faculty"
                             android:textColor="@color/text_light"
                             android:textSize="12sp" />
 
@@ -205,7 +205,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Condition"
+                            android:text="@string/label_condition"
                             android:textColor="@color/text_light"
                             android:textSize="12sp" />
 
@@ -228,7 +228,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Department"
+                            android:text="@string/label_department"
                             android:textColor="@color/text_light"
                             android:textSize="12sp" />
 
@@ -258,7 +258,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Brand"
+                            android:text="@string/label_brand"
                             android:textColor="@color/text_light"
                             android:textSize="12sp" />
 
@@ -281,7 +281,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Color"
+                            android:text="@string/label_color"
                             android:textColor="@color/text_light"
                             android:textSize="12sp" />
 
@@ -321,7 +321,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Cancel"
+                android:text="@string/btn_cancel"
                 android:textAllCaps="false"
                 android:textColor="@color/text_dark"
                 android:backgroundTint="#F5F5F5" />
@@ -332,7 +332,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
                 android:layout_weight="1"
-                android:text="Buy"
+                android:text="@string/btn_buy"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:backgroundTint="#FF80AB" />
@@ -346,7 +346,7 @@
                 android:text="..."
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:backgroundTint="#FF80AB" />
+                android:backgroundTint="@color/primary_pink" />
         </LinearLayout>
 
         <!-- Satır 2: Fiyat teklifi / takas teklifi -->

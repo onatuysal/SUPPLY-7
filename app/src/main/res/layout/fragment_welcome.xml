@@ -24,11 +24,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="SUPPLY7"
+            android:text="@string/welcome_title"
             android:textColor="@color/primary_pink"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:background="#FFE4F1"/> 
+            android:background="@color/primary_pink_light"/> 
             <!-- Using a light pink background for logo placeholder as per design -->
     </androidx.cardview.widget.CardView>
 
@@ -37,7 +37,7 @@
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginTop="32dp"
-        android:text="Sign up with email"
+        android:text="@string/sign_up_with_email"
         android:textAllCaps="false"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -54,7 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Already have account?"
+        android:text="@string/already_have_account"
         android:textColor="@color/text_light_gray"
         app:layout_constraintBottom_toTopOf="@+id/btnLogin"
         app:layout_constraintEnd_toEndOf="parent"
@@ -66,7 +66,7 @@
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginTop="16dp"
-        android:text="Log in"
+        android:text="@string/log_in"
         android:textAllCaps="false"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -86,7 +86,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:gravity="center"
-        android:text="By continuing, you agree to our Terms of Service and Privacy Policy."
+        android:text="@string/terms_privacy"
         android:textColor="@color/text_light_gray"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"

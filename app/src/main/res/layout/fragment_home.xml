@@ -21,7 +21,7 @@
             android:id="@+id/btnFilter"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_launcher_foreground"
+            android:src="@drawable/ic_filter"
             app:tint="@color/primary_pink"
             android:contentDescription="Filter" />
 
@@ -31,7 +31,7 @@
             android:layout_weight="1"
             android:layout_marginHorizontal="12dp"
             app:cardCornerRadius="20dp"
-            app:cardBackgroundColor="#F8BBD0" 
+            app:cardBackgroundColor="@color/surface_pink" 
             app:cardElevation="0dp">
             <!-- Used light pink for search bg, approximate -->
             
@@ -40,12 +40,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@null"
-                android:hint="Search"
+                android:hint="@string/search_hint"
                 android:textColorHint="@color/primary_pink"
                 android:textColor="@color/primary_pink"
                 android:textSize="14sp"
                 android:paddingHorizontal="16dp"
-                android:drawableStart="@drawable/ic_launcher_foreground"
+                android:drawableStart="@drawable/ic_search_pink"
                 android:drawableTint="@color/primary_pink"
                 android:drawablePadding="8dp"
                 android:maxLines="1"
@@ -56,7 +56,7 @@
             android:id="@+id/btnNotification"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_launcher_foreground"
+            android:src="@drawable/ic_notification"
             app:tint="@color/primary_pink"
             android:contentDescription="Notification" />
     </LinearLayout>
@@ -89,7 +89,7 @@
         android:id="@+id/textEmpty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No items found."
+        android:text="@string/no_items_found"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

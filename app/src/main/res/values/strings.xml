@@ -1,10 +1,63 @@
 <resources>
     <string name="app_name">Supply7</string>
-    <string name="action_sign_in">Login</string>
-    <string name="action_register">Register</string>
-    <string name="prompt_email">Email (@std.yeditepe.edu.tr)</string>
-    <string name="prompt_password">Password</string>
-    <string name="error_invalid_email">Use std.yeditepe.edu.tr email</string>
-    <string name="welcome_message">Welcome to Supply7</string>
+    <string name="welcome_title">SUPPLY7</string>
+    <string name="sign_up_with_email">Sign up with email</string>
+    <string name="already_have_account">Already have account?</string>
+    <string name="log_in">Log in</string>
+    <string name="terms_privacy">By continuing, you agree to our Terms of Service and Privacy Policy.</string>
+    
+    <string name="create_account_title">Create Your Account</string>
+    <string name="create_account_subtitle">Create an account to start shopping now.</string>
+    <string name="hint_full_name">Full Name</string>
+    <string name="hint_email">Your School Email</string>
+    <string name="hint_password">Create a password</string>
+    <string name="btn_sign_up">Sign up</string>
+
+    <string name="login_title">Log In</string>
+    <string name="login_subtitle">Welcome back! Log in to continue.</string>
+    <string name="hint_password_login">Password</string>
+    <string name="btn_login">Log In</string>
+    <string name="forgot_password">Forgot Password?</string>
+    
+    <string name="nav_home">Home</string>
+    <string name="nav_favorites">Favorites</string>
+    <string name="nav_add">Add</string>
+    <string name="nav_messages">Messages</string>
+    <string name="nav_profile">Profile</string>
+    
+    <string name="search_hint">Search</string>
+    <string name="no_items_found">No items found.</string>
+    
+    <string name="label_category">Category</string>
+    <string name="label_faculty">Faculty</string>
+    <string name="label_condition">Condition</string>
+    <string name="label_department">Department</string>
+    <string name="label_brand">Brand</string>
+    <string name="label_color">Color</string>
+    
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_buy">Buy</string>
+    <string name="btn_offer_price">Send a price offer</string>
+    <string name="btn_offer_exchange">Send an exchange offer</string>
+    
+    <string name="settings_title">Settings</string>
+    <string name="settings_account">Account</string>
+    <string name="settings_logout">Log Out</string>
+    <string name="settings_preferences">Preferences</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_version">Version 1.0.0</string>
+    
+    <string name="label_my_orders">My Orders</string>
     <string name="label_reviews">Reviews</string>
+    <string name="label_my_listings">My Listings</string>
+    <string name="edit_profile">Edit Profile</string>
+    
+    <string name="checkout_title">Checkout</string>
+    <string name="shipping_address">Shipping Address</string>
+    <string name="payment_method">Payment Method</string>
+    <string name="confirm_payment">Confirm Payment</string>
+    
+    <string name="success_title">Success!</string>
+    <string name="success_message">Your order has been placed successfully.</string>
+    <string name="continue_shopping">Continue Shopping</string>
 </resources>

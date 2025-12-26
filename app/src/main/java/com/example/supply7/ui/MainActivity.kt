@@ -23,23 +23,23 @@ class MainActivity : AppCompatActivity() {
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
-                    replaceFragment(HomeFragment())
+                    replaceFragment(HomeFragment(), addToBackStack = false)
                     true
                 }
                 R.id.nav_favorites -> {
-                    replaceFragment(FavoritesFragment())
+                    replaceFragment(FavoritesFragment(), addToBackStack = false)
                     true
                 }
                 R.id.nav_add -> {
-                    replaceFragment(AddProductFragment())
+                    replaceFragment(AddProductFragment(), addToBackStack = false)
                     true
                 }
                 R.id.nav_messages -> {
-                    replaceFragment(MessagesFragment())
+                    replaceFragment(MessagesFragment(), addToBackStack = false)
                     true
                 }
                 R.id.nav_profile -> {
-                    replaceFragment(ProfileFragment())
+                    replaceFragment(ProfileFragment(), addToBackStack = false)
                     true
                 }
                 else -> false
@@ -61,11 +61,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun replaceFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
+    fun replaceFragment(fragment: Fragment, addToBackStack: Boolean = true) {
+        val transaction = supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
-            .addToBackStack(null)
-            .commit()
+        
+        if (addToBackStack) {
+            transaction.addToBackStack(null)
+        }
+        transaction.commit()
     }
 
     fun showBottomNav(show: Boolean) {

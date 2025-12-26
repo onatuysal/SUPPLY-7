@@ -58,7 +58,7 @@ class CartViewModel : ViewModel() {
         }
     }
 
-    fun checkout() {
+    fun checkout(shippingAddress: com.example.supply7.data.Address) {
         _isLoading.value = true
         val items = _cartItems.value ?: emptyList()
         val total = _totalPrice.value ?: 0.0
@@ -70,10 +70,11 @@ class CartViewModel : ViewModel() {
         }
 
         viewModelScope.launch {
-            val result = repository.checkout(items, total)
+            val result = repository.checkout(items, total, shippingAddress)
             _checkoutStatus.value = result
             if (result.isSuccess) {
-                loadCart() // Should be empty now
+                _cartItems.value = emptyList() // clear local list immediately
+                loadCart() // Sync with server (should be empty)
             }
             _isLoading.value = false
         }

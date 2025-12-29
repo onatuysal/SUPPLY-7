@@ -8,6 +8,9 @@ import com.bumptech.glide.Glide
 import com.example.supply7.R
 import com.example.supply7.data.Product
 import com.example.supply7.databinding.FragmentProductDetailBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 
 class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
 
@@ -42,16 +45,18 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
         val bind = FragmentProductDetailBinding.bind(view)
 
         try {
+            // Back
             bind.btnBack.setOnClickListener {
                 parentFragmentManager.popBackStack()
             }
 
             product?.let { p ->
+                // Temel bilgiler
                 bind.textTitle.text = p.title
                 bind.textPrice.text = "₺${p.price}"
                 bind.textDescription.text = p.description
 
-                // FOTOĞRAFI YÜKLE
+                // FOTOĞRAF
                 if (p.imageUrl.isNotBlank()) {
                     Glide.with(this)
                         .load(p.imageUrl)
@@ -59,15 +64,40 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
                         .into(bind.imageProduct)
                 }
 
-                // Details
+                // Detaylar
                 bind.textCategory.text = p.category.ifBlank { "N/A" }
                 bind.textFaculty.text = p.faculty.ifBlank { "N/A" }
                 bind.textBrand.text = p.brand.ifBlank { "N/A" }
                 bind.textColor.text = p.color.ifBlank { "N/A" }
                 bind.textCondition.text = p.condition.ifBlank { "N/A" }
-                try { bind.textDepartment.text = p.department.ifBlank { "N/A" } } catch(e: Exception) {}
+                try {
+                    bind.textDepartment.text = p.department.ifBlank { "N/A" }
+                } catch (_: Exception) {}
+
+                // ---------- DELETE BUTTON LOGIC ----------
+                val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
+
+                // Sadece ürünü satan kişi görsün
+                if (currentUserId != null && p.sellerId == currentUserId) {
+                    bind.btnDeleteProduct.visibility = View.VISIBLE
+
+                    bind.btnDeleteProduct.setOnClickListener {
+                        android.app.AlertDialog.Builder(requireContext())
+                            .setTitle("Delete product")
+                            .setMessage("Are you sure you want to delete this product?")
+                            .setPositiveButton("Yes") { _, _ ->
+                                deleteProductFromFirebase(p)
+                            }
+                            .setNegativeButton("No", null)
+                            .show()
+                    }
+                } else {
+                    bind.btnDeleteProduct.visibility = View.GONE
+                }
+                // ---------- DELETE BUTTON LOGIC END ----------
             }
 
+            // MESAJ / CHAT
             bind.btnMessage.setOnClickListener {
                 product?.let { p ->
                     parentFragmentManager.beginTransaction()
@@ -80,9 +110,11 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
                 }
             }
 
+            // BUY + CART
             bind.btnBuy.setOnClickListener {
                 product?.let { p ->
-                    val cartViewModel = androidx.lifecycle.ViewModelProvider(this)[com.example.supply7.viewmodel.CartViewModel::class.java]
+                    val cartViewModel =
+                        androidx.lifecycle.ViewModelProvider(this)[com.example.supply7.viewmodel.CartViewModel::class.java]
                     cartViewModel.addToCart(p)
                     Toast.makeText(context, "Added to Cart!", Toast.LENGTH_SHORT).show()
 
@@ -93,6 +125,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
                 }
             }
 
+            // RATE SELLER
             bind.btnExchangeOffer.text = "Rate Seller"
             bind.btnExchangeOffer.setOnClickListener {
                 product?.let { p ->
@@ -116,7 +149,8 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
                     dialog.setPositiveButton("Submit") { _, _ ->
                         val rating = ratingBar.rating
                         val comment = input.text.toString()
-                        val reviewsViewModel = androidx.lifecycle.ViewModelProvider(this)[com.example.supply7.viewmodel.ReviewsViewModel::class.java]
+                        val reviewsViewModel =
+                            androidx.lifecycle.ViewModelProvider(this)[com.example.supply7.viewmodel.ReviewsViewModel::class.java]
                         reviewsViewModel.submitReview(p.sellerId, rating, comment, "Me")
                         Toast.makeText(context, "Review Submitted!", Toast.LENGTH_SHORT).show()
                     }
@@ -125,6 +159,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
                 }
             }
 
+            // PRICE OFFER
             bind.btnMessageSeller.setOnClickListener {
                 product?.let { p ->
                     val dialog = android.app.AlertDialog.Builder(context)
@@ -164,5 +199,39 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
             e.printStackTrace()
         }
     }
+
+    // ------------------ FIREBASE DELETE ------------------
+
+    private fun deleteProductFromFirebase(p: Product) {
+        val db = FirebaseFirestore.getInstance()
+        val storage = FirebaseStorage.getInstance()
+
+        // 1) Firestore dokümanı sil
+        db.collection("products") // <- koleksiyon adın farklıysa burayı değiştir
+            .document(p.id)
+            .delete()
+            .addOnSuccessListener {
+                // 2) Fotoğraf varsa Storage'dan da sil
+                if (p.imageUrl.isNotBlank()) {
+                    try {
+                        storage.getReferenceFromUrl(p.imageUrl)
+                            .delete()
+                    } catch (_: Exception) {
+                        // URL bozuksa app patlamasın
+                    }
+                }
+
+                Toast.makeText(requireContext(), "Product deleted", Toast.LENGTH_SHORT).show()
+                parentFragmentManager.popBackStack() // geri dön (Home'a veya önceki ekrana)
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(
+                    requireContext(),
+                    "Delete failed: ${e.localizedMessage}",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+    }
 }
+
 

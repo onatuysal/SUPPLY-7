@@ -17,11 +17,12 @@
         android:gravity="center_vertical"
         app:layout_constraintTop_toTopOf="parent">
 
+        <!-- Soldaki filtre butonu -->
         <ImageView
             android:id="@+id/btnFilter"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_launcher_foreground"
+            android:src="@drawable/ic_filter_list_24"
             app:tint="@color/primary_pink"
             android:contentDescription="Filter" />
 
@@ -31,10 +32,10 @@
             android:layout_weight="1"
             android:layout_marginHorizontal="12dp"
             app:cardCornerRadius="20dp"
-            app:cardBackgroundColor="#F8BBD0" 
+            app:cardBackgroundColor="#F8BBD0"
             app:cardElevation="0dp">
-            <!-- Used light pink for search bg, approximate -->
-            
+
+            <!-- Arama alanı -->
             <EditText
                 android:id="@+id/editSearch"
                 android:layout_width="match_parent"
@@ -45,20 +46,23 @@
                 android:textColor="@color/primary_pink"
                 android:textSize="14sp"
                 android:paddingHorizontal="16dp"
-                android:drawableStart="@drawable/ic_launcher_foreground"
+                android:drawableStart="@drawable/ic_search_24"
                 android:drawableTint="@color/primary_pink"
                 android:drawablePadding="8dp"
                 android:maxLines="1"
-                android:inputType="text"/>
+                android:inputType="text" />
+
         </androidx.cardview.widget.CardView>
 
+        <!-- Sağdaki bildirim/zil ikonu -->
         <ImageView
             android:id="@+id/btnNotification"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_launcher_foreground"
+            android:src="@drawable/ic_notifications_24"
             app:tint="@color/primary_pink"
             android:contentDescription="Notification" />
+
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -95,7 +99,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-        
+
     <!-- FAB Removed as it is now in BottomNav -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

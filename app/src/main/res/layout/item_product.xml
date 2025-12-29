@@ -27,21 +27,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Favorite Heart Icon -->
+        <!-- Favorite Heart Icon (sağ üst köşe) -->
+        <!-- Favorite Heart Icon (sağ üst köşe, hatasız sürüm) -->
         <ImageView
             android:id="@+id/btnFavorite"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_launcher_foreground"
-            app:tint="@color/primary_pink"
-            android:background="@drawable/ic_launcher_foreground"
+            android:padding="6dp"
+            android:src="@drawable/heart"
+            android:contentDescription="favorite"
+            android:background="@drawable/circle_badge"
+            app:layout_constraintTop_toTopOf="@+id/imageProduct"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:elevation="4dp"/>
-            <!-- Note: background uses same drawable for placeholder, needs circle shape really -->
+            android:elevation="6dp" />
 
+
+        <!-- Title -->
         <TextView
             android:id="@+id/textTitle"
             android:layout_width="0dp"
@@ -58,6 +61,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageProduct" />
 
+        <!-- Price -->
         <TextView
             android:id="@+id/textPrice"
             android:layout_width="wrap_content"
@@ -73,3 +77,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
+

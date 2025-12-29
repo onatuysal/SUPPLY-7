@@ -6,64 +6,76 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.supply7.data.FavoritesRepository
 import com.example.supply7.data.Product
-import com.example.supply7.data.ProductRepository
 import kotlinx.coroutines.launch
 
 class FavoritesViewModel : ViewModel() {
-    private val favoritesRepository = FavoritesRepository()
-    private val productRepository = ProductRepository()
 
-    private val _favorites = MutableLiveData<List<Product>>()
+    private val repo = FavoritesRepository()
+
+    // Sadece ID set’i – kalpler bununla boyanıyor
+    private val _favoriteIds = MutableLiveData<Set<String>>(emptySet())
+    val favoriteIds: LiveData<Set<String>> = _favoriteIds
+
+    // FavoritesFragment’te gösterilecek ürünler
+    private val _favorites = MutableLiveData<List<Product>>(emptyList())
     val favorites: LiveData<List<Product>> = _favorites
 
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> = _isLoading
+    // Home’dan gelen tüm ürünler
+    private var allProducts: List<Product> = emptyList()
+
+    init {
+        // VM yaratılınca Firestore’dan mevcut favorileri çek
+        loadFavorites()
+    }
+
+    fun setAllProducts(products: List<Product>) {
+        allProducts = products
+        val ids = _favoriteIds.value ?: emptySet()
+        _favorites.value = products.filter { ids.contains(it.id) }
+    }
 
     fun loadFavorites() {
-        _isLoading.value = true
         viewModelScope.launch {
-            // 1. Get IDs
-            val idsResult = favoritesRepository.getFavoriteProductIds()
-            if (idsResult.isSuccess) {
-                val ids = idsResult.getOrNull() ?: emptyList()
-                if (ids.isNotEmpty()) {
-                    // 2. Get Products by IDs
-                    // Firestore 'in' query supports up to 10/30 items. For simplicity/robustness, fetch all or batch?
-                    // Or reuse search/filter logic? 
-                    // Let's implement getProductsByIds in ProductRepository for efficiency or fetch individually.
-                    // For MVP, if list is small, fetching one by one or simple query is fine.
-                    // Actually, ProductRepository typically fetches all. Let's fetch all and filter client side or implement whereIn.
-                    
-                    fetchProductsByIds(ids)
-                } else {
-                    _favorites.value = emptyList()
-                    _isLoading.value = false
-                }
+            val result = repo.getFavoriteProductIds()
+            if (result.isSuccess) {
+                val list = result.getOrNull() ?: emptyList()
+                val set = list.toSet()
+                _favoriteIds.value = set
+                _favorites.value = allProducts.filter { set.contains(it.id) }
             } else {
-                _isLoading.value = false
+                result.exceptionOrNull()?.printStackTrace()
+                _favoriteIds.value = emptySet()
+                _favorites.value = emptyList()
             }
         }
     }
 
-    private suspend fun fetchProductsByIds(ids: List<String>) {
-        // Needs enhancements in ProductRepository to fetch specific IDs ideally.
-        // Or we can hack it: fetch all and filter. Not scalable but works for demo/scratch.
-        val result = productRepository.getProducts() // This fetches ordered by timestamp
-        if (result.isSuccess) {
-            val allProducts = result.getOrNull() ?: emptyList()
-            val favProducts = allProducts.filter { ids.contains(it.id) }
-            _favorites.value = favProducts
-        }
-        _isLoading.value = false
-    }
-
+    /** Home’daki kalbe tıklanınca burası çağrılıyor */
     fun toggleFavorite(product: Product) {
         viewModelScope.launch {
-            val result = favoritesRepository.toggleFavorite(product.id)
-            if (result.isSuccess) {
-                 // Refresh if looking at list
-                 // loadFavorites() // Optional depending on UI requirement
+            // 1) Önce LOKAL olarak güncelle → UI ANINDA tepki versin
+            val current = _favoriteIds.value ?: emptySet()
+            val newSet = if (current.contains(product.id)) {
+                current - product.id
+            } else {
+                current + product.id
+            }
+            _favoriteIds.value = newSet
+            _favorites.value = allProducts.filter { newSet.contains(it.id) }
+
+            // 2) Firestore’a “best effort” yaz (başarısız olsa bile UI bozulmasın)
+            val result = repo.toggleFavorite(product.id)
+            if (result.isFailure) {
+                result.exceptionOrNull()?.printStackTrace()
             }
         }
     }
 }
+
+
+
+
+
+
+
+

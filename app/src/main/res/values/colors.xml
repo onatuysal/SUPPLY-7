@@ -6,6 +6,8 @@
     <!-- Official Brand Colors -->
     <color name="primary_pink">#E73F98</color> <!-- pembis -->
     <color name="primary_pink_light">#FFC0E1</color> <!-- soluk pembis -->
+    <color name="surface_pink">#F8BBD0</color>
+    <color name="surface_pink_light">#FCE4EC</color>
     <color name="background_cream">#FDFAF1</color> <!-- arka plan -->
     
     <color name="text_dark">#3B3B3B</color> <!-- yazi renkleri -->
@@ -20,4 +22,5 @@
     <color name="success_green">#4CAF50</color>
     <color name="error_red">#F44336</color>
     <color name="off_white">#F5F5F5</color>
+    <color name="bg_light_gray">#F9F9F9</color>
 </resources>

@@ -57,7 +57,7 @@ class CartRepository {
         }
     }
     
-    suspend fun checkout(items: List<CartItem>, total: Double): Result<Boolean> {
+    suspend fun checkout(items: List<CartItem>, total: Double, address: Address): Result<Boolean> {
         val uid = currentUserId ?: return Result.failure(Exception("Not logged in"))
         return try {
             db.runBatch { batch ->
@@ -68,7 +68,8 @@ class CartRepository {
                     userId = uid,
                     items = items,
                     totalAmount = total,
-                    status = "COMPLETED", // Assuming instant success for demo
+                    status = "CONFIRMED", 
+                    shippingAddress = address,
                     timestamp = System.currentTimeMillis()
                 )
                 batch.set(orderRef, order)

@@ -10,6 +10,9 @@ import com.example.supply7.R
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import com.example.supply7.databinding.FragmentProfileBinding
+import com.example.supply7.data.Product
+import com.example.supply7.ui.ProductAdapter
+import com.example.supply7.viewmodel.ReviewsViewModel
 
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
@@ -27,6 +30,13 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             bind.textRating.text = "0.0 ★" // Ratings are separate, mocked for now
         }
         
+        bind.tabMyOrders.setOnClickListener {
+             parentFragmentManager.beginTransaction()
+                 .replace(R.id.fragment_container, OrdersFragment())
+                 .addToBackStack(null)
+                 .commit()
+        }
+        
         bind.btnBack.setOnClickListener {
              // If we are at root (BottomNav), maybe this should go to Home or just pop
              if (parentFragmentManager.backStackEntryCount > 0) {
@@ -38,7 +48,10 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         }
 
         bind.btnSettings.setOnClickListener {
-             Toast.makeText(context, "Settings coming soon!", Toast.LENGTH_SHORT).show()
+             parentFragmentManager.beginTransaction()
+                 .replace(R.id.fragment_container, SettingsFragment())
+                 .addToBackStack(null)
+                 .commit()
         }
 
         bind.btnEditProfile.setOnClickListener {
@@ -96,14 +109,15 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         if (currentUid != null) {
             lifecycleScope.launch {
                 val result = repo.getUserProducts(currentUid)
-                val products = result.getOrNull() ?: emptyList()
+                val products: List<Product> = result.getOrNull() ?: emptyList()
                 adapter.updateData(products)
                 
                 // Update Listing Count
                 bind.textStatListingCount.text = products.size.toString()
+                // Calculate Sales Count (Products marked as sold)
+                val soldCount = products.count { it.type == "sold" }
+                bind.textStatSalesCount.text = soldCount.toString()
             }
-            // Sales Count (Mock 0 for now)
-            bind.textStatSalesCount.text = "0"
         }
 
         // Reviews Adapter
@@ -116,8 +130,20 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
         reviewsViewModel.reviews.observe(viewLifecycleOwner) { reviewList ->
              // Update Reviews Adapter if active
+             if (bind.recyclerProfileItems.adapter is ReviewsAdapter) {
+                 reviewsAdapter.updateData(reviewList)
+             }
+             
              // Update Comment Count
              bind.textStatCommentsCount.text = reviewList.size.toString()
+
+             // Calculate Average Rating
+             if (reviewList.isNotEmpty()) {
+                 val average = reviewList.map { it.rating }.average()
+                 bind.textRating.text = String.format("%.1f ★", average)
+             } else {
+                 bind.textRating.text = "0.0 ★"
+             }
         }
 
         // Tab Logic

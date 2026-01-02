@@ -21,6 +21,6 @@
         app:menu="@menu/bottom_nav_menu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:itemIconTint="@color/primary_pink"
-        app:itemTextColor="@color/primary_pink" />
+        app:itemTextColor="@color/text_dark" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

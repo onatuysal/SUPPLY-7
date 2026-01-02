@@ -3,11 +3,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     
-    <!-- Official Brand Colors -->
+    <!-- Official Brand Colors (30 ARALIK YENI KURALLAR) -->
     <color name="primary_pink">#E73F98</color> <!-- pembis -->
     <color name="primary_pink_light">#FFC0E1</color> <!-- soluk pembis -->
-    <color name="surface_pink">#F8BBD0</color>
-    <color name="surface_pink_light">#FCE4EC</color>
+    
     <color name="background_cream">#FDFAF1</color> <!-- arka plan -->
     
     <color name="text_dark">#3B3B3B</color> <!-- yazi renkleri -->

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@color/white"
+    android:background="@color/background_cream"
     android:padding="32dp">
 
     <ImageView
@@ -38,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="@string/continue_shopping"
-        android:backgroundTint="@color/primary_pink"
+        android:background="@drawable/bg_button_primary"
         android:textColor="@color/white"
         android:layout_marginTop="48dp"/>
 

@@ -15,32 +15,46 @@
         android:elevation="4dp"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/btnBack"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+        <!-- Back button (pink box) -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardBack"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:layout_marginStart="16dp"
-            android:src="@drawable/ic_launcher_foreground"
-            app:tint="@color/primary_pink"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/primary_pink"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="6dp"
+                android:src="@drawable/ic_back_24"
+                app:tint="@color/white"
+                android:contentDescription="Back" />
+        </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardAvatar"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="12dp"
             app:cardCornerRadius="20dp"
-            app:layout_constraintStart_toEndOf="@+id/btnBack"
+            app:cardElevation="0dp"
+            app:layout_constraintStart_toEndOf="@+id/cardBack"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">
+
             <ImageView
                 android:id="@+id/imageAvatarHeader"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_launcher_foreground"
-                android:background="#EEE"/>
+                android:background="#EEE" />
         </androidx.cardview.widget.CardView>
 
         <TextView
@@ -54,18 +68,21 @@
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/cardAvatar"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent" />
 
+        <!-- Right icon (optional placeholder) -->
         <ImageView
+            android:id="@+id/btnMore"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginEnd="16dp"
             android:src="@drawable/ic_launcher_foreground"
             app:tint="@color/text_light"
+            android:contentDescription="More"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-            
+            app:layout_constraintBottom_toBottomOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -74,7 +91,7 @@
         android:layout_height="0dp"
         android:padding="16dp"
         app:layout_constraintTop_toBottomOf="@+id/layoutHeader"
-        app:layout_constraintBottom_toTopOf="@+id/layoutInput"/>
+        app:layout_constraintBottom_toTopOf="@+id/layoutInput" />
 
     <!-- Input Area -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -98,7 +115,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btnSend"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <TextView
             android:id="@+id/btnSend"
@@ -110,8 +127,9 @@
             android:padding="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

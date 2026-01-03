@@ -129,33 +129,23 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
             bind.btnExchangeOffer.text = "Rate Seller"
             bind.btnExchangeOffer.setOnClickListener {
                 product?.let { p ->
-                    val dialog = android.app.AlertDialog.Builder(context)
-                    val layout = android.widget.LinearLayout(context)
-                    layout.orientation = android.widget.LinearLayout.VERTICAL
-                    layout.setPadding(32, 32, 32, 32)
+                    val dialogView = android.view.LayoutInflater.from(context).inflate(R.layout.dialog_rate_seller, null)
+                    val ratingBar = dialogView.findViewById<android.widget.RatingBar>(R.id.ratingBar)
+                    val input = dialogView.findViewById<android.widget.EditText>(R.id.inputComment)
 
-                    val ratingBar = android.widget.RatingBar(context)
-                    ratingBar.numStars = 5
-                    ratingBar.stepSize = 1.0f
-                    layout.addView(ratingBar)
-
-                    val input = android.widget.EditText(context)
-                    input.hint = "Write a review..."
-                    layout.addView(input)
-
-                    dialog.setView(layout)
-                    dialog.setTitle("Rate ${p.sellerName}")
-
-                    dialog.setPositiveButton("Submit") { _, _ ->
-                        val rating = ratingBar.rating
-                        val comment = input.text.toString()
-                        val reviewsViewModel =
-                            androidx.lifecycle.ViewModelProvider(this)[com.example.supply7.viewmodel.ReviewsViewModel::class.java]
-                        reviewsViewModel.submitReview(p.sellerId, rating, comment, "Me")
-                        Toast.makeText(context, "Review Submitted!", Toast.LENGTH_SHORT).show()
-                    }
-                    dialog.setNegativeButton("Cancel", null)
-                    dialog.show()
+                    android.app.AlertDialog.Builder(context)
+                        .setTitle("Rate ${p.sellerName}")
+                        .setView(dialogView)
+                        .setPositiveButton("Submit") { _, _ ->
+                            val rating = ratingBar.rating
+                            val comment = input.text.toString()
+                            val reviewsViewModel =
+                                androidx.lifecycle.ViewModelProvider(this)[com.example.supply7.viewmodel.ReviewsViewModel::class.java]
+                            reviewsViewModel.submitReview(p.sellerId, rating, comment, "Me")
+                            Toast.makeText(context, "Review Submitted!", Toast.LENGTH_SHORT).show()
+                        }
+                        .setNegativeButton("Cancel", null)
+                        .show()
                 }
             }
 

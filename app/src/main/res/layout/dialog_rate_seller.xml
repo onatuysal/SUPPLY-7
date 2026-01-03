@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center_horizontal">
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:stepSize="1.0"
+        android:rating="0"
+        android:progressTint="@color/primary_pink"
+        android:secondaryProgressTint="@color/primary_pink_light"
+        android:layout_marginBottom="16dp" />
+    
+    <!-- Using the standard interactive rating bar style, but ensuring wrap_content -->
+
+    <EditText
+        android:id="@+id/inputComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Write a review..."
+        android:background="@drawable/bg_rounded_input"
+        android:padding="12dp"
+        android:minLines="3"
+        android:gravity="top|start"
+        android:inputType="textMultiLine" />
+
+</LinearLayout>

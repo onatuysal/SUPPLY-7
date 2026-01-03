@@ -28,7 +28,7 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
         (activity as? MainActivity)?.showBottomNav(false)
 
         bind.recyclerViewCart.adapter = adapter
-        bind.btnClose.setOnClickListener {
+        bind.btnBack.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
         

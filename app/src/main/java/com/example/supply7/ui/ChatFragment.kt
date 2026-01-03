@@ -133,23 +133,26 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
         }
 
         bind.btnSend.setOnClickListener {
-             val content = bind.inputMessage.text.toString()
-             if (content.isNotBlank() && chatId.isNotBlank()) {
-                 // We need receiverId for the Message object. 
-                 // If we started with chatId only, we might strictly need to fetch participants to know receiver.
-                 // For now, if started with receiverId, we use it. 
-                 // If started with chatId, we assume existing chat logic (requires fetching chat details).
-                 // Simplified: assume we have receiverId or can derive it. 
-                 
-                 // If receiverId is blank (came from Inbox), we should ideally have fetched it from Chat metadata.
-                 // For this mock, relying on it being passed or known.
-                 val targetId = if (receiverId.isNotBlank()) receiverId else "unknown" 
-                 
-                 viewModel.sendMessage(chatId, content, targetId) 
-                 bind.inputMessage.text.clear()
-             } else if (chatId.isBlank()) {
-                 // Chat ID pending creation
-             }
+             sendMessage(bind)
+        }
+
+        bind.inputMessage.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_SEND ||
+                (event != null && event.keyCode == android.view.KeyEvent.KEYCODE_ENTER && event.action == android.view.KeyEvent.ACTION_DOWN)) {
+                sendMessage(bind)
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+    private fun sendMessage(bind: FragmentChatBinding) {
+        val content = bind.inputMessage.text.toString()
+        if (content.isNotBlank() && chatId.isNotBlank()) {
+            val targetId = if (receiverId.isNotBlank()) receiverId else "unknown"
+            viewModel.sendMessage(chatId, content, targetId)
+            bind.inputMessage.text.clear()
         }
     }
     

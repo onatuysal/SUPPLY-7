@@ -7,21 +7,43 @@
     android:background="@color/background_cream"
     android:padding="16dp">
 
+    <!-- Header -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingBottom="32dp">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_back_arrow"
+            app:tint="@color/primary_pink"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/textHeaderTitle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add Product"
-            android:textColor="@color/text_dark"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:gravity="center"
-            android:layout_marginBottom="24dp"/>
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:layout_width="match_parent"
@@ -82,9 +104,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="Exp: Architecture set"
-            android:background="@drawable/ic_launcher_foreground"
-            android:backgroundTint="@color/white"
-            android:paddingHorizontal="12dp"
+            android:background="@drawable/bg_rounded_input"
+            android:paddingHorizontal="16dp"
             android:layout_marginBottom="16dp"/>
             <!-- Note: Using simple background for now, should be a drawable with border radius -->
 
@@ -100,9 +121,8 @@
             android:layout_height="100dp"
             android:gravity="top|start"
             android:hint="Give info about condition, brand etc."
-            android:background="@drawable/ic_launcher_foreground"
-            android:backgroundTint="@color/white"
-            android:padding="12dp"
+            android:background="@drawable/bg_rounded_input"
+            android:padding="16dp"
             android:layout_marginBottom="16dp"/>
 
         <!-- Category (Spinner mock with TextView for now) -->
@@ -116,9 +136,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="Stationery"
-            android:background="@drawable/ic_launcher_foreground"
-            android:backgroundTint="@color/white"
-            android:paddingHorizontal="12dp"
+            android:background="@drawable/bg_rounded_input"
+            android:paddingHorizontal="16dp"
             android:layout_marginBottom="16dp"/>
 
         <!-- Department -->
@@ -132,9 +151,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="Electrical Engineering"
-            android:background="@drawable/ic_launcher_foreground"
-            android:backgroundTint="@color/white"
-            android:paddingHorizontal="12dp"
+            android:background="@drawable/bg_rounded_input"
+            android:paddingHorizontal="16dp"
             android:layout_marginBottom="16dp"/>
 
          <!-- Faculty -->
@@ -148,9 +166,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="Architecture"
-            android:background="@drawable/ic_launcher_foreground"
-            android:backgroundTint="@color/white"
-            android:paddingHorizontal="12dp"
+            android:background="@drawable/bg_rounded_input"
+            android:paddingHorizontal="16dp"
             android:layout_marginBottom="16dp"/>
 
         <!-- Brand -->
@@ -164,9 +181,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="Faber Castell"
-            android:background="@drawable/ic_launcher_foreground"
-            android:backgroundTint="@color/white"
-            android:paddingHorizontal="12dp"
+            android:background="@drawable/bg_rounded_input"
+            android:paddingHorizontal="16dp"
             android:layout_marginBottom="16dp"/>
 
         <!-- Color -->
@@ -180,9 +196,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="Mixed"
-            android:background="@drawable/ic_launcher_foreground"
-            android:backgroundTint="@color/white"
-            android:paddingHorizontal="12dp"
+            android:background="@drawable/bg_rounded_input"
+            android:paddingHorizontal="16dp"
             android:layout_marginBottom="16dp"/>
 
         <!-- Condition -->
@@ -196,9 +211,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="New / Used"
-            android:background="@drawable/ic_launcher_foreground"
-            android:backgroundTint="@color/white"
-            android:paddingHorizontal="12dp"
+            android:background="@drawable/bg_rounded_input"
+            android:paddingHorizontal="16dp"
             android:layout_marginBottom="16dp"/>
 
         <!-- Price -->
@@ -213,9 +227,8 @@
             android:layout_height="50dp"
             android:hint="0.00"
             android:inputType="numberDecimal"
-            android:background="@drawable/ic_launcher_foreground"
-            android:backgroundTint="@color/white"
-            android:paddingHorizontal="12dp"
+            android:background="@drawable/bg_rounded_input"
+            android:paddingHorizontal="16dp"
             android:layout_marginBottom="24dp"/>
 
         <Button

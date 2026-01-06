@@ -118,17 +118,17 @@
         app:layout_constraintTop_toBottomOf="@+id/labelPassword" />
         <!-- Reset drawableEnd, ideally use password toggle icon -->
         
-    <com.google.android.material.button.MaterialButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonLogin"
         android:layout_width="0dp"
-        android:layout_height="55dp"
+        android:layout_height="56dp"
         android:layout_marginTop="32dp"
         android:text="Log In"
         android:textAllCaps="false"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:cornerRadius="28dp"
-        app:backgroundTint="@color/primary_pink"
+        android:background="@drawable/bg_button_primary"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editPassword" />
@@ -146,7 +146,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Don't have an account? "
-            android:textColor="@color/text_light_gray" />
+            android:textColor="@color/text_light" />
 
         <TextView
             android:id="@+id/textGoToRegister"

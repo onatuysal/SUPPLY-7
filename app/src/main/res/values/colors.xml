@@ -1,25 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     
-    <!-- Official Brand Colors (30 ARALIK YENI KURALLAR) -->
-    <color name="primary_pink">#E73F98</color> <!-- pembis -->
-    <color name="primary_pink_light">#FFC0E1</color> <!-- soluk pembis -->
+    <!-- Primary Brand Colors -->
+    <color name="primary_pink">#E73F98</color>
+    <color name="primary_pink_light">#FFC0E1</color>
+    <color name="primary_pink_ripple">#D13588</color>
     
-    <color name="background_cream">#FDFAF1</color> <!-- arka plan -->
+    <!-- Backgrounds -->
+    <color name="background_cream">#FDFAF1</color>
+    <color name="surface_white">#FFFFFF</color>
     
-    <color name="text_dark">#3B3B3B</color> <!-- yazi renkleri -->
-    <color name="text_light">#9197A1</color> <!-- soluk yazi renkleri -->
-    <color name="text_dark_gray">#3B3B3B</color>
-    <color name="text_light_gray">#9197A1</color>
+    <!-- Typography -->
+    <color name="text_dark">#3B3B3B</color>
+    <color name="text_light">#9197A1</color>
     
-    <color name="stroke_gray">#A7ACB4</color> <!-- kutu stroke -->
-    <color name="secondary_dark">#25283D</color> <!-- ikincil renk -->
+    <!-- UI Elements -->
+    <color name="stroke_gray">#A7ACB4</color>
+    <color name="divider_gray">#E0E0E0</color>
+    <color name="secondary_dark">#25283D</color>
     
-    <!-- Status/Functional Colors -->
+    <!-- Status -->
     <color name="success_green">#4CAF50</color>
     <color name="error_red">#F44336</color>
+    
+    <!-- Legacy/Compatibility Colors (Do not remove until fully refactored) -->
+    <color name="text_dark_gray">#3B3B3B</color>
+    <color name="text_light_gray">#9197A1</color>
     <color name="off_white">#F5F5F5</color>
     <color name="bg_light_gray">#F9F9F9</color>
 </resources>

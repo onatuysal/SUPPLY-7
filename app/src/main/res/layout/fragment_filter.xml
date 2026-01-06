@@ -189,17 +189,16 @@
         </LinearLayout>
     </ScrollView>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnApplyFilters"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:layout_margin="16dp"
         android:text="Apply Filters (3)"
-        android:backgroundTint="@color/primary_pink"
+        android:background="@drawable/bg_button_primary"
         android:textColor="@color/white"
         android:textAllCaps="false"
-        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-        app:cornerRadius="8dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

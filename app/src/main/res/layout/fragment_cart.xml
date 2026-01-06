@@ -94,17 +94,15 @@
                 android:textColor="@color/primary_pink"/>
         </LinearLayout>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnCheckout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
             android:text="Proceed to Checkout"
             android:background="@drawable/bg_button_primary"
             android:textColor="@color/white"
             android:textAllCaps="false"
-            android:textStyle="bold"
-            app:backgroundTint="@null"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"/>
+            android:textStyle="bold"/>
     </LinearLayout>
 
     <ProgressBar

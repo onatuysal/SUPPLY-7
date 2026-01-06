@@ -50,12 +50,15 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Profile Info -->
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardAvatar"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="88dp"
+        android:layout_height="88dp"
         android:layout_marginTop="24dp"
-        app:cardCornerRadius="40dp"
+        app:cardCornerRadius="44dp"
+        app:strokeWidth="2dp"
+        app:strokeColor="@color/primary_pink"
+        app:cardElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headerLayout">
@@ -66,8 +69,8 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_launcher_foreground"
-            android:background="@color/secondary_dark"/>
-    </androidx.cardview.widget.CardView>
+            android:background="#EEE"/>
+    </com.google.android.material.card.MaterialCardView>
 
     <TextView
         android:id="@+id/textUserName"
@@ -76,7 +79,7 @@
         android:layout_marginTop="12dp"
         android:text="Selen Bulut"
         android:textColor="@color/text_dark"
-        android:textSize="20sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -88,24 +91,22 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="4.6 ★"
-        android:textColor="@color/text_dark"
+        android:textColor="@color/text_light"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textUserName" />
 
-    <com.google.android.material.button.MaterialButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnEditProfile"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="64dp"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
         android:layout_marginTop="16dp"
-        android:backgroundTint="@color/white"
+        android:background="@drawable/bg_button_secondary"
         android:text="Edit Profile"
+        android:textAllCaps="false"
         android:textColor="@color/text_dark"
-        app:strokeColor="@color/stroke_gray"
-        app:strokeWidth="1dp"
-        app:cornerRadius="8dp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textRating" />
@@ -126,7 +127,7 @@
             android:layout_height="80dp"
             android:layout_weight="1"
             android:layout_marginEnd="8dp"
-            app:cardCornerRadius="8dp"
+            app:cardCornerRadius="16dp"
             app:strokeColor="@color/stroke_gray"
             app:strokeWidth="1dp"
             app:cardBackgroundColor="@color/white"
@@ -142,12 +143,12 @@
                     android:layout_height="wrap_content"
                     android:text="12"
                     android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:textColor="@color/text_dark"/>
+                    android:textSize="20sp"
+                    android:textColor="@color/primary_pink"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="My Listing"
+                    android:text="Listings"
                     android:textSize="12sp"
                     android:textColor="@color/text_light"/>
             </LinearLayout>
@@ -159,7 +160,7 @@
             android:layout_height="80dp"
             android:layout_weight="1"
             android:layout_marginHorizontal="4dp"
-            app:cardCornerRadius="8dp"
+            app:cardCornerRadius="16dp"
             app:strokeColor="@color/stroke_gray"
             app:strokeWidth="1dp"
             app:cardBackgroundColor="@color/white"
@@ -175,8 +176,8 @@
                     android:layout_height="wrap_content"
                     android:text="8"
                     android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:textColor="@color/text_dark"/>
+                    android:textSize="20sp"
+                    android:textColor="@color/primary_pink"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -192,7 +193,7 @@
             android:layout_height="80dp"
             android:layout_weight="1"
             android:layout_marginStart="8dp"
-            app:cardCornerRadius="8dp"
+            app:cardCornerRadius="16dp"
             app:strokeColor="@color/stroke_gray"
             app:strokeWidth="1dp"
             app:cardBackgroundColor="@color/white"
@@ -208,12 +209,12 @@
                     android:layout_height="wrap_content"
                     android:text="0"
                     android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:textColor="@color/text_dark"/>
+                    android:textSize="20sp"
+                    android:textColor="@color/primary_pink"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="My Sales"
+                    android:text="Sales"
                     android:textSize="12sp"
                     android:textColor="@color/text_light"/>
             </LinearLayout>
@@ -238,6 +239,7 @@
             android:text="My Listing"
             android:padding="12dp"
             android:textColor="@color/primary_pink"
+            android:textSize="14sp"
             android:textStyle="bold"/>
         
         <TextView
@@ -248,6 +250,7 @@
             android:gravity="center"
             android:text="My Sales"
             android:padding="12dp"
+            android:textSize="14sp"
             android:textColor="@color/text_light"/>
 
         <TextView
@@ -258,6 +261,7 @@
             android:gravity="center"
             android:text="My Orders"
             android:padding="12dp"
+            android:textSize="14sp"
             android:textColor="@color/text_light"/>
     </LinearLayout>
     
@@ -265,7 +269,7 @@
     <View
         android:id="@+id/viewTabIndicator"
         android:layout_width="0dp"
-        android:layout_height="2dp"
+        android:layout_height="3dp"
         android:background="@color/primary_pink"
         app:layout_constraintStart_toStartOf="@+id/tabMyListing"
         app:layout_constraintEnd_toEndOf="@+id/tabMyListing"

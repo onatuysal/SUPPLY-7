@@ -20,6 +20,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         app:menu="@menu/bottom_nav_menu"
+        app:labelVisibilityMode="selected"
         app:itemIconTint="@color/primary_pink"
         app:itemTextColor="@color/text_dark"
         app:layout_constraintBottom_toBottomOf="parent" />

@@ -1,0 +1,18 @@
+* [33m31868a0[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Added filters, back button,notification button UI fixes and Firestore favorites system
+* [33ma869753[m Added filters, back button,notification button UI fixes and Firestore favorites system
+*   [33m21c3347[m Merge remote-tracking branch 'origin/main'
+[32m|[m[33m\[m  
+[32m|[m * [33ma0edab3[m Login screen added
+[32m|[m * [33m562ebf8[m Update README.md
+* [33m|[m [33m2dfc59b[m Added filters, back button,notification button UI fixes and Firestore favorites system
+[33m|[m[33m/[m  
+*   [33md05cd1d[m Merge remote-tracking branch 'origin/main'
+[34m|[m[35m\[m  
+[34m|[m * [33me8cb403[m Complete Checkout, Orders, Settings features and fix build errors
+* [35m|[m [33md6ef896[m Added filters, back button,notification button UI fixes and Firestore favorites system
+[35m|[m[35m/[m  
+* [33madafc12[m Added product image loading + fixed detail screen
+* [33med161fd[m Initial commit
+* [33m6010e6f[m Update README.md
+* [33m3f0c910[m Enhance README with detailed project information
+* [33mbe2e223[m Initial commit

@@ -39,7 +39,7 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- ScrollView: ürün detayları -->
+    <!-- ScrollView: Content -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -53,329 +53,195 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Ürün görseli -->
+            <!-- Product Image Card -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                app:cardCornerRadius="16dp"
+                android:layout_height="320dp"
+                app:cardCornerRadius="24dp"
                 app:cardElevation="0dp"
-                app:strokeColor="@color/stroke_gray"
                 app:strokeWidth="1dp"
+                app:strokeColor="@color/stroke_gray"
                 app:cardBackgroundColor="@color/white">
 
                 <ImageView
                     android:id="@+id/imageProduct"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#FAFAFA"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_launcher_foreground"
                     tools:ignore="ContentDescription" />
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Başlık + Fiyat -->
+            <!-- Title & Price Block -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/textTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Resim Çantası"
+                    android:textColor="@color/text_dark"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="₺250"
+                    android:textColor="@color/primary_pink"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Description -->
             <TextView
-                android:id="@+id/textTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Resim Çantası"
+                android:text="Description"
                 android:textColor="@color/text_dark"
-                android:textSize="22sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="₺250"
-                android:textColor="@color/text_dark"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <!-- Açıklama -->
+                
             <TextView
                 android:id="@+id/textDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:lineSpacingExtra="4dp"
+                android:layout_marginTop="8dp"
+                android:lineSpacingMultiplier="1.2"
                 android:text="35x50 resim çantası. İhtiyaç fazlası olduğundan satmak istiyorum."
-                android:textColor="@color/text_dark"
-                android:textSize="14sp" />
+                android:textColor="@color/text_light"
+                android:textSize="16sp" />
 
-            <!-- Detaylar bloğu -->
-            <LinearLayout
+            <!-- Details Grid -->
+            <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:orientation="vertical">
+                android:columnCount="2"
+                android:rowCount="3"
+                android:useDefaultMargins="true">
 
-                <!-- Satır 1: Category / Faculty -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Category"
-                            android:textColor="@color/text_light"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:id="@+id/textCategory"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Stationery"
-                            android:textColor="@color/text_dark"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Faculty"
-                            android:textColor="@color/text_light"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:id="@+id/textFaculty"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Art"
-                            android:textColor="@color/text_dark"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
+                <!-- Detail Items... Simplified for brevity but keeping IDs -->
+                <!-- Category -->
+                <LinearLayout android:orientation="vertical" android:layout_columnWeight="1" android:layout_marginBottom="16dp">
+                    <TextView android:text="Category" android:textColor="@color/text_light" android:textSize="12sp"/>
+                    <TextView android:id="@+id/textCategory" android:text="Stationery" android:textColor="@color/text_dark" android:textSize="14sp" android:textStyle="bold"/>
                 </LinearLayout>
 
-                <!-- Satır 2: Condition / Department -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Condition"
-                            android:textColor="@color/text_light"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:id="@+id/textCondition"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Underused"
-                            android:textColor="@color/text_dark"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Department"
-                            android:textColor="@color/text_light"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:id="@+id/textDepartment"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Fine Arts"
-                            android:textColor="@color/text_dark"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
+                <!-- Faculty -->
+                <LinearLayout android:orientation="vertical" android:layout_columnWeight="1" android:layout_marginBottom="16dp">
+                    <TextView android:text="Faculty" android:textColor="@color/text_light" android:textSize="12sp"/>
+                    <TextView android:id="@+id/textFaculty" android:text="Art" android:textColor="@color/text_dark" android:textSize="14sp" android:textStyle="bold"/>
                 </LinearLayout>
 
-                <!-- Satır 3: Brand / Color -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Brand"
-                            android:textColor="@color/text_light"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:id="@+id/textBrand"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Faber Castell"
-                            android:textColor="@color/text_dark"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Color"
-                            android:textColor="@color/text_light"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:id="@+id/textColor"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Black"
-                            android:textColor="@color/text_dark"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
+                 <!-- Condition -->
+                <LinearLayout android:orientation="vertical" android:layout_columnWeight="1" android:layout_marginBottom="16dp">
+                    <TextView android:text="Condition" android:textColor="@color/text_light" android:textSize="12sp"/>
+                    <TextView android:id="@+id/textCondition" android:text="Underused" android:textColor="@color/text_dark" android:textSize="14sp" android:textStyle="bold"/>
+                </LinearLayout>
+                
+                 <!-- Brand -->
+                <LinearLayout android:orientation="vertical" android:layout_columnWeight="1" android:layout_marginBottom="16dp">
+                    <TextView android:text="Brand" android:textColor="@color/text_light" android:textSize="12sp"/>
+                    <TextView android:id="@+id/textBrand" android:text="Faber Castell" android:textColor="@color/text_dark" android:textSize="14sp" android:textStyle="bold"/>
                 </LinearLayout>
 
-            </LinearLayout>
+                 <!-- Department (Added back) -->
+                <LinearLayout android:orientation="vertical" android:layout_columnWeight="1" android:layout_marginBottom="16dp">
+                    <TextView android:text="Department" android:textColor="@color/text_light" android:textSize="12sp"/>
+                    <TextView android:id="@+id/textDepartment" android:text="Fine Arts" android:textColor="@color/text_dark" android:textSize="14sp" android:textStyle="bold"/>
+                </LinearLayout>
+
+                 <!-- Color (Added back & Renamed to avoid 'textColor' conflict) -->
+                <LinearLayout android:orientation="vertical" android:layout_columnWeight="1" android:layout_marginBottom="16dp">
+                    <TextView android:text="Color" android:textColor="@color/text_light" android:textSize="12sp"/>
+                    <TextView android:id="@+id/textProductColor" android:text="Black" android:textColor="@color/text_dark" android:textSize="14sp" android:textStyle="bold"/>
+                </LinearLayout>
+
+            </GridLayout>
 
         </LinearLayout>
     </ScrollView>
 
-    <!-- Alt butonlar -->
+    <!-- Bottom Action Buttons -->
     <LinearLayout
         android:id="@+id/layoutButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:paddingTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <!-- Satır 1: Cancel / Buy / ... -->
+        <!-- Main Actions Row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginBottom="12dp">
 
-            <Button
-                android:id="@+id/btnCancel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Cancel"
-                android:textAllCaps="false"
-                android:textColor="@color/text_dark"
-                android:backgroundTint="#F5F5F5" />
-
-            <Button
-                android:id="@+id/btnBuy"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_weight="1"
-                android:text="Buy"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:backgroundTint="#FF80AB" />
-
-            <Button
-                android:id="@+id/btnMessage"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:minWidth="0dp"
-                android:padding="0dp"
-                android:text="..."
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:backgroundTint="#FF80AB" />
-        </LinearLayout>
-
-        <!-- Satır 2: Fiyat teklifi / takas teklifi -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnMessageSeller"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="56dp"
                 android:layout_weight="1"
-                android:backgroundTint="#F8BBD0"
-                android:text="Send a price offer"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_button_secondary"
+                android:text="Message"
                 android:textAllCaps="false"
                 android:textColor="@color/text_dark"
-                android:textSize="12sp" />
+                android:textSize="16sp"
+                android:stateListAnimator="@null"/>
 
-            <View
-                android:layout_width="8dp"
-                android:layout_height="0dp" />
-
-            <Button
-                android:id="@+id/btnExchangeOffer"
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnBuy"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="56dp"
                 android:layout_weight="1"
-                android:backgroundTint="#F8BBD0"
-                android:text="Send an exchange offer"
-                android:textAllCaps="false"
-                android:textColor="@color/text_dark"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <!-- Satır 3: Delete Product -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnDeleteProduct"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Delete Product"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_button_primary"
+                android:text="Buy Now"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:backgroundTint="@color/primary_pink"
-                android:visibility="gone" />
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:stateListAnimator="@null"/>
         </LinearLayout>
+        
+        <!-- Secondary Actions Row -->
+        <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:orientation="horizontal">
+             
+             <TextView
+                 android:id="@+id/btnExchangeOffer"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:text="Or send an exchange offer"
+                 android:textColor="@color/primary_pink"
+                 android:gravity="center"
+                 android:padding="8dp"
+                 android:textSize="14sp"/>
+        </LinearLayout>
+        
+        <!-- Delete Button (Hidden by default) -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnDeleteProduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_button_primary"
+            android:backgroundTint="@color/error_red"
+            android:text="Delete Product"
+            android:textColor="@color/white"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

@@ -32,17 +32,17 @@
             <!-- Using a light pink background for logo placeholder as per design -->
     </androidx.cardview.widget.CardView>
 
-    <com.google.android.material.button.MaterialButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSignUp"
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="56dp"
         android:layout_marginTop="32dp"
         android:text="@string/sign_up_with_email"
         android:textAllCaps="false"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:cornerRadius="30dp"
-        app:backgroundTint="@color/primary_pink"
+        android:background="@drawable/bg_button_primary"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/textOr"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,27 +55,23 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/already_have_account"
-        android:textColor="@color/text_light_gray"
+        android:textColor="@color/text_light"
         app:layout_constraintBottom_toTopOf="@+id/btnLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnSignUp"/>
 
-    <com.google.android.material.button.MaterialButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnLogin"
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="56dp"
         android:layout_marginTop="16dp"
         android:text="@string/log_in"
         android:textAllCaps="false"
         android:textSize="16sp"
         android:textStyle="bold"
         android:textColor="@color/text_dark"
-        app:cornerRadius="30dp"
-        app:backgroundTint="@color/white"
-        app:strokeColor="@color/white"
-        app:strokeWidth="0dp"
-        app:elevation="2dp"
+        android:background="@drawable/bg_card_rounded"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

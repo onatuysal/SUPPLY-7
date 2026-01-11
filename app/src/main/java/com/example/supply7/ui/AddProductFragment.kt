@@ -96,7 +96,25 @@ class AddProductFragment : Fragment(R.layout.fragment_add_product) {
                 return@setOnClickListener
             }
 
+            if (selectedImageUri == null) {
+                Toast.makeText(context, "Please select an image", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             val price = priceStr.toDoubleOrNull() ?: 0.0
+            if (price <= 0) {
+                 Toast.makeText(context, "Price must be greater than 0", Toast.LENGTH_SHORT).show()
+                 return@setOnClickListener
+            }
+            // Verify file accessibility before ViewModel
+            try {
+                val inputStream = requireContext().contentResolver.openInputStream(selectedImageUri!!)
+                inputStream?.close() ?: throw Exception("Stream is null")
+            } catch (e: Exception) {
+                Toast.makeText(context, "Cannot read file: ${e.message}", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+
             viewModel.addProduct(
                 title,
                 description,

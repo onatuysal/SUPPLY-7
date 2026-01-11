@@ -12,7 +12,7 @@
         android:id="@+id/layoutHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="@dimen/margin_medium"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Product Details"
-            android:textSize="20sp"
+            android:textSize="@dimen/text_subheading"
             android:textStyle="bold"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,8 +43,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_medium"
         app:layout_constraintTop_toBottomOf="@id/layoutHeader"
         app:layout_constraintBottom_toTopOf="@id/layoutButtons">
 
@@ -57,9 +57,9 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="320dp"
-                app:cardCornerRadius="24dp"
+                app:cardCornerRadius="@dimen/corner_radius_large"
                 app:cardElevation="0dp"
-                app:strokeWidth="1dp"
+                app:strokeWidth="@dimen/stroke_width"
                 app:strokeColor="@color/stroke_gray"
                 app:cardBackgroundColor="@color/white">
 
@@ -76,7 +76,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/margin_large"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
 
@@ -87,7 +87,7 @@
                     android:layout_weight="1"
                     android:text="Resim Çantası"
                     android:textColor="@color/text_dark"
-                    android:textSize="24sp"
+                    android:textSize="@dimen/text_heading"
                     android:textStyle="bold" />
 
                 <TextView
@@ -96,7 +96,7 @@
                     android:layout_height="wrap_content"
                     android:text="₺250"
                     android:textColor="@color/primary_pink"
-                    android:textSize="24sp"
+                    android:textSize="@dimen/text_heading"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -104,21 +104,21 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:text="Description"
                 android:textColor="@color/text_dark"
-                android:textSize="18sp"
+                android:textSize="@dimen/text_subheading"
                 android:textStyle="bold" />
                 
             <TextView
                 android:id="@+id/textDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/margin_small"
                 android:lineSpacingMultiplier="1.2"
-                android:text="35x50 resim çantası. İhtiyaç fazlası olduğundan satmak istiyorum."
+                android:text="Desc..."
                 android:textColor="@color/text_light"
-                android:textSize="16sp" />
+                android:textSize="@dimen/text_body" />
 
             <!-- Details Grid -->
             <GridLayout

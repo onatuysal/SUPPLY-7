@@ -19,5 +19,6 @@ data class Product(
     val condition: String = "",
     val department: String = "",
     val type: String = "listing",
+    val stock: Int = 1,
     val timestamp: Long = System.currentTimeMillis()
 ) : android.os.Parcelable

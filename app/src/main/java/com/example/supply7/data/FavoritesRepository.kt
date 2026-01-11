@@ -17,6 +17,7 @@ class FavoritesRepository {
     suspend fun getFavoriteProductIds(): Result<List<String>> {
         return try {
             val snap = userDoc().get().await()
+            @Suppress("UNCHECKED_CAST")
             val list = snap.get("productIds") as? List<String> ?: emptyList()
             Result.success(list)
         } catch (e: Exception) {
@@ -30,6 +31,7 @@ class FavoritesRepository {
                 val docRef = userDoc()
                 val snap = tr.get(docRef)
 
+                @Suppress("UNCHECKED_CAST")
                 val current =
                     (snap.get("productIds") as? List<String>)?.toMutableList()
                         ?: mutableListOf()
@@ -44,6 +46,27 @@ class FavoritesRepository {
             }.await()
 
             Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun getProductsByIds(ids: List<String>): Result<List<Product>> {
+        if (ids.isEmpty()) return Result.success(emptyList())
+
+        return try {
+            // Firestore 'whereIn' supports max 10 items. We need to chunk.
+            val chunks = ids.chunked(10)
+            val allProducts = mutableListOf<Product>()
+
+            for (chunk in chunks) {
+                val snapshot = db.collection("products")
+                    .whereIn(com.google.firebase.firestore.FieldPath.documentId(), chunk)
+                    .get()
+                    .await()
+                allProducts.addAll(snapshot.toObjects(Product::class.java))
+            }
+            Result.success(allProducts)
         } catch (e: Exception) {
             Result.failure(e)
         }

@@ -102,6 +102,12 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
             // BUY + CART
             bind.btnBuy.setOnClickListener {
                 product?.let { p ->
+                     val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
+                     if (currentUserId != null && p.sellerId == currentUserId) {
+                         Toast.makeText(context, "You cannot buy your own product!", Toast.LENGTH_SHORT).show()
+                         return@setOnClickListener
+                     }
+                    
                     val cartViewModel =
                         androidx.lifecycle.ViewModelProvider(this)[com.example.supply7.viewmodel.CartViewModel::class.java]
                     cartViewModel.addToCart(p)

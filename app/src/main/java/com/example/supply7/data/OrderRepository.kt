@@ -21,4 +21,26 @@ class OrderRepository {
             Result.failure(e)
         }
     }
+
+    suspend fun getUserSales(sellerId: String): Result<List<Order>> {
+        return try {
+            // MVP Solution: Fetch recent orders and filter. 
+            // Scalable Solution: Add 'sellerIds' array field to Order document and use whereArrayContains.
+            val snapshot = db.collection("orders")
+                .orderBy("timestamp", com.google.firebase.firestore.Query.Direction.DESCENDING)
+                .limit(100)
+                .get()
+                .await()
+            
+            val allOrders = snapshot.toObjects(Order::class.java)
+            
+            // Filter: Order contains at least one item sold by me
+            val mySales = allOrders.filter { order ->
+                order.items.any { it.sellerId == sellerId }
+            }
+            Result.success(mySales)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }

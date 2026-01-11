@@ -33,7 +33,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         }
 
         // Password Toggle Logic
-        bind.editPassword.setOnTouchListener { v, event ->
+        bind.editPassword.setOnTouchListener { _, event ->
             if (event.action == android.view.MotionEvent.ACTION_UP) {
                 val drawableRight = 2
                 if (event.rawX >= (bind.editPassword.right - bind.editPassword.compoundDrawables[drawableRight].bounds.width())) {

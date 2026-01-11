@@ -150,17 +150,40 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         bind.tabMyListing.setOnClickListener {
              bind.recyclerProfileItems.adapter = adapter
              bind.recyclerProfileItems.layoutManager = GridLayoutManager(context, 2)
-             bind.tabMyListing.setTextColor(resources.getColor(R.color.primary_pink, null))
-             bind.tabMySales.setTextColor(resources.getColor(R.color.text_light_gray, null)) 
+             bind.tabMyListing.setTextColor(androidx.core.content.ContextCompat.getColor(requireContext(), R.color.primary_pink))
+             bind.tabMySales.setTextColor(androidx.core.content.ContextCompat.getColor(requireContext(), R.color.text_light_gray)) 
         }
         
-        bind.tabMySales.text = getString(R.string.label_reviews)
+        bind.tabMySales.text = "My Sales" // Corrected Label
         bind.tabMySales.setOnClickListener {
-             bind.recyclerProfileItems.adapter = reviewsAdapter
+             // Use OrdersAdapter for Sales
+             val salesAdapter = com.example.supply7.ui.OrdersAdapter { order ->
+                 // On Sale Click -> show details? (For now, just a toast or detailed view later)
+                 // Maybe show ProductDetail of the sold item? 
+                 // Simple: Show a Toast
+                 Toast.makeText(context, "Order Date: ${java.util.Date(order.timestamp)}", Toast.LENGTH_SHORT).show()
+             }
+             
+             bind.recyclerProfileItems.adapter = salesAdapter
              bind.recyclerProfileItems.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
              
-             val uid = com.example.supply7.data.AuthRepository().currentUser?.uid
-             if (uid != null) reviewsViewModel.loadReviews(uid)
+             // Fetch Sales
+             val currentUid = com.example.supply7.data.AuthRepository().currentUser?.uid
+             if (currentUid != null) {
+                 val orderRepo = com.example.supply7.data.OrderRepository()
+                 lifecycleScope.launch {
+                     val result = orderRepo.getUserSales(currentUid)
+                     val sales = result.getOrNull() ?: emptyList()
+                     salesAdapter.updateData(sales)
+                     
+                     // Update Stat Count (Comments -> Sales)
+                     // bind.textStatCommentsCount.text = sales.size.toString() 
+                     // Actually let's keep Comments count as comments, but maybe update Sales Count?
+                     // Existing: textStatSalesCount is ALREADY updated by scanning products. 
+                     // Let's rely on that or update it here.
+                     bind.textStatSalesCount.text = sales.size.toString()
+                 }
+             }
              
              bind.tabMySales.setTextColor(resources.getColor(R.color.primary_pink, null))
              bind.tabMyListing.setTextColor(resources.getColor(R.color.text_light_gray, null))

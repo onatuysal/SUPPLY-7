@@ -16,8 +16,8 @@ import kotlinx.coroutines.tasks.await
 class AddProductViewModel : ViewModel() {
 
     private val auth = FirebaseAuth.getInstance()
-    private val firestore = FirebaseFirestore.getInstance()
-    private val storage = FirebaseStorage.getInstance()
+    // Explicitly use the bucket from google-services.json
+    private val storage = FirebaseStorage.getInstance("gs://supply7-da984.firebasestorage.app")
     private val repository = ProductRepository()
 
     private val _uploadStatus = MutableLiveData<Result<Boolean>>()
@@ -47,17 +47,17 @@ class AddProductViewModel : ViewModel() {
             try {
                 val user = auth.currentUser ?: throw Exception("User not logged in")
 
-                // 1) Fotoğrafı Storage'a yükle
+                // 1) Upload image to Storage
                 val imageUrl = if (imageUri != null) {
                     uploadImageToStorage(imageUri)
                 } else {
                     ""
                 }
 
-                // 2) Product objesini oluştur
+                // 2) Create Product object
                 val product = Product(
-                    // id'yi Firestore otomatik verecekse burada boş bırakıyoruz
-                    // eğer data class'ta 'id' yoksa bunu sil
+                    // Leave ID empty if Firestore generates it automatically
+                    // Remove if 'id' is not in data class
                     id = "",
                     title = title,
                     description = description,
@@ -71,6 +71,7 @@ class AddProductViewModel : ViewModel() {
                     imageUrl = imageUrl,
                     sellerId = user.uid,
                     sellerName = user.displayName ?: (user.email ?: "Unknown"),
+                    stock = 1, // Default stock
                     timestamp = System.currentTimeMillis()
                 )
 
@@ -92,14 +93,32 @@ class AddProductViewModel : ViewModel() {
      * Böylece "Object does not exist at location" hatası kalkmalı.
      */
     private suspend fun uploadImageToStorage(imageUri: Uri): String {
-        val fileName = "product_${System.currentTimeMillis()}.jpg"
+        val fileName = "product_${java.util.UUID.randomUUID()}.jpg"
         val ref = storage.reference.child("product_images/$fileName")
 
-        // Dosyayı bu ref'e gerçekten yüklüyoruz
-        ref.putFile(imageUri).await()
+        // 1. Explicitly wait for upload to complete
+        try {
+            val uploadTask = ref.putFile(imageUri)
+            val snapshot = uploadTask.await()
+            
+             if (snapshot.totalByteCount <= 0) {
+                 throw Exception("Upload failed: 0 bytes transferred.")
+             }
+        } catch (e: Exception) {
+            val bucketInfo = "Bucket: ${storage.reference.bucket}, AppBucket: ${storage.app.options.storageBucket}"
+            throw Exception("Step 1 (Upload) failed: ${e.message} [$bucketInfo]")
+        }
 
-        // Aynı ref'ten downloadUrl çekiyoruz
-        return ref.downloadUrl.await().toString()
+        // 2. WAIT for backend consistency (common fix for 'Object not found' immediately after put)
+        kotlinx.coroutines.delay(2000)
+
+        // 3. Now Fetch URL
+        return try {
+            ref.downloadUrl.await().toString()
+        } catch (e: Exception) {
+             // If download fails, try to return a temporary fallback or rethrow with specific context
+             throw Exception("Step 2 (Get URL) failed: ${e.message}. Path: ${ref.path}")
+        }
     }
 }
 

@@ -44,7 +44,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 )
             }
         }
-        bind.editPassword.setOnTouchListener { v, event ->
+        bind.editPassword.setOnTouchListener { _, event ->
             if (event.action == android.view.MotionEvent.ACTION_UP) {
                 val drawableRight = 2
                 if (event.rawX >= (bind.editPassword.right - bind.editPassword.compoundDrawables[drawableRight].bounds.width())) {

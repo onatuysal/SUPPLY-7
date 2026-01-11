@@ -70,7 +70,7 @@ class CartViewModel : ViewModel() {
         }
 
         viewModelScope.launch {
-            val result = repository.checkout(items, total, shippingAddress)
+            val result = repository.checkout(items, shippingAddress)
             _checkoutStatus.value = result
             if (result.isSuccess) {
                 _cartItems.value = emptyList() // clear local list immediately

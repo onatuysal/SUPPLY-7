@@ -61,7 +61,7 @@
             android:layout_height="24dp"
             android:src="@drawable/ic_trash"
             android:background="?attr/selectableItemBackgroundBorderless"
-            app:tint="@color/text_light_gray"
+            app:tint="@color/text_light"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
             <!-- Should likely be trash icon -->

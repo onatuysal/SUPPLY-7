@@ -47,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="User X made an offer of 500TL for your Laptop."
-                android:textColor="@color/text_dark_gray"
+                android:textColor="@color/text_dark"
                 android:textSize="14sp"
                 android:layout_marginTop="4dp"/>
                 
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:text="2m ago"
             android:textSize="12sp"
-            android:textColor="@color/text_light_gray"/>
+            android:textColor="@color/text_light"/>
 
     </LinearLayout>
 

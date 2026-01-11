@@ -54,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/shipping_address"
-                android:textColor="@color/text_dark_gray"
+                android:textColor="@color/text_dark"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp"/>
 
@@ -107,7 +107,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/payment_method"
-                android:textColor="@color/text_dark_gray"
+                android:textColor="@color/text_dark"
                 android:textStyle="bold"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="8dp"/>
@@ -167,7 +167,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnConfirmPayment"
         android:layout_width="match_parent"
         android:layout_height="56dp"

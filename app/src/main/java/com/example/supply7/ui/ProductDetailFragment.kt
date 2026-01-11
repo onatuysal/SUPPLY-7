@@ -68,7 +68,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
                 bind.textCategory.text = p.category.ifBlank { "N/A" }
                 bind.textFaculty.text = p.faculty.ifBlank { "N/A" }
                 bind.textBrand.text = p.brand.ifBlank { "N/A" }
-                bind.textColor.text = p.color.ifBlank { "N/A" }
+                bind.textProductColor.text = p.color.ifBlank { "N/A" }
                 bind.textCondition.text = p.condition.ifBlank { "N/A" }
                 try {
                     bind.textDepartment.text = p.department.ifBlank { "N/A" }
@@ -97,22 +97,17 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
                 // ---------- DELETE BUTTON LOGIC END ----------
             }
 
-            // MESAJ / CHAT
-            bind.btnMessage.setOnClickListener {
-                product?.let { p ->
-                    parentFragmentManager.beginTransaction()
-                        .replace(
-                            R.id.fragment_container,
-                            ChatFragment.newInstance(null, p.sellerName, p.sellerId)
-                        )
-                        .addToBackStack(null)
-                        .commit()
-                }
-            }
+
 
             // BUY + CART
             bind.btnBuy.setOnClickListener {
                 product?.let { p ->
+                     val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
+                     if (currentUserId != null && p.sellerId == currentUserId) {
+                         Toast.makeText(context, "You cannot buy your own product!", Toast.LENGTH_SHORT).show()
+                         return@setOnClickListener
+                     }
+                    
                     val cartViewModel =
                         androidx.lifecycle.ViewModelProvider(this)[com.example.supply7.viewmodel.CartViewModel::class.java]
                     cartViewModel.addToCart(p)

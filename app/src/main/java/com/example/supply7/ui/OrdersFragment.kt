@@ -14,7 +14,7 @@ class OrdersFragment : Fragment(R.layout.fragment_orders) {
     private var binding: FragmentOrdersBinding? = null
     
     // Adapter logic later
-    private val adapter = OrdersAdapter { order ->
+    private val adapter = OrdersAdapter { _ ->
         // Detail view? For now maybe just list.
     }
 

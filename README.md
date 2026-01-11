@@ -9,8 +9,6 @@ The app promotes sustainability, reduces waste, and strengthens student-to-stude
 
 ## 📌 Project Overview
 
-kıvanc pro
-
 - **Platform:** Android  
 - **Language:** Kotlin  
 - **IDE:** Android Studio  

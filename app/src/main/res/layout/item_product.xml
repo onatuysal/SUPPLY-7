@@ -3,60 +3,60 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="16dp"
+    android:layout_margin="@dimen/margin_small"
+    app:cardCornerRadius="@dimen/corner_radius"
     app:cardElevation="0dp"
     app:strokeColor="@color/stroke_gray"
-    app:strokeWidth="1dp"
+    app:strokeWidth="@dimen/stroke_width"
     app:cardBackgroundColor="@color/white">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="12dp">
+        android:paddingBottom="@dimen/margin_standard">
 
         <!-- Product Image -->
         <ImageView
             android:id="@+id/imageProduct"
             android:layout_width="0dp"
-            android:layout_height="140dp"
-            android:background="#EFEFEF"
+            android:layout_height="0dp"
+            android:background="#FAFAFA"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_launcher_foreground"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Favorite Heart Icon (sağ üst köşe) -->
-        <!-- Favorite Heart Icon (sağ üst köşe, hatasız sürüm) -->
+        <!-- Favorite Heart Icon (sağ üst) -->
         <ImageView
             android:id="@+id/btnFavorite"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_small"
             android:padding="6dp"
             android:src="@drawable/heart"
             android:contentDescription="favorite"
             android:background="@drawable/circle_badge"
-            app:layout_constraintTop_toTopOf="@+id/imageProduct"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:elevation="6dp" />
-
+            android:elevation="2dp" />
 
         <!-- Title -->
         <TextView
             android:id="@+id/textTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginHorizontal="@dimen/margin_standard"
+            android:layout_marginTop="@dimen/margin_standard"
             android:text="Product Title"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_body"
             android:maxLines="2"
+            android:layout_marginBottom="4dp"
             android:ellipsize="end"
             android:textColor="@color/text_dark"
-            android:fontFamily="sans-serif-medium"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageProduct" />
@@ -67,10 +67,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="@dimen/margin_standard"
             android:text="50.00 TL"
             android:textColor="@color/primary_pink"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_body"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textTitle" />

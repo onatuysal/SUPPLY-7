@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:text="Value"
-        android:textColor="@color/text_dark_gray"
+        android:textColor="@color/text_light"
         android:textSize="13sp"
         android:visibility="gone" />
 
@@ -50,7 +50,7 @@
         android:layout_height="20dp"
         android:contentDescription="@null"
         android:src="@drawable/outline_chevron_right_24"
-        app:tint="@color/text_dark_gray" />
+        app:tint="@color/text_light" />
 
 </LinearLayout>
 

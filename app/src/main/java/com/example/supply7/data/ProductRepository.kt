@@ -45,18 +45,44 @@ class ProductRepository {
         sortDescending: Boolean = true
     ): Result<List<Product>> {
         return try {
-            // Fetch ALL products ordered by timestamp (newest first)
-            // For MVP/Demo scale, fetching all (or limit 100) and filtering client-side is safer
-            // than managing complex Firestore indices for every combination of filters.
-            val snapshot = productsCollection
-                .orderBy("timestamp", Query.Direction.DESCENDING)
-                .limit(100) 
-                .get()
-                .await()
+            // Start with base collection
+            var firestoreQuery: Query = productsCollection
 
+            // 1. Apply Equality Filters First (Firestore Best Practice)
+            if (category != null && category.isNotBlank()) {
+                firestoreQuery = firestoreQuery.whereEqualTo("category", category)
+            }
+            
+            if (condition != null && condition.isNotBlank()) {
+                 // Note: Ensure UI sends exact string like "New" or "Used-Good"
+                 firestoreQuery = firestoreQuery.whereEqualTo("condition", condition)
+            }
+
+            // 2. Apply Range Filters (Price)
+            if (minPrice != null) {
+                firestoreQuery = firestoreQuery.whereGreaterThanOrEqualTo("price", minPrice)
+            }
+            if (maxPrice != null) {
+                firestoreQuery = firestoreQuery.whereLessThanOrEqualTo("price", maxPrice)
+            }
+
+            // 3. Order By
+            // Firestore restriction: If filtering by range, must order by that field first.
+            if (minPrice != null || maxPrice != null) {
+                val direction = if (sortDescending) Query.Direction.DESCENDING else Query.Direction.ASCENDING
+                firestoreQuery = firestoreQuery.orderBy("price", direction)
+            } else {
+                // Default ordering
+                firestoreQuery = firestoreQuery.orderBy("timestamp", Query.Direction.DESCENDING)
+            }
+
+            // 4. Limit (Increased to 500 for better "Search" capability since text is local)
+            firestoreQuery = firestoreQuery.limit(500)
+
+            val snapshot = firestoreQuery.get().await()
             var products = snapshot.toObjects(Product::class.java)
 
-            // 1. Text Search (Local)
+            // 5. Text Search (Still Client-Side)
             if (query.isNotBlank()) {
                 val q = query.lowercase()
                 products = products.filter {
@@ -66,31 +92,14 @@ class ProductRepository {
                 }
             }
 
-            // 2. Price Filter
-            if (minPrice != null) {
-                products = products.filter { it.price >= minPrice }
-            }
-            if (maxPrice != null) {
-                // If maxPrice is at the slider's max (e.g. 1000), treat it as "1000+"? 
-                // For now, strict filtering. 
-                // If UI sends 1000.0 as max but user wants anything, we might be filtering out >1000.
-                // Let's assume UI handles "max+" logic or we just filter strictly.
-                products = products.filter { it.price <= maxPrice }
-            }
-
-            // 3. Category Filter
-            if (category != null && category.isNotBlank()) {
-                 products = products.filter { it.category.equals(category, ignoreCase = true) }
-            }
-
-            // 4. Condition Filter
-            if (condition != null && condition.isNotBlank()) {
-                 // Exact match or contains? "New", "Used-Good"
-                 products = products.filter { it.condition.equals(condition, ignoreCase = true) }
-            }
+            // Note: If multiple filters are applied (e.g. Category + Price), 
+            // Firestore might require a composite index. The app will throw an error with a link to create it.
+            // This is expected behavior for robust querying.
 
             Result.success(products)
         } catch (e: Exception) {
+            // Use fallback if index is missing to prevent crash? 
+            // For now, returning failure so dev sees index link in logs.
             Result.failure(e)
         }
     }

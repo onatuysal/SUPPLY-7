@@ -42,7 +42,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
             bind.textTotalAmount.text = "Total: ₺$total"
             
             bind.btnConfirmPayment.setOnClickListener {
-                 processCheckout(bind, items, total)
+                 processCheckout(bind)
             }
         }
         
@@ -61,7 +61,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
         }
     }
     
-    private fun processCheckout(bind: FragmentCheckoutBinding, items: List<com.example.supply7.data.CartItem>, total: Double) {
+    private fun processCheckout(bind: FragmentCheckoutBinding) {
         val name = bind.inputName.text.toString()
         val address = bind.inputAddress.text.toString()
         val city = bind.inputCity.text.toString()

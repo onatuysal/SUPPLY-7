@@ -109,8 +109,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             adapter.updateData(products)
             bind.textEmpty.visibility = if (products.isEmpty()) View.VISIBLE else View.GONE
 
-            // Favori ekranı için tüm ürünleri bildir
-            favoritesViewModel.setAllProducts(products)
+            // Favori ekranı için tüm ürünleri bildir - ARTIK GEREK YOK
+            // favoritesViewModel.setAllProducts(products)
         }
 
         homeViewModel.error.observe(viewLifecycleOwner) { error ->

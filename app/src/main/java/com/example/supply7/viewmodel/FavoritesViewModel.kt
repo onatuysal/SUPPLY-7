@@ -28,11 +28,7 @@ class FavoritesViewModel : ViewModel() {
         loadFavorites()
     }
 
-    fun setAllProducts(products: List<Product>) {
-        allProducts = products
-        val ids = _favoriteIds.value ?: emptySet()
-        _favorites.value = products.filter { ids.contains(it.id) }
-    }
+    // ARTIK GEREK YOK: setAllProducts
 
     fun loadFavorites() {
         viewModelScope.launch {
@@ -41,7 +37,10 @@ class FavoritesViewModel : ViewModel() {
                 val list = result.getOrNull() ?: emptyList()
                 val set = list.toSet()
                 _favoriteIds.value = set
-                _favorites.value = allProducts.filter { set.contains(it.id) }
+                
+                // Fetch REAL product details from server
+                val productsResult = repo.getProductsByIds(list)
+                _favorites.value = productsResult.getOrNull() ?: emptyList()
             } else {
                 result.exceptionOrNull()?.printStackTrace()
                 _favoriteIds.value = emptySet()
@@ -53,7 +52,7 @@ class FavoritesViewModel : ViewModel() {
     /** Home’daki kalbe tıklanınca burası çağrılıyor */
     fun toggleFavorite(product: Product) {
         viewModelScope.launch {
-            // 1) Önce LOKAL olarak güncelle → UI ANINDA tepki versin
+            // 1) Önce LOKAL olarak güncelle (Sadece ID seti) -> Kalp rengi anında değişsin
             val current = _favoriteIds.value ?: emptySet()
             val newSet = if (current.contains(product.id)) {
                 current - product.id
@@ -61,13 +60,20 @@ class FavoritesViewModel : ViewModel() {
                 current + product.id
             }
             _favoriteIds.value = newSet
-            _favorites.value = allProducts.filter { newSet.contains(it.id) }
-
-            // 2) Firestore’a “best effort” yaz (başarısız olsa bile UI bozulmasın)
-            val result = repo.toggleFavorite(product.id)
-            if (result.isFailure) {
-                result.exceptionOrNull()?.printStackTrace()
+            
+            // UI listesini de güncelle (Product objesi elimizde var, server'a gitmeye gerek yok ekleme anında)
+            val currentList = _favorites.value ?: emptyList()
+            val newList = if (current.contains(product.id)) {
+                 currentList.filter { it.id != product.id }
+            } else {
+                 currentList + product
             }
+            _favorites.value = newList
+
+            // 2) Firestore’a yaz
+            repo.toggleFavorite(product.id)
+            
+            // Opsiyonel: Yazma bitince garanti olsun diye refresh çağrılabilir ama gerek yok
         }
     }
 }

@@ -29,17 +29,19 @@
         android:layout_height="wrap_content"
         android:text="@string/success_message"
         android:gravity="center"
-        android:textColor="@color/text_dark_gray"
+        android:textColor="@color/text_light"
         android:textSize="16sp"
         android:layout_marginTop="8dp"/>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnHome"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="56dp"
         android:text="@string/continue_shopping"
         android:background="@drawable/bg_button_primary"
         android:textColor="@color/white"
-        android:layout_marginTop="48dp"/>
+        android:layout_marginTop="48dp"
+        android:textStyle="bold"
+        android:textAllCaps="false"/>
 
 </LinearLayout>

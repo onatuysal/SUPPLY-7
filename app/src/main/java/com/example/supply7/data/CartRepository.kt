@@ -57,30 +57,66 @@ class CartRepository {
         }
     }
     
-    suspend fun checkout(items: List<CartItem>, total: Double, address: Address): Result<Boolean> {
+    suspend fun checkout(items: List<CartItem>, address: Address): Result<Boolean> {
         val uid = currentUserId ?: return Result.failure(Exception("Not logged in"))
+        
         return try {
-            db.runBatch { batch ->
-                // Create Order
+            db.runTransaction { transaction ->
+                // 1. Validate Stock & Calculate Real Total
+                var serverTotal = 0.0
+                val serverVerifiedItems = mutableListOf<CartItem>()
+                
+                // We need to fetch fresh product data for every item in cart
+                items.forEach { cartItem ->
+                    val productRef = db.collection("products").document(cartItem.productId)
+                    val snapshot = transaction.get(productRef)
+                    
+                    if (!snapshot.exists()) {
+                        throw com.google.firebase.firestore.FirebaseFirestoreException(
+                            "Product ${cartItem.productTitle} no longer exists",
+                            com.google.firebase.firestore.FirebaseFirestoreException.Code.ABORTED
+                        )
+                    }
+                    
+                    val currentStock = snapshot.getLong("stock")?.toInt() ?: 0
+                    val currentPrice = snapshot.getDouble("price") ?: 0.0
+                    
+                    // Check Stock
+                    if (currentStock < cartItem.quantity) {
+                         throw com.google.firebase.firestore.FirebaseFirestoreException(
+                            "Product ${cartItem.productTitle} is out of stock!",
+                            com.google.firebase.firestore.FirebaseFirestoreException.Code.ABORTED
+                        )
+                    }
+                    
+                    // Deduct Stock
+                    val newStock = currentStock - cartItem.quantity
+                    transaction.update(productRef, "stock", newStock)
+                    
+                    // Accumulate Price (Security: Use server price, not client price)
+                    serverTotal += (currentPrice * cartItem.quantity)
+                    
+                    // Update Item with Server Price for the Receipt
+                    serverVerifiedItems.add(cartItem.copy(price = currentPrice))
+                }
+                
+                // 2. Create Order
                 val orderRef = db.collection("orders").document()
                 val order = Order(
                     id = orderRef.id,
                     userId = uid,
-                    items = items,
-                    totalAmount = total,
+                    items = serverVerifiedItems, // now contains trusted prices
+                    totalAmount = serverTotal,
                     status = "CONFIRMED", 
                     shippingAddress = address,
                     timestamp = System.currentTimeMillis()
                 )
-                batch.set(orderRef, order)
+                transaction.set(orderRef, order)
                 
-                // Clear Cart
+                // 3. Clear Cart
                 items.forEach { item ->
-                    val itemRef = getCartCollection(uid).document(item.productId) // Using productId as ID as per addToCart
-                    // Or if CartItem.id is different, use that.
-                    // In addToCart we set doc ID = product.id. 
-                    // CartItem.id from Firestore @DocumentId will be the doc ID (product.id).
-                    batch.delete(itemRef)
+                    val itemRef = getCartCollection(uid).document(item.productId)
+                    transaction.delete(itemRef)
                 }
             }.await()
             Result.success(true)

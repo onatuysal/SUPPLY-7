@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.supply7.R
 import com.example.supply7.databinding.ActivityMainBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,7 +18,6 @@ class MainActivity : AppCompatActivity() {
 
         val bottomNav = binding.bottomNavigation
 
-        // Listen for navigation item selection
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
@@ -46,15 +44,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Initial Fragment
         if (savedInstanceState == null) {
-            // Check if user is logged in (Usually handled in Splash or via LoginFragment check)
-            // For now, we start with LoginFragment which handles its own logic.
-            // If we want BottomNav to be visible only after login, we can control visibility.
-            
-            // Assuming Login is the entry point, we might hide BottomNav initially
+            // App entry
             bottomNav.visibility = View.GONE
-            
+
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, WelcomeFragment())
                 .commit()
@@ -64,7 +57,7 @@ class MainActivity : AppCompatActivity() {
     fun replaceFragment(fragment: Fragment, addToBackStack: Boolean = true) {
         val transaction = supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
-        
+
         if (addToBackStack) {
             transaction.addToBackStack(null)
         }
@@ -74,4 +67,9 @@ class MainActivity : AppCompatActivity() {
     fun showBottomNav(show: Boolean) {
         binding.bottomNavigation.visibility = if (show) View.VISIBLE else View.GONE
     }
+
+    fun setBottomNavToHome() {
+        binding.bottomNavigation.selectedItemId = R.id.nav_home
+    }
 }
+

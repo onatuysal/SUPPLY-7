@@ -20,7 +20,6 @@ class AddProductFragment : Fragment(R.layout.fragment_add_product) {
     private var binding: FragmentAddProductBinding? = null
     private var selectedImageUri: Uri? = null
 
-
     private val pickImageFromGallery =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -51,11 +50,22 @@ class AddProductFragment : Fragment(R.layout.fragment_add_product) {
         )
     }
 
+    private fun goHome() {
+        parentFragmentManager.popBackStack(
+            null,
+            androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
+        )
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, HomeFragment())
+            .commit()
+
+        (activity as? MainActivity)?.setBottomNavToHome()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val bind = FragmentAddProductBinding.bind(view)
         binding = bind
-
 
         bind.btnAddFromGallery.setOnClickListener {
             val intent = Intent(
@@ -66,7 +76,6 @@ class AddProductFragment : Fragment(R.layout.fragment_add_product) {
             pickImageFromGallery.launch(intent)
         }
 
-
         bind.btnAddFromCamera.setOnClickListener {
             val uri = createImageUri()
             if (uri != null) {
@@ -74,12 +83,9 @@ class AddProductFragment : Fragment(R.layout.fragment_add_product) {
                 takePicture.launch(uri)
             } else {
                 Toast.makeText(context, "Error creating image file", Toast.LENGTH_SHORT).show()
-
             }
         }
-        bind.btnSubmit.setOnClickListener {
-            Toast.makeText(requireContext(), "Button clicked", Toast.LENGTH_SHORT).show()
-        }
+
         bind.btnSubmit.setOnClickListener {
             val title = bind.editTextTitle.text.toString()
             val priceStr = bind.editTextPrice.text.toString()
@@ -97,6 +103,7 @@ class AddProductFragment : Fragment(R.layout.fragment_add_product) {
             }
 
             val price = priceStr.toDoubleOrNull() ?: 0.0
+
             viewModel.addProduct(
                 title,
                 description,
@@ -114,7 +121,7 @@ class AddProductFragment : Fragment(R.layout.fragment_add_product) {
         viewModel.uploadStatus.observe(viewLifecycleOwner) { result ->
             if (result.isSuccess) {
                 Toast.makeText(context, "Product Posted!", Toast.LENGTH_SHORT).show()
-                parentFragmentManager.popBackStack()
+                goHome()
             } else {
                 Toast.makeText(
                     context,

@@ -125,9 +125,7 @@
                     android:orientation="vertical"
                     android:padding="8dp">
 
-                    <include
-                        android:id="@+id/rowEditProfile"
-                        layout="@layout/item_setting_row" />
+                    <!-- ✅ rowEditProfile kaldırıldı -->
 
                     <include
                         android:id="@+id/rowManageAccount"
@@ -246,6 +244,7 @@
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 

@@ -25,34 +25,27 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentSettingsBinding.bind(view)
 
-        // Back
         binding.btnBack.setOnClickListener { parentFragmentManager.popBackStack() }
 
-        // (Opsiyonel ama önerilir) user doc yoksa oluştur
         ensureUserDocExists()
-
-        // Kullanıcı bilgisini Firestore’dan çek (users/{uid})
         bindUserHeaderFromFirestore()
 
-        // SharedPreferences (Notifications)
         val prefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        val enabled = prefs.getBoolean("notifications_enabled", true)
+        val notificationsEnabled = prefs.getBoolean("notifications_enabled", true)
+        val languageValue = prefs.getString("language", "English") ?: "English"
 
-        // ---- ROWLAR ----
-        setupRow(binding.rowEditProfile, R.drawable.ic_user_24, "Edit Profile") {
-            toast("Edit Profile (TODO)")
-        }
-
+        // ---- ACCOUNT ----
         setupRow(binding.rowManageAccount, R.drawable.ic_settings_24, "Manage Account") {
-            toast("Manage Account (TODO)")
+            openFragment(ManageAccountFragment())
         }
 
         setupRow(binding.rowPaymentMethods, R.drawable.ic_credit_card, "Payment Methods") {
-            toast("Payment Methods (TODO)")
+            openFragment(PaymentMethodsFragment())
         }
 
+        // ✅ Change Password artık yeni ekrana götürüyor
         setupRow(binding.rowChangePassword, R.drawable.ic_lock_24, "Change Password") {
-            toast("Change Password (TODO)")
+            openFragment(ChangePasswordFragment())
         }
 
         setupRow(binding.rowPrivacySettings, R.drawable.ic_shield_24, "Privacy Settings") {
@@ -64,7 +57,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             row = binding.rowNotifications,
             iconRes = R.drawable.ic_notifications_24,
             title = "Notifications",
-            initial = enabled
+            initial = notificationsEnabled
         ) { isChecked ->
             prefs.edit().putBoolean("notifications_enabled", isChecked).apply()
             toast(if (isChecked) "Notifications Enabled" else "Notifications Disabled")
@@ -75,25 +68,25 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             row = binding.rowLanguage,
             iconRes = R.drawable.ic_language_24,
             title = "Language",
-            value = "English"
+            value = languageValue
         ) {
-            toast("Language (TODO)")
+            openFragment(LanguageFragment())
         }
 
-        // Support & Legal
+        // ---- SUPPORT & LEGAL ----
         setupRow(binding.rowHelpSupport, R.drawable.ic_help_24, "Help & Support") {
-            toast("Help & Support (TODO)")
+            openFragment(HelpSupportFragment())
         }
 
         setupRow(binding.rowTerms, R.drawable.ic_description_24, "Terms Of Service") {
-            toast("Terms Of Service (TODO)")
+            openFragment(TermsFragment())
         }
 
         setupRow(binding.rowPrivacyPolicy, R.drawable.ic_description_24, "Privacy Policy") {
             openFragment(PrivacyPolicyFragment())
         }
 
-        // Account Actions
+        // ---- ACCOUNT ACTIONS ----
         setupRow(binding.rowDownloadData, R.drawable.ic_download_24, "Download your data") {
             toast("Download your data (TODO)")
         }
@@ -102,17 +95,12 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             toast("Deactivate Account (TODO)")
         }
 
-        // Logout row (fragment_settings.xml içinde rowLogout include var)
         setupRow(binding.rowLogout, R.drawable.ic_logout, "Log Out") {
             authRepository.logout()
             openFragment(WelcomeFragment())
         }
     }
 
-    /**
-     * Eğer users/{uid} dokümanı yoksa otomatik oluşturur.
-     * (Firestore’da doc olmadığı için okuma boş dönerse diye “sigorta”)
-     */
     private fun ensureUserDocExists() {
         val user = FirebaseAuth.getInstance().currentUser ?: return
         val uid = user.uid
@@ -129,18 +117,13 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 userRef.set(data)
             }
             .addOnFailureListener {
-                // İstersen log eklenir
+                // no-op
             }
     }
 
-    /**
-     * Settings üst header (isim + mail) Firestore’dan gelir:
-     * users/{uid} -> fullName, email
-     */
     private fun bindUserHeaderFromFirestore() {
         val user = FirebaseAuth.getInstance().currentUser
 
-        // İlk başta fallback (yüklenene kadar boş kalmasın)
         val fallbackEmail = user?.email ?: "Guest"
         val fallbackName =
             user?.displayName
@@ -165,7 +148,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 if (!email.isNullOrBlank()) binding.txtUserEmail.text = email
             }
             .addOnFailureListener {
-                // Firestore patlarsa fallback zaten ekranda durur
+                // fallback already shown
             }
     }
 
@@ -244,5 +227,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         _binding = null
     }
 }
+
+
+
 
 

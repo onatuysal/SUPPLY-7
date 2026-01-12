@@ -1,19 +1,37 @@
 package com.example.supply7.ui
 
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.Glide
 import com.example.supply7.R
 import com.example.supply7.data.Product
 import com.example.supply7.databinding.FragmentProfileBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.launch
 
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     private var binding: FragmentProfileBinding? = null
+    private var selectedAvatarUri: Uri? = null
+
+    private val pickAvatar =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            if (uri != null) {
+                selectedAvatarUri = uri
+                binding?.imageAvatar?.setImageURI(uri)
+                uploadAvatarToFirebase(uri)
+            }
+        }
 
     companion object {
         private const val ARG_USER_ID = "arg_user_id"
@@ -34,27 +52,22 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         val bind = FragmentProfileBinding.bind(view)
         binding = bind
 
-        val currentAuthUser = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser
+        val currentAuthUser = FirebaseAuth.getInstance().currentUser
         val argUserId = arguments?.getString(ARG_USER_ID)
         val argUserName = arguments?.getString(ARG_USER_NAME)
 
-        // Determine effective user
         val effectiveUid = argUserId ?: currentAuthUser?.uid
         val isMe = (currentAuthUser != null && effectiveUid == currentAuthUser.uid)
 
-        // UI Setup
         val displayName = argUserName ?: currentAuthUser?.displayName ?: "User"
         bind.textUserName.text = displayName
         bind.textRating.text = "0.0 ★"
 
-        // Visibility & Text Logic
         if (!isMe) {
             bind.btnSettings.visibility = View.GONE
             bind.btnEditProfile.visibility = View.GONE
             bind.tabMyOrders.visibility = View.GONE
-            bind.textStatSalesCount.visibility = View.GONE 
-            
-            // Set generic text for other users
+            bind.textStatSalesCount.visibility = View.GONE
             bind.textProfileTitle.text = getString(R.string.profile_title_generic)
             bind.tabMyListing.text = getString(R.string.tab_listings_generic)
             bind.tabMySales.text = getString(R.string.tab_sales_generic)
@@ -62,11 +75,21 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             bind.btnSettings.visibility = View.VISIBLE
             bind.btnEditProfile.visibility = View.VISIBLE
             bind.tabMyOrders.visibility = View.VISIBLE
-            
-            // Set possessive text for my profile
             bind.textProfileTitle.text = getString(R.string.profile_title_header)
             bind.tabMyListing.text = getString(R.string.tab_my_listings)
             bind.tabMySales.text = getString(R.string.tab_my_sales)
+        }
+
+        bind.cardAvatar.setOnClickListener {
+            if (isMe) {
+                pickAvatar.launch("image/*")
+            } else {
+                Toast.makeText(context, "You can only change your own profile photo.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        if (effectiveUid != null) {
+            loadAvatarFromFirestore(effectiveUid, bind)
         }
 
         bind.tabMyOrders.setOnClickListener {
@@ -113,26 +136,15 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         bind.recyclerProfileItems.adapter = adapter
 
         val repo = com.example.supply7.data.ProductRepository()
-        
+
         if (effectiveUid != null) {
             lifecycleScope.launch {
                 val result = repo.getUserProducts(effectiveUid)
                 val allProducts: List<Product> = result.getOrNull() ?: emptyList()
-                
-                // Show only active listings (Stock > 0)
                 val activeProducts = allProducts.filter { it.stock > 0 }
                 adapter.updateData(activeProducts)
-
                 bind.textStatListingCount.text = activeProducts.size.toString()
-                
-                // Sales count based on stock 0 (or orders)
-                // Note: This relies on fetching all products. 
-                // If we filter, we might miss sold ones if repository filtered.
-                // But ProductRepository.getUserProducts currently returns ALL (I didn't modify it, I modified SEARCH).
-                // Wait, I only modified searchProducts and getProducts. getUserProducts relies on whereEqualTo("sellerId", ...).
-                // So it returns ALL.
-                val soldCount = allProducts.count { it.stock == 0 } 
-                
+                val soldCount = allProducts.count { it.stock == 0 }
                 if (isMe) {
                     bind.textStatSalesCount.text = soldCount.toString()
                 }
@@ -173,7 +185,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             )
         }
 
-
         bind.tabMySales.setOnClickListener {
             val salesAdapter = com.example.supply7.ui.OrdersAdapter { order ->
                 Toast.makeText(context, "Order Date: ${java.util.Date(order.timestamp)}", Toast.LENGTH_SHORT).show()
@@ -197,10 +208,41 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        // If viewing my own profile, update name?
-        // Actually we handled name in onViewCreated
+    private fun uploadAvatarToFirebase(uri: Uri) {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+
+        val storage = FirebaseStorage.getInstance("gs://supply-7.firebasestorage.app")
+        val ref = storage.reference.child("profile_images/$uid.jpg")
+
+        ref.putFile(uri)
+            .addOnSuccessListener {
+                ref.downloadUrl.addOnSuccessListener { downloadUrl ->
+                    FirebaseFirestore.getInstance()
+                        .collection("users")
+                        .document(uid)
+                        .set(mapOf("photoUrl" to downloadUrl.toString()), SetOptions.merge())
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e("AVATAR_UPLOAD", "Upload failed", e)
+                Toast.makeText(context, e.message ?: "Upload failed", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun loadAvatarFromFirestore(uid: String, bind: FragmentProfileBinding) {
+        FirebaseFirestore.getInstance()
+            .collection("users")
+            .document(uid)
+            .get()
+            .addOnSuccessListener { doc ->
+                val url = doc.getString("photoUrl")
+                if (!url.isNullOrBlank()) {
+                    Glide.with(this).load(url).into(bind.imageAvatar)
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e("AVATAR_LOAD", "Load failed", e)
+            }
     }
 
     override fun onDestroyView() {

@@ -56,6 +56,8 @@
         android:layout_width="88dp"
         android:layout_height="88dp"
         android:layout_marginTop="@dimen/margin_large"
+        android:clickable="true"
+        android:focusable="true"
         app:cardCornerRadius="44dp"
         app:strokeWidth="2dp"
         app:strokeColor="@color/primary_pink"
@@ -283,7 +285,6 @@
             android:textColor="@color/text_light" />
     </LinearLayout>
 
-    <!-- Tab Indicator Line (Pink) -->
     <View
         android:id="@+id/viewTabIndicator"
         android:layout_width="0dp"
@@ -291,10 +292,8 @@
         android:background="@color/primary_pink"
         app:layout_constraintStart_toStartOf="@id/layoutTabs"
         app:layout_constraintEnd_toEndOf="@id/layoutTabs"
-        app:layout_constraintTop_toBottomOf="@id/layoutTabs"/>
+        app:layout_constraintTop_toBottomOf="@id/layoutTabs" />
 
-
-    <!-- Recycler -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerProfileItems"
         android:layout_width="0dp"
@@ -308,6 +307,7 @@
         tools:listitem="@layout/item_product" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 

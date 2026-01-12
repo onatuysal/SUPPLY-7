@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.Supply7" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Supply7" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primary_pink</item>
         <item name="colorPrimaryVariant">@color/secondary_dark</item>

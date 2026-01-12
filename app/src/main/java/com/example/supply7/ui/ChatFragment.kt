@@ -24,13 +24,17 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
         const val ARG_RECEIVER_ID = "receiver_id"
         const val ARG_OFFER_AMOUNT = "offer_amount"
         const val ARG_PRODUCT_TITLE = "product_title"
+        const val ARG_PRODUCT_ID = "product_id"
+        const val ARG_PRODUCT_IMAGE = "product_image"
 
         fun newInstance(
             chatId: String?, 
             otherUserName: String, 
             receiverId: String? = null,
             offerAmount: String? = null,
-            productTitle: String? = null
+            productTitle: String? = null,
+            productId: String? = null,
+            productImageUrl: String? = null
         ): ChatFragment {
             val fragment = ChatFragment()
             val args = Bundle()
@@ -39,6 +43,8 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
             if (receiverId != null) args.putString(ARG_RECEIVER_ID, receiverId)
             if (offerAmount != null) args.putString(ARG_OFFER_AMOUNT, offerAmount)
             if (productTitle != null) args.putString(ARG_PRODUCT_TITLE, productTitle)
+            if (productId != null) args.putString(ARG_PRODUCT_ID, productId)
+            if (productImageUrl != null) args.putString(ARG_PRODUCT_IMAGE, productImageUrl)
             fragment.arguments = args
             return fragment
         }
@@ -52,12 +58,16 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
             receiverId = it.getString(ARG_RECEIVER_ID, "")
             offerAmount = it.getString(ARG_OFFER_AMOUNT, "")
             productTitle = it.getString(ARG_PRODUCT_TITLE, "")
+            productId = it.getString(ARG_PRODUCT_ID, "")
+            productImageUrl = it.getString(ARG_PRODUCT_IMAGE, "")
         }
     }
 
     private var receiverId: String = ""
     private var offerAmount: String = ""
     private var productTitle: String = ""
+    private var productId: String = ""
+    private var productImageUrl: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -92,6 +102,34 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
             }
         }
 
+        chatAdapter.onBuyNowClick = { message ->
+            // Construct CartItem for direct purchase
+            val price = message.offerAmount?.toDoubleOrNull() ?: 0.0
+            
+            val item = com.example.supply7.data.CartItem(
+                productId = message.productId, // This should be populated now
+                productTitle = message.productTitle ?: "Unknown",
+                price = price,
+                imageUrl = message.productImageUrl ?: "",
+                quantity = 1,
+                sellerId = message.receiverId 
+            )
+            
+            val items = ArrayList<com.example.supply7.data.CartItem>()
+            items.add(item)
+            
+            // Navigate to Checkout
+            val checkoutFragment = CheckoutFragment()
+            val args = Bundle()
+            args.putSerializable("items", items)
+            checkoutFragment.arguments = args
+            
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, checkoutFragment)
+                .addToBackStack(null)
+                .commit()
+        }
+
         bind.recyclerChat.adapter = chatAdapter
         viewModel.messages.observe(viewLifecycleOwner) { messages ->
             chatAdapter.updateData(messages)
@@ -105,14 +143,14 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
             val content = getString(R.string.msg_offer_format, offerAmount, productTitle)
             // We need to wait for chatId to be ready if it's new
              if (chatId.isNotBlank()) {
-                 viewModel.sendMessage(chatId, content, receiverId, offerAmount, productTitle)
+                 viewModel.sendMessage(chatId, content, receiverId, offerAmount, productTitle, productId, productImageUrl)
                  offerAmount = "" // Clear to prevent resend on rotation
              } else {
                  // Wait for chatId observation
                  viewModel.chatId.observe(viewLifecycleOwner) { id ->
                      if (!id.isNullOrBlank() && offerAmount.isNotBlank()) {
                          val msg = "Offer: $offerAmount TL for $productTitle"
-                         viewModel.sendMessage(id, msg, receiverId, offerAmount, productTitle)
+                         viewModel.sendMessage(id, msg, receiverId, offerAmount, productTitle, productId, productImageUrl)
                          offerAmount = ""
                      }
                  }
@@ -150,7 +188,7 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
     private fun sendMessage(bind: FragmentChatBinding) {
         val content = bind.inputMessage.text.toString()
         if (content.isNotBlank() && chatId.isNotBlank()) {
-            val targetId = if (receiverId.isNotBlank()) receiverId else "unknown"
+            val targetId = receiverId.ifBlank { "unknown" }
             viewModel.sendMessage(chatId, content, targetId)
             bind.inputMessage.text.clear()
         }

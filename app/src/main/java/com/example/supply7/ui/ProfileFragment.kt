@@ -67,7 +67,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             bind.btnSettings.visibility = View.GONE
             bind.btnEditProfile.visibility = View.GONE
             bind.tabMyOrders.visibility = View.GONE
-            bind.textStatSalesCount.visibility = View.GONE
+            // bind.textStatSalesCount.visibility = View.VISIBLE // Default
             bind.textProfileTitle.text = getString(R.string.profile_title_generic)
             bind.tabMyListing.text = getString(R.string.tab_listings_generic)
             bind.tabMySales.text = getString(R.string.tab_sales_generic)
@@ -144,10 +144,11 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 val activeProducts = allProducts.filter { it.stock > 0 }
                 adapter.updateData(activeProducts)
                 bind.textStatListingCount.text = activeProducts.size.toString()
-                val soldCount = allProducts.count { it.stock == 0 }
-                if (isMe) {
-                    bind.textStatSalesCount.text = soldCount.toString()
-                }
+                // Fetch actual sales count for everyone
+                val orderRepo = com.example.supply7.data.OrderRepository()
+                val orderResult = orderRepo.getUserSales(effectiveUid)
+                val salesCount = orderResult.getOrNull()?.size ?: 0
+                bind.textStatSalesCount.text = salesCount.toString()
             }
         }
 

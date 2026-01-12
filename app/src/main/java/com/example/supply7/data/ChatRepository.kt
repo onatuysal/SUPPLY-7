@@ -44,7 +44,9 @@ class ChatRepository {
         content: String, 
         receiverId: String, 
         offerAmount: String? = null,
-        productTitle: String? = null
+        productTitle: String? = null,
+        productId: String? = null,
+        productImageUrl: String? = null
     ) {
         val uid = currentUserId ?: return
         val messageRef = db.collection("chats").document(chatId).collection("messages").document()
@@ -59,7 +61,9 @@ class ChatRepository {
             timestamp = System.currentTimeMillis(),
             type = type,
             offerAmount = offerAmount,
-            productTitle = productTitle
+            productTitle = productTitle,
+            productId = productId ?: "",
+            productImageUrl = productImageUrl
         )
         
         db.runBatch { batch ->

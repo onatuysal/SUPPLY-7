@@ -55,6 +55,7 @@ class ChatAdapter(
 
     var onAcceptOffer: ((Message) -> Unit)? = null
     var onDeclineOffer: ((Message) -> Unit)? = null
+    var onBuyNowClick: ((Message) -> Unit)? = null
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val message = messages[position]
@@ -64,6 +65,19 @@ class ChatAdapter(
             is OfferSenderViewHolder -> {
                 holder.textProductTitle.text = message.productTitle ?: "Unknown Product"
                 holder.textOfferAmount.text = "₺ ${message.offerAmount}"
+                
+                if (message.status == "accepted") {
+                    holder.textStatus.visibility = View.GONE
+                    holder.btnBuyNow.visibility = View.VISIBLE
+                    holder.btnBuyNow.setOnClickListener { onBuyNowClick?.invoke(message) }
+                } else if (message.status == "declined") {
+                     holder.textStatus.visibility = View.VISIBLE
+                     holder.textStatus.text = "Offer Declined"
+                     holder.btnBuyNow.visibility = View.GONE
+                } else {
+                     holder.textStatus.visibility = View.GONE
+                     holder.btnBuyNow.visibility = View.GONE
+                }
             }
             is OfferReceiverViewHolder -> {
                 holder.textProductTitle.text = message.productTitle ?: "Unknown Product"
@@ -102,6 +116,8 @@ class ChatAdapter(
     class OfferSenderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textProductTitle: TextView = view.findViewById(R.id.textProductTitle)
         val textOfferAmount: TextView = view.findViewById(R.id.textOfferAmount)
+        val textStatus: TextView = view.findViewById(R.id.textStatus)
+        val btnBuyNow: android.widget.Button = view.findViewById(R.id.btnBuyNow)
     }
 
     class OfferReceiverViewHolder(view: View) : RecyclerView.ViewHolder(view) {

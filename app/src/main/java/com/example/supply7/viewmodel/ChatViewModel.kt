@@ -114,10 +114,12 @@ class ChatViewModel : ViewModel() {
         content: String,
         receiverId: String,
         offerAmount: String? = null,
-        productTitle: String? = null
+        productTitle: String? = null,
+        productId: String? = null,
+        productImageUrl: String? = null
     ) {
         viewModelScope.launch {
-            repository.sendMessage(chatId, content, receiverId, offerAmount, productTitle)
+            repository.sendMessage(chatId, content, receiverId, offerAmount, productTitle, productId, productImageUrl)
         }
     }
 

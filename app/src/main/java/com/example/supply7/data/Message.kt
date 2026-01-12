@@ -14,5 +14,6 @@ data class Message(
     val type: String = "text", // "text", "offer", "image"
     val offerAmount: String? = null,
     val productTitle: String? = null,
+    val productImageUrl: String? = null,
     val status: String = "pending" // "pending", "accepted", "declined"
 ) : Serializable

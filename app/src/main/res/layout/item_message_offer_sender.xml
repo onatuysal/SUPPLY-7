@@ -53,6 +53,28 @@
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"/>
 
+            <!-- Status Text (Declined) -->
+            <TextView
+                android:id="@+id/textStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Offer Declined"
+                android:textColor="@color/error_red"
+                android:textStyle="bold"
+                android:visibility="gone"
+                android:layout_marginTop="8dp"/>
+
+            <!-- Buy Now Button (Accepted) -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnBuyNow"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_button_primary"
+                android:text="Buy Now!"
+                android:textColor="@color/white"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"/>
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

@@ -18,26 +18,21 @@ class NotificationsFragment : Fragment(R.layout.fragment_notifications) {
         viewModel.markAsRead(notification)
         
         // Action based on type
-        if (notification.type == "OFFER" || notification.type == "MESSAGE") {
-             // Go to Chat
-             // Assuming relatedId is chatId or userId? 
-             // Ideally relatedId should be enough to navigate.
-             // If relatedId is chatId, we need a way to open chat by ID which ChatFragment supports via constructor logic update or just newInstance logic.
-             // For now, let's assume relatedId is the ChatId.
-             
-             // We need to pass chatId to ChatFragment.
-             // Our ChatFragment.newInstance currently takes (chatId, otherUserName, receiverId)
-             // We might lack otherUserName here.
-             // We can fetch chat details or just pass ID and let ChatFragment fetch details.
-             // Let's modify ChatFragment slightly to handle ID-only load if possible or just pass what we have.
-             
-             // Simplification: Just go to MessagesFragment (Inbox) for now if complex.
-             // Or better:
+         // Action based on type
+         if (notification.type == "OFFER" || notification.type == "MESSAGE") {
+             // relatedId is the chatId
              parentFragmentManager.beginTransaction()
-                 .replace(R.id.fragment_container, MessagesFragment()) // Go to inbox
+                 .replace(
+                     R.id.fragment_container, 
+                     ChatFragment.newInstance(
+                         chatId = notification.relatedId,
+                         otherUserName = "Chat", // We don't have name here, but ChatFragment fetches it if ID is present
+                         receiverId = null 
+                     )
+                 )
                  .addToBackStack(null)
                  .commit()
-        }
+         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -130,6 +130,13 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
 
             // RATE SELLER
             bind.btnExchangeOffer.text = getString(R.string.btn_rate_seller)
+            val uidForRating = FirebaseAuth.getInstance().currentUser?.uid
+            if (uidForRating != null && uidForRating == product?.sellerId) {
+                bind.btnExchangeOffer.visibility = View.GONE
+            } else {
+                bind.btnExchangeOffer.visibility = View.VISIBLE
+            }
+
             bind.btnExchangeOffer.setOnClickListener {
                 product?.let { p ->
                     val dialogView =
@@ -207,7 +214,9 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
                                         otherUserName = p.sellerName,
                                         receiverId = p.sellerId,
                                         offerAmount = amount,
-                                        productTitle = p.title
+                                        productTitle = p.title,
+                                        productId = p.id,
+                                        productImageUrl = p.imageUrl
                                     )
                                 )
                                 .addToBackStack(null)

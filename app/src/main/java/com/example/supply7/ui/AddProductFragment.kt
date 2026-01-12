@@ -114,7 +114,16 @@ class AddProductFragment : Fragment(R.layout.fragment_add_product) {
         viewModel.uploadStatus.observe(viewLifecycleOwner) { result ->
             if (result.isSuccess) {
                 Toast.makeText(context, getString(R.string.msg_product_posted), Toast.LENGTH_SHORT).show()
-                parentFragmentManager.popBackStack()
+                // Go to Home
+                (activity as? MainActivity)?.showBottomNav(true)
+                // Select Home item in BottomNav (this usually handles fragment switch via listener)
+                activity?.findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.bottom_navigation)?.selectedItemId = R.id.nav_home
+                
+                // Explicitly jump if needed (sometimes listener checks "if already selected")
+                parentFragmentManager.popBackStack(null, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, HomeFragment())
+                    .commit()
             } else {
                 Toast.makeText(
                     context,

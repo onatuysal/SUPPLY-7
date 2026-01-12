@@ -16,8 +16,8 @@ import kotlinx.coroutines.tasks.await
 class AddProductViewModel : ViewModel() {
 
     private val auth = FirebaseAuth.getInstance()
-    // Explicitly use the bucket from google-services.json
-    private val storage = FirebaseStorage.getInstance("gs://supply7-da984.firebasestorage.app")
+    // Use default instance from google-services.json
+    private val storage = FirebaseStorage.getInstance()
     private val repository = ProductRepository()
 
     private val _uploadStatus = MutableLiveData<Result<Boolean>>()

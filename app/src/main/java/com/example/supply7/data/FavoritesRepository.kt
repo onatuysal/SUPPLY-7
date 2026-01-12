@@ -66,7 +66,9 @@ class FavoritesRepository {
                     .await()
                 allProducts.addAll(snapshot.toObjects(Product::class.java))
             }
-            Result.success(allProducts)
+            // Filter out sold items (stock <= 0)
+            val availableProducts = allProducts.filter { it.stock > 0 }
+            Result.success(availableProducts)
         } catch (e: Exception) {
             Result.failure(e)
         }

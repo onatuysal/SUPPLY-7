@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Messages"
+        android:text="@string/nav_messages"
         android:textColor="@color/text_dark"
         android:textSize="22sp"
         android:textStyle="bold"
@@ -48,7 +48,7 @@
         android:background="@drawable/bg_search_box"
         android:drawableStart="@drawable/ic_search_pink"
         android:drawablePadding="12dp"
-        android:hint="Search in Chat..."
+        android:hint="@string/hint_search_chat"
         android:paddingHorizontal="12dp"
         android:textColor="@color/text_dark"
         android:textColorHint="#9E9E9E"
@@ -79,7 +79,7 @@
                 android:background="@drawable/bg_tab_selected"
                 android:paddingHorizontal="20dp"
                 android:paddingVertical="8dp"
-                android:text="All"
+                android:text="@string/filter_all"
                 android:textColor="@color/text_dark"
                 android:textSize="14sp" />
 
@@ -91,7 +91,7 @@
                 android:background="@drawable/bg_tab_unselected"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="8dp"
-                android:text="Purchases"
+                android:text="@string/filter_purchases"
                 android:textColor="@color/text_dark"
                 android:textSize="14sp" />
 
@@ -103,7 +103,7 @@
                 android:background="@drawable/bg_tab_unselected"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="8dp"
-                android:text="Sales"
+                android:text="@string/filter_sales"
                 android:textColor="@color/text_dark"
                 android:textSize="14sp" />
 
@@ -115,7 +115,7 @@
                 android:background="@drawable/bg_tab_unselected"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="8dp"
-                android:text="Trades"
+                android:text="@string/filter_trades"
                 android:textColor="@color/text_dark"
                 android:textSize="14sp" />
 

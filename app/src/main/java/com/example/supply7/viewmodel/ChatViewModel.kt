@@ -9,6 +9,7 @@ import com.example.supply7.data.ChatRepository
 import com.example.supply7.data.Message
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.launch
 
 class ChatViewModel : ViewModel() {
@@ -35,15 +36,37 @@ class ChatViewModel : ViewModel() {
                 if (error != null) return@addSnapshotListener
                 val chatList = value?.toObjects(Chat::class.java) ?: emptyList()
 
-                val processedList = chatList.map { chat ->
-                    val otherId = chat.participants.firstOrNull { it != currentUserId } ?: "Unknown"
-                    val displayName =
-                        if (chat.otherUserName.isNotBlank()) chat.otherUserName else "User ${otherId.take(4)}"
-                    chat.copy(otherUserName = displayName)
-                }
+                viewModelScope.launch {
+                    val db = FirebaseFirestore.getInstance()
+                    
+                    // We map essentially to a list of deferred-like operations or just do it sequentially in the map (which is parallel-ish if we use async but linear if just map). 
+                    // To keep it simple and safe given potential list size, we'll iterate and await.
+                    // For better performance with many chats, we would collect IDs and do a batch fetch, 
+                    // but Firestore doesn't have a simple "get all these IDs" without whereIn limitations.
+                    
+                    val processedList = chatList.map { chat ->
+                        val otherId = chat.participants.firstOrNull { it != currentUserId } ?: "Unknown"
+                        var displayName = if (chat.otherUserName.isNotBlank()) chat.otherUserName else "User ${otherId.take(4)}"
+                        
+                        // Try to fetch real name from users collection
+                        if (otherId != "Unknown") {
+                            try {
+                                val docSnapshot = db.collection("users").document(otherId).get().await()
+                                val realName = docSnapshot.getString("displayName")
+                                if (!realName.isNullOrBlank()) {
+                                    displayName = realName
+                                }
+                            } catch (e: Exception) {
+                                // Failed to fetch, keep existing/fallback
+                            }
+                        }
+                        
+                        chat.copy(otherUserName = displayName)
+                    }
 
-                originalChats = processedList
-                _chats.value = processedList
+                    originalChats = processedList
+                    _chats.value = processedList
+                }
             }
         } catch (e: Exception) {
             // Handle error

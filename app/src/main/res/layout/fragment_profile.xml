@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_cream">
+    android:background="@color/white">
 
     <!-- Header -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,7 +30,7 @@
             android:id="@+id/textProfileTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="My Profile"
+            android:text="@string/profile_title_header"
             android:textSize="@dimen/text_subheading"
             android:textStyle="bold"
             android:textColor="@color/black"
@@ -78,7 +78,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_standard"
-        android:text="User"
+        tools:text="User"
         android:textColor="@color/text_dark"
         android:textSize="@dimen/text_heading"
         android:textStyle="bold"
@@ -91,7 +91,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="0.0 ★"
+        tools:text="0.0 ★"
         android:textColor="@color/text_light"
         android:textSize="@dimen/text_caption"
         app:layout_constraintTop_toBottomOf="@id/textUserName"
@@ -104,7 +104,7 @@
         android:layout_height="40dp"
         android:layout_marginTop="@dimen/margin_medium"
         android:background="@drawable/bg_button_secondary"
-        android:text="Edit Profile"
+        android:text="@string/btn_edit_profile"
         android:textAllCaps="false"
         android:textColor="@color/text_dark"
         android:textSize="@dimen/text_caption"
@@ -149,7 +149,7 @@
                     android:id="@+id/textStatListingCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
+                    tools:text="0"
                     android:textStyle="bold"
                     android:textSize="20sp"
                     android:textColor="@color/primary_pink" />
@@ -157,7 +157,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Listings"
+                    android:text="@string/stat_listings"
                     android:textSize="12sp"
                     android:textColor="@color/text_light" />
             </LinearLayout>
@@ -185,7 +185,7 @@
                     android:id="@+id/textStatCommentsCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
+                    tools:text="0"
                     android:textStyle="bold"
                     android:textSize="20sp"
                     android:textColor="@color/primary_pink" />
@@ -193,7 +193,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Comments"
+                    android:text="@string/stat_comments"
                     android:textSize="12sp"
                     android:textColor="@color/text_light" />
             </LinearLayout>
@@ -221,7 +221,7 @@
                     android:id="@+id/textStatSalesCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
+                    tools:text="0"
                     android:textStyle="bold"
                     android:textSize="20sp"
                     android:textColor="@color/primary_pink" />
@@ -229,7 +229,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Sales"
+                    android:text="@string/stat_sales"
                     android:textSize="12sp"
                     android:textColor="@color/text_light" />
             </LinearLayout>
@@ -254,7 +254,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="My Listing"
+            android:text="@string/tab_my_listings"
             android:padding="12dp"
             android:textColor="@color/primary_pink"
             android:textSize="14sp"
@@ -266,7 +266,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="My Sales"
+            android:text="@string/tab_my_sales"
             android:padding="12dp"
             android:textSize="14sp"
             android:textColor="@color/text_light" />
@@ -277,7 +277,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="My Orders"
+            android:text="@string/tab_my_orders"
             android:padding="12dp"
             android:textSize="14sp"
             android:textColor="@color/text_light" />

@@ -32,7 +32,7 @@ class MessagesAdapter(
         val chat = chats[position]
 
         holder.textName.text = chat.otherUserName
-        holder.textLastMessage.text = chat.lastMessage ?: ""
+        holder.textLastMessage.text = chat.lastMessage
         holder.textTime.text = if (chat.lastMessageTimestamp > 0) "10:23" else ""
 
         if (chat.unreadCount > 0) {

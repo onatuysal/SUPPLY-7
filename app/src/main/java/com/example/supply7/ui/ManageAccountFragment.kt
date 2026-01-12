@@ -22,7 +22,7 @@ class ManageAccountFragment : Fragment(R.layout.fragment_simple_page) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentSimplePageBinding.bind(view)
 
-        binding.txtTitle.text = "Manage Account"
+        binding.txtTitle.text = getString(R.string.settings_manage_account)
         binding.btnBack.setOnClickListener { parentFragmentManager.popBackStack() }
 
         val user = auth.currentUser
@@ -37,16 +37,11 @@ class ManageAccountFragment : Fragment(R.layout.fragment_simple_page) {
         val email = user.email ?: "Unknown"
         val uid = user.uid
 
-        binding.txtBody.text =
-            "Account information:\n\n" +
-                    "Name: $name\n" +
-                    "Email: $email\n" +
-                    "UID: $uid\n\n" +
-                    "Actions:\n• Log out\n• Delete account (demo)"
+        binding.txtBody.text = getString(R.string.account_info_format, name, email, uid)
 
         // Primary button = Delete Account
         binding.btnPrimary.visibility = View.VISIBLE
-        binding.btnPrimary.text = "Delete Account"
+        binding.btnPrimary.text = getString(R.string.btn_delete_account)
         binding.btnPrimary.setOnClickListener {
             showDeleteDialog(uid)
         }
@@ -60,10 +55,10 @@ class ManageAccountFragment : Fragment(R.layout.fragment_simple_page) {
 
     private fun showDeleteDialog(uid: String) {
         AlertDialog.Builder(requireContext())
-            .setTitle("Delete account?")
-            .setMessage("This will delete your user document from Firestore and attempt to delete your Auth account. This action cannot be undone.")
-            .setNegativeButton("Cancel", null)
-            .setPositiveButton("Delete") { _, _ ->
+            .setTitle(getString(R.string.dialog_delete_account_title))
+            .setMessage(getString(R.string.dialog_delete_account_msg))
+            .setNegativeButton(getString(R.string.btn_cancel), null)
+            .setPositiveButton(getString(R.string.btn_delete)) { _, _ ->
                 deleteAccount(uid)
             }
             .show()
@@ -79,23 +74,25 @@ class ManageAccountFragment : Fragment(R.layout.fragment_simple_page) {
                 // 2) Auth user delete dene
                 user.delete()
                     .addOnSuccessListener {
-                        Toast.makeText(requireContext(), "Account deleted", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), getString(R.string.msg_account_deleted), Toast.LENGTH_SHORT).show()
                         goWelcome()
                     }
                     .addOnFailureListener { e ->
                         // Genelde: "Recent login required"
-                        Toast.makeText(requireContext(), e.message ?: "Delete failed", Toast.LENGTH_LONG).show()
-                        Toast.makeText(requireContext(), "If it says 'recent login required', log in again and retry.", Toast.LENGTH_LONG).show()
+                        val fallback = getString(R.string.msg_delete_failed)
+                        Toast.makeText(requireContext(), e.message ?: fallback, Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireContext(), getString(R.string.msg_delete_account_reauth_hint), Toast.LENGTH_LONG).show()
                     }
             }
             .addOnFailureListener { e ->
-                Toast.makeText(requireContext(), e.message ?: "Firestore delete failed", Toast.LENGTH_LONG).show()
+                val fallback = getString(R.string.msg_delete_failed)
+                Toast.makeText(requireContext(), e.message ?: fallback, Toast.LENGTH_LONG).show()
             }
     }
 
     private fun logoutToWelcome() {
         auth.signOut()
-        Toast.makeText(requireContext(), "Logged out", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), getString(R.string.msg_logged_out), Toast.LENGTH_SHORT).show()
         goWelcome()
     }
 

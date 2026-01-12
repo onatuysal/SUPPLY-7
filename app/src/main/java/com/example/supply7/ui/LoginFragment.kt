@@ -32,14 +32,15 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         bind.btnForgotPassword.setOnClickListener {
             val email = bind.editEmail.text.toString()
             if (email.isBlank()) {
-                Toast.makeText(context, "Please enter your email first", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.msg_enter_email_first), Toast.LENGTH_SHORT).show()
             } else {
                 viewModel.resetPassword(email, 
                     onSuccess = {
-                        Toast.makeText(context, "Reset email sent! Check your inbox.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, getString(R.string.msg_reset_email_sent), Toast.LENGTH_LONG).show()
                     },
                     onError = { msg ->
-                        Toast.makeText(context, "Error: $msg", Toast.LENGTH_SHORT).show()
+                        val errMsg = getString(R.string.msg_error_generic, msg)
+                        Toast.makeText(context, errMsg, Toast.LENGTH_SHORT).show()
                     }
                 )
             }
@@ -72,7 +73,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         viewModel.user.observe(viewLifecycleOwner) { user ->
             if (user != null) {
-                Toast.makeText(requireContext(), "Login Successful", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.msg_login_success), Toast.LENGTH_SHORT).show()
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, HomeFragment())
                     .commit()

@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_cream">
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/textHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Notifications"
+        android:text="@string/title_notifications"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@color/primary_pink"
@@ -26,7 +26,7 @@
         android:layout_height="24dp"
         android:layout_margin="16dp"
         android:background="@null"
-        android:contentDescription="Back"
+        android:contentDescription="@string/btn_back"
         android:src="@drawable/ic_back_24"
         app:tint="@color/primary_pink"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,7 +59,7 @@
         android:id="@+id/textEmpty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No new notifications"
+        android:text="@string/msg_no_notifications"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

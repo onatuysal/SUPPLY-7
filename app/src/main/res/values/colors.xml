@@ -7,8 +7,13 @@
     <color name="primary_pink_light">#FFC0E1</color>
     <color name="primary_pink_ripple">#D13588</color>
     
+    <!-- Navigation Colors -->
+    <color name="nav_bg_purple">#F3E5F5</color>
+    <color name="nav_item_purple_dark">#4A148C</color>
+    <color name="nav_item_purple_light">#AA00FF</color>
+    <color name="nav_item_unselected">#9575CD</color>
+    
     <!-- Backgrounds -->
-    <color name="background_cream">#FDFAF1</color>
     <color name="surface_white">#FFFFFF</color>
     
     <!-- Typography -->

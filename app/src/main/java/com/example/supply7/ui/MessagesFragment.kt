@@ -98,7 +98,7 @@ class MessagesFragment : Fragment(R.layout.fragment_messages) {
             // 2) Firestore'dan sil (kalıcı)
             viewModel.deleteChats(idsToDelete)
 
-            Toast.makeText(requireContext(), "Deleted: ${idsToDelete.size}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.msg_deleted_count, idsToDelete.size), Toast.LENGTH_SHORT).show()
 
             selectedIds.clear()
             adapter.setSelectedIds(emptySet())

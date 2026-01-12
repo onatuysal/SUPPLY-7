@@ -35,19 +35,19 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         val languageValue = prefs.getString("language", "English") ?: "English"
 
         // ---- ACCOUNT ----
-        setupRow(binding.rowManageAccount, R.drawable.ic_settings_24, "Manage Account") {
+        setupRow(binding.rowManageAccount, R.drawable.ic_settings_24, getString(R.string.settings_manage_account)) {
             openFragment(ManageAccountFragment())
         }
 
-        setupRow(binding.rowPaymentMethods, R.drawable.ic_credit_card, "Payment Methods") {
-            openFragment(PaymentMethodsFragment())
+        setupRow(binding.rowPaymentMethods, R.drawable.ic_credit_card, getString(R.string.settings_payment_methods)) {
+            openFragment(WalletFragment())
         }
 
-        setupRow(binding.rowChangePassword, R.drawable.ic_lock_24, "Change Password") {
+        setupRow(binding.rowChangePassword, R.drawable.ic_lock_24, getString(R.string.settings_change_password)) {
             openFragment(ChangePasswordFragment())
         }
 
-        setupRow(binding.rowPrivacySettings, R.drawable.ic_shield_24, "Privacy Settings") {
+        setupRow(binding.rowPrivacySettings, R.drawable.ic_shield_24, getString(R.string.settings_privacy)) {
             openFragment(PrivacySettingsFragment())
         }
 
@@ -55,7 +55,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         setupRowAsSwitch(
             row = binding.rowNotifications,
             iconRes = R.drawable.ic_notifications_24,
-            title = "Notifications",
+            title = getString(R.string.settings_notifications),
             initial = notificationsEnabled
         ) { isChecked ->
             prefs.edit().putBoolean("notifications_enabled", isChecked).apply()
@@ -66,33 +66,33 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         setupRowWithValue(
             row = binding.rowLanguage,
             iconRes = R.drawable.ic_language_24,
-            title = "Language",
+            title = getString(R.string.language),
             value = languageValue
         ) {
             openFragment(LanguageFragment())
         }
 
         // ---- SUPPORT & LEGAL ----
-        setupRow(binding.rowHelpSupport, R.drawable.ic_help_24, "Help & Support") {
+        setupRow(binding.rowHelpSupport, R.drawable.ic_help_24, getString(R.string.settings_help)) {
             openFragment(HelpSupportFragment())
         }
 
-        setupRow(binding.rowTerms, R.drawable.ic_description_24, "Terms Of Service") {
+        setupRow(binding.rowTerms, R.drawable.ic_description_24, getString(R.string.settings_terms)) {
             openFragment(TermsFragment())
         }
 
-        setupRow(binding.rowPrivacyPolicy, R.drawable.ic_description_24, "Privacy Policy") {
+        setupRow(binding.rowPrivacyPolicy, R.drawable.ic_description_24, getString(R.string.settings_privacy_policy)) {
             openFragment(PrivacyPolicyFragment())
         }
 
         // ---- ACCOUNT ACTIONS ----
-        setupRow(binding.rowDownloadData, R.drawable.ic_download_24, "Download your data") {
+        setupRow(binding.rowDownloadData, R.drawable.ic_download_24, getString(R.string.settings_download_data)) {
             toast("Download your data (TODO)")
         }
 
         // ✅ Deactivate kaldırıldı (rowDeactivate yok)
 
-        setupRow(binding.rowLogout, R.drawable.ic_logout, "Log Out") {
+        setupRow(binding.rowLogout, R.drawable.ic_logout, getString(R.string.settings_logout)) {
             authRepository.logout()
             openFragment(WelcomeFragment())
         }

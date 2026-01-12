@@ -57,20 +57,55 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+
+
+                android:background="#EEE" />
+
             <!-- Department/Faculty -->
             <TextView
-                android:id="@+id/textDepartmentFaculty"
+                android:id="@+id/textDepartment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Department/Faculty"
+                android:text="Department: All"
                 android:textColor="@color/text_dark"
-                android:drawableEnd="@drawable/ic_launcher_foreground"
-                android:drawableTint="@color/primary_pink"
+                android:background="?attr/selectableItemBackground"
                 android:paddingVertical="12dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?attr/selectableItemBackground" />
-            <!-- Placeholder for expandable logic -->
+                android:drawableEnd="@drawable/ic_arrow_drop_down"
+                android:drawableTint="@color/text_light" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#EEE" />
+
+            <!-- Brand -->
+            <TextView
+                android:id="@+id/textBrand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Brand: All"
+                android:textColor="@color/text_dark"
+                android:background="?attr/selectableItemBackground"
+                android:paddingVertical="12dp"
+                android:drawableEnd="@drawable/ic_arrow_drop_down"
+                android:drawableTint="@color/text_light" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#EEE" />
+
+            <!-- City -->
+            <TextView
+                android:id="@+id/textCity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="City: All"
+                android:textColor="@color/text_dark"
+                android:background="?attr/selectableItemBackground"
+                android:paddingVertical="12dp"
+                android:drawableEnd="@drawable/ic_arrow_drop_down"
+                android:drawableTint="@color/text_light" />
 
             <View
                 android:layout_width="match_parent"

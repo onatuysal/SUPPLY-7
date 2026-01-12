@@ -52,10 +52,10 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
         viewModel.checkoutStatus.observe(viewLifecycleOwner) { result ->
             if (result != null) {
                 if (result.isSuccess) {
-                    Toast.makeText(context, "Order Placed Successfully!", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, getString(R.string.msg_order_placed), Toast.LENGTH_LONG).show()
                     parentFragmentManager.popBackStack() // Or go to Orders screen
                 } else {
-                    Toast.makeText(context, "Order Failed: ${result.exceptionOrNull()?.message}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, getString(R.string.msg_order_failed, result.exceptionOrNull()?.message), Toast.LENGTH_LONG).show()
                 }
                 viewModel.resetCheckoutStatus()
             }

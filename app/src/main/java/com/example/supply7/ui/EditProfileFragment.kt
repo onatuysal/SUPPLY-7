@@ -70,7 +70,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             val department = binding.editDepartment.text.toString().trim()
 
             if (displayName.isBlank()) {
-                Toast.makeText(requireContext(), "Display Name required", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.msg_name_required), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -81,7 +81,7 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
             user.updateProfile(profileUpdates)
                 .addOnCompleteListener { updateTask ->
                     if (!updateTask.isSuccessful) {
-                        Toast.makeText(requireContext(), "Name update failed", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), getString(R.string.msg_name_update_failed), Toast.LENGTH_SHORT).show()
                         return@addOnCompleteListener
                     }
 
@@ -96,11 +96,12 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                         .set(data)
                         .addOnSuccessListener {
                             auth.currentUser?.reload()
-                            Toast.makeText(requireContext(), "Profile updated", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), getString(R.string.msg_update_success), Toast.LENGTH_SHORT).show()
                             parentFragmentManager.popBackStack()
                         }
                         .addOnFailureListener { e ->
-                            Toast.makeText(requireContext(), e.message ?: "Error", Toast.LENGTH_LONG).show()
+                            val fallback = getString(R.string.msg_error_generic, "")
+                            Toast.makeText(requireContext(), e.message ?: fallback, Toast.LENGTH_LONG).show()
                         }
                 }
         }

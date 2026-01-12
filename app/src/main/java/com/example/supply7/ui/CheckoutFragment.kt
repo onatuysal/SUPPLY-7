@@ -4,45 +4,104 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.supply7.R
 import com.example.supply7.data.Address
-import com.example.supply7.data.CartItem
+import com.example.supply7.data.Card
 import com.example.supply7.databinding.FragmentCheckoutBinding
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.launch
-
-import androidx.fragment.app.viewModels
 import com.example.supply7.viewmodel.CartViewModel
+import com.example.supply7.viewmodel.WalletViewModel
+import com.bumptech.glide.Glide
 
 class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
 
     private var binding: FragmentCheckoutBinding? = null
-    
     private val cartViewModel: CartViewModel by viewModels()
+    private val walletViewModel: WalletViewModel by viewModels() // Reuse Wallet VM for cards
 
-    // We need cart items and total passed here, or fetched.
-    // Let's assume passed via arguments or we fetch from repo.
-    
+    private var selectedDeliveryLocation: String? = null
+    private var selectedCard: Card? = null
+
+    private var currentCartItems: List<com.example.supply7.data.CartItem> = emptyList()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val bind = FragmentCheckoutBinding.bind(view)
         binding = bind
-        
-        bind.btnBack.setOnClickListener { parentFragmentManager.popBackStack() }
-        
-        // Fetch items to calculate total again or ensure valid
-        cartViewModel.loadCart()
-        
-        cartViewModel.cartItems.observe(viewLifecycleOwner) { items ->
-            if (items.isEmpty()) {
-                // Should not happen if we came from non-empty cart, unless refreshed
-                // If checking out, we might want to stay until success
+
+        // User Setup
+        val currentUser = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser
+        if (currentUser != null) {
+            // Set initial text
+            bind.textUserName.text = currentUser.displayName ?: "User"
+
+            // Try explicit Firestore fetch for most up-to-date data
+            com.google.firebase.firestore.FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(currentUser.uid)
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document.exists()) {
+                         val name = document.getString("name") ?: document.getString("fullName") ?: currentUser.displayName
+                         bind.textUserName.text = name ?: "User"
+                    } else {
+                         bind.textUserName.text = currentUser.displayName ?: "User"
+                    }
+                }
+                .addOnFailureListener {
+                    bind.textUserName.text = currentUser.displayName ?: "User"
+                }
+
+            if (currentUser.photoUrl != null) {
+                Glide.with(this).load(currentUser.photoUrl).circleCrop().into(bind.imgUserAvatar)
             }
-            val total = items.sumOf { item -> item.price * item.quantity }
-            bind.textTotalAmount.text = "Total: ₺$total"
+        }
+
+        bind.btnBack.setOnClickListener { parentFragmentManager.popBackStack() }
+
+        // 1. Delivery Selection
+        bind.cardUserInfo.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, DeliverySelectionFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
+        parentFragmentManager.setFragmentResultListener("requestKeyDelivery", viewLifecycleOwner) { _, bundle ->
+            val location = bundle.getString("location")
+            if (location != null) {
+                selectedDeliveryLocation = location
+                bind.textSelectedLocation.text = location
+            }
+        }
+        // 2. Cards Setup
+        walletViewModel.loadWalletData()
+        walletViewModel.cards.observe(viewLifecycleOwner) { cards ->
+            val cardAdapter = CardAdapter(cards) { card ->
+                selectedCard = card
+            }
+            bind.recyclerCards.layoutManager = LinearLayoutManager(context)
+            bind.recyclerCards.adapter = cardAdapter
             
+            if (cards.isNotEmpty()) {
+                selectedCard = cards.first()
+            }
+        }
+
+        bind.btnAddCard.setOnClickListener {
+             showAddCardDialog()
+        }
+
+        // 3. Totals
+        cartViewModel.loadCart()
+        cartViewModel.cartItems.observe(viewLifecycleOwner) { items ->
+            currentCartItems = items // Capture items
+            val total = items.sumOf { it.price * it.quantity }
+            bind.textTotalPrice.text = "₺$total"
+
             bind.btnConfirmPayment.setOnClickListener {
-                 processCheckout(bind)
+                processCheckout(total)
             }
         }
         
@@ -50,8 +109,15 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
             if (result != null) {
                 if (result.isSuccess) {
                     cartViewModel.resetCheckoutStatus()
+                    
+                    val fragment = SuccessFragment()
+                    val args = Bundle()
+                    // Pass items as ArrayList (Serializable)
+                    args.putSerializable("items", ArrayList(currentCartItems))
+                    fragment.arguments = args
+
                     parentFragmentManager.beginTransaction()
-                         .replace(R.id.fragment_container, SuccessFragment())
+                         .replace(R.id.fragment_container, fragment)
                          .commit()
                 } else {
                     Toast.makeText(context, "Checkout Failed: ${result.exceptionOrNull()?.message}", Toast.LENGTH_LONG).show()
@@ -60,28 +126,46 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
             }
         }
     }
-    
-    private fun processCheckout(bind: FragmentCheckoutBinding) {
-        val name = bind.inputName.text.toString()
-        val address = bind.inputAddress.text.toString()
-        val city = bind.inputCity.text.toString()
-        val zip = bind.inputZip.text.toString()
-        val cardNum = bind.inputCardNumber.text.toString()
+
+    private fun showAddCardDialog() {
+        // Simple input for card number
+        val input = android.widget.EditText(requireContext())
+        input.inputType = android.text.InputType.TYPE_CLASS_NUMBER
+        input.hint = "Card Number (Last 4 digits)"
         
-        if (name.isBlank() || address.isBlank() || city.isBlank() || cardNum.isBlank()) {
-            Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT).show()
+        android.app.AlertDialog.Builder(requireContext())
+            .setTitle("Add New Card")
+            .setView(input)
+            .setPositiveButton("Save") { _, _ ->
+                val num = input.text.toString()
+                if (num.length >= 4) {
+                    val card = Card(cardNumber = "**** **** **** $num", expiryDate = "12/28")
+                    walletViewModel.addCard(card)
+                    Toast.makeText(context, "Card Saved", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, "Invalid card number", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun processCheckout(amount: Double) {
+        if (selectedDeliveryLocation == null) {
+            Toast.makeText(context, "Please select a delivery point", Toast.LENGTH_SHORT).show()
             return
         }
         
-        val shippingAddress = Address(name, address, city, zip)
-        
+        val shippingAddress = Address(
+            name = binding?.textUserName?.text.toString(),
+            address = selectedDeliveryLocation!!,
+            city = "Campus",
+            zip = "00000"
+        )
+
         cartViewModel.checkout(shippingAddress)
-        
-        // Observe status in onViewCreated, but here we can just wait for observer there?
-        // Actually, best practice is to observe in onViewCreated. 
-        // Let's add observer to onViewCreated and just trigger here.
     }
-    
+
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null

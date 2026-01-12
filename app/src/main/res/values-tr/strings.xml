@@ -1,0 +1,199 @@
+<resources>
+    <string name="app_name">Supply7</string>
+    <string name="welcome_title">SUPPLY7</string>
+    <string name="sign_up_with_email">E-posta ile kayıt ol</string>
+    <string name="already_have_account">Zaten hesabın var mı?</string>
+    <string name="log_in">Giriş Yap</string>
+    <string name="terms_privacy">Devam ederek Hizmet Şartlarımızı ve Gizlilik Politikamızı kabul etmiş olursunuz.</string>
+    
+    <string name="create_account_title">Hesabını Oluştur</string>
+    <string name="create_account_subtitle">Alışverişe başlamak için hesabını oluştur.</string>
+    <string name="hint_full_name">Ad Soyad</string>
+    <string name="hint_email">Okul E-postan</string>
+    <string name="hint_password">Şifre oluştur</string>
+    <string name="btn_sign_up">Kayıt Ol</string>
+
+    <string name="login_title">Giriş Yap</string>
+    <string name="login_subtitle">Tekrar hoşgeldin! Devam etmek için giriş yap.</string>
+    <string name="title_welcome_back">Tekrar Hoşgeldin!</string>
+    <string name="subtitle_login_desc">Alışverişe devam etmek için giriş yapın.</string>
+    <string name="hint_enter_email">Okul e-postanızı girin</string>
+    <string name="hint_enter_name">Adınızı soyadınızı girin</string>
+    <string name="hint_enter_password">Şifrenizi girin</string>
+    <string name="msg_no_account">Hesabın yok mu? </string>
+    <string name="hint_password_login">Şifre</string>
+    <string name="btn_login">Giriş Yap</string>
+    <string name="forgot_password">Şifremi Unuttum?</string>
+    
+    <string name="nav_home">Ana Sayfa</string>
+    <string name="nav_favorites">Favoriler</string>
+    <string name="nav_add">Ekle</string>
+    <string name="nav_messages">Mesajlar</string>
+    <string name="nav_profile">Profil</string>
+    
+    <string name="search_hint">Ara</string>
+    <string name="no_items_found">Ürün bulunamadı.</string>
+    
+    <string name="label_category">Kategori</string>
+    <string name="label_faculty">Fakülte</string>
+    <string name="label_condition">Durum</string>
+    <string name="label_department">Bölüm</string>
+    <string name="label_brand">Marka</string>
+    <string name="label_color">Renk</string>
+    
+    <string name="btn_cancel">İptal</string>
+    <string name="btn_buy">Satın Al</string>
+    <string name="btn_offer_price">Fiyat teklifi ver</string>
+    <string name="btn_offer_exchange">Takas teklifi ver</string>
+    
+    <string name="settings_title">Ayarlar</string>
+    <string name="settings_account">Hesap</string>
+    <string name="settings_logout">Çıkış Yap</string>
+    <string name="settings_preferences">Tercihler</string>
+    <string name="settings_notifications">Bildirimler</string>
+    <string name="settings_version">Sürüm 1.0.0</string>
+    
+    <string name="label_my_orders">Siparişlerim</string>
+    <string name="label_reviews">Değerlendirmeler</string>
+    <string name="label_my_listings">İlanlarım</string>
+    <string name="edit_profile">Profili Düzenle</string>
+    <string name="btn_edit_profile">Profili Düzenle</string>
+    
+    <string name="tab_my_listings">İlanlarım</string>
+    <string name="tab_my_sales">Satışlarım</string>
+    <string name="tab_my_orders">Siparişlerim</string>
+    <string name="stat_listings">İlanlar</string>
+    <string name="stat_comments">Yorumlar</string>
+    <string name="stat_sales">Satışlar</string>
+    <string name="profile_title_header">Profilim</string>
+    <string name="profile_title_generic">Profil</string>
+    <string name="tab_listings_generic">İlanlar</string>
+    <string name="tab_sales_generic">Satışlar</string>
+
+    <string name="checkout_title">Ödeme</string>
+    <string name="shipping_address">Teslimat Adresi</string>
+    <string name="payment_method">Ödeme Yöntemi</string>
+    <string name="btn_add_new_card">Yeni Kart Ekle</string>
+    <string name="confirm_payment">Ödemeyi Onayla</string>
+    
+    <string name="success_title">Başarılı!</string>
+    <string name="success_message">Siparişiniz başarıyla alındı.</string>
+    <string name="continue_shopping">Alışverişe Devam Et</string>
+    <string name="language">Dil</string>
+
+    <!-- Add Product -->
+    <string name="title_add_product">Ürün Ekle</string>
+    <string name="title_add_photo">Ürün Fotoğrafı Ekle</string>
+    <string name="btn_camera">Kamera</string>
+    <string name="btn_gallery">Galeri</string>
+    <string name="label_product_name">Ürün Adı</string>
+    <string name="hint_product_name">Örn: Mimarlık seti</string>
+    <string name="label_about_product">Ürün Hakkında</string>
+    <string name="hint_about_product">Durumu, markası vb. hakkında bilgi verin.</string>
+    <string name="hint_category_ex">Kırtasiye</string>
+    <string name="hint_department_ex">Elektrik Mühendisliği</string>
+    <string name="hint_faculty_ex">Mimarlık</string>
+    <string name="hint_brand_ex">Faber Castell</string>
+    <string name="hint_color_ex">Karışık</string>
+    <string name="hint_condition_ex">Yeni / Kullanılmış</string>
+    <string name="label_price">Fiyat</string>
+    <string name="btn_publish_item">Ürünü Yayınla</string>
+    <string name="msg_fill_required">Lütfen gerekli alanları doldurun</string>
+    <string name="msg_product_posted">Ürün Yayınlandı!</string>
+    <string name="msg_error_image">Görüntü dosyası oluşturulurken hata</string>
+
+    <!-- Product Detail -->
+    <string name="title_product_details">Ürün Detayları</string>
+    <string name="label_description">Açıklama</string>
+    <string name="btn_make_offer">Teklif Ver</string>
+    <string name="btn_buy_now">Hemen Al</string>
+    <string name="btn_rate_seller">Satıcıyı Değerlendir</string>
+    <string name="btn_delete_product">Ürünü Sil</string>
+    <string name="msg_cannot_buy_own">Kendi ürününü satın alamazsın!</string>
+    <string name="msg_added_to_cart">Sepete Eklendi!</string>
+    <string name="msg_cannot_message_self">Kendine mesaj atamazsın.</string>
+    <string name="msg_review_submitted">Değerlendirme Gönderildi!</string>
+    <string name="dialog_title_delete">Ürünü sil</string>
+    <string name="dialog_msg_delete">Bu ürünü silmek istediğinize emin misiniz?</string>
+    <string name="dialog_yes">Evet</string>
+    <string name="dialog_no">Hayır</string>
+    <string name="dialog_title_offer">Teklif Yap</string>
+    <string name="dialog_msg_offer">%1$s için fiyat teklifinizi girin</string>
+    <string name="hint_offer_amount">Teklif Tutarı (TL)</string>
+    <string name="btn_send_offer">Teklif Gönder</string>
+    <string name="btn_message">Mesaj</string>
+    
+    <!-- Home & Cart -->
+    <string name="msg_favorite_clicked">Favorilere eklendi: %1$s</string>
+    <string name="title_my_cart">Sepetim</string>
+    <string name="msg_cart_empty">Sepetiniz boş</string>
+    <string name="msg_no_favorites">Henüz favori yok.</string>
+    <string name="label_total">Toplam: </string>
+    <string name="btn_proceed_checkout">Ödemeye Geç</string>
+    <string name="msg_order_placed">Sipariş Başarıyla Oluşturuldu!</string>
+    <string name="msg_order_failed">Sipariş Hatası: %1$s</string>
+    <string name="msg_offer_format">Teklif: %2$s için %1$s TL</string>
+    <string name="label_offer_received">TEKLİF ALINDI</string>
+    <string name="label_offer_sent">TEKLİF GÖNDERİLDİ</string>
+    <string name="btn_accept">Kabul Et</string>
+    <string name="btn_decline">Reddet</string>
+    <string name="label_offer_accepted">Teklif Kabul Edildi</string>
+
+    <!-- Settings Headers -->
+    <string name="title_settings">Ayarlar</string>
+    <string name="header_account">Hesap</string>
+    <string name="header_support">Destek &amp; Yasal</string>
+    <string name="header_actions">Hesap İşlemleri</string>
+    <string name="view_profile">Profili Gör</string>
+
+    <string name="hint_search_chat">Sohbetlerde Ara...</string>
+    <string name="filter_all">Tümü</string>
+    <string name="filter_purchases">Alışlar</string>
+    <string name="filter_sales">Satışlar</string>
+    <string name="filter_trades">Takaslar</string>
+
+    <string name="settings_manage_account">Hesabı Yönet</string>
+    <string name="settings_payment_methods">Ödeme Yöntemleri</string>
+    <string name="settings_change_password">Şifre Değiştir</string>
+    <string name="settings_privacy">Gizlilik Ayarları</string>
+    <string name="settings_help">Yardım &amp; Destek</string>
+    <string name="settings_terms">Kullanım Koşulları</string>
+    <string name="settings_privacy_policy">Gizlilik Politikası</string>
+    <string name="title_notifications">Bildirimler</string>
+    <string name="msg_no_notifications">Yeni bildirim yok.</string>
+    <string name="msg_no_orders">Henüz sipariş yok.</string>
+    <string name="btn_back">Geri</string>
+    <string name="settings_download_data">Verilerini indir</string>
+
+    <!-- Common Messages -->
+    <string name="desc_arrow">Ok</string>
+    <string name="label_seller">Satıcı</string>
+    <string name="msg_fill_all_fields">Lütfen tüm alanları doldurun</string>
+    <string name="msg_error_generic">Hata: %1$s</string>
+    <string name="msg_success_generic">Başarılı</string>
+    <string name="msg_update_success">Başarıyla Güncellendi</string>
+    <string name="msg_email_not_found">E-posta bulunamadı</string>
+    <string name="msg_password_mismatch">Şifreler eşleşmiyor</string>
+    <string name="msg_login_success">Giriş Başarılı</string>
+    <string name="msg_register_success">Kayıt Başarılı</string>
+    <string name="msg_password_min_length">Şifre en az 6 karakter olmalı</string>
+    <string name="msg_reset_email_sent">Sıfırlama e-postası gönderildi! Kartınızı kontrol edin.</string>
+    <string name="msg_not_logged_in">Giriş yapılmadı</string>
+    <string name="msg_update_failed">Güncelleme başarısız</string>
+    <string name="msg_error_password_incorrect">Mevcut şifre yanlış</string>
+    <string name="msg_enter_email_first">Lütfen önce e-postanızı girin</string>
+
+    <string name="account_info_format">Hesap Bilgileri:\n\nAd: %1$s\nE-posta: %2$s\nUID: %3$s\n\nİşlemler:\n• Çıkış Yap\n• Hesabı Sil (demo)</string>
+    <string name="btn_delete_account">Hesabı Sil</string>
+    <string name="btn_delete">Sil</string>
+    <string name="dialog_delete_account_title">Hesabı sil?</string>
+    <string name="dialog_delete_account_msg">Bu işlem kullanıcı belgenizi ve hesabınızı silecek. Bu işlem geri alınamaz.</string>
+    <string name="msg_account_deleted">Hesap silindi</string>
+    <string name="msg_delete_failed">Silme başarısız</string>
+    <string name="msg_delete_account_reauth_hint">Eğer \'yeni giriş gerekli\' uyarısı alırsanız, tekrar giriş yapıp deneyin.</string>
+    <string name="msg_logged_out">Çıkış yapıldı</string>
+    <string name="msg_name_required">Görünen Ad gerekli</string>
+    <string name="msg_name_update_failed">Ad güncelleme başarısız</string>
+    <string name="msg_deleted_count">Silindi: %1$d</string>
+    <string name="desc_back">Geri</string>
+</resources>

@@ -33,12 +33,15 @@ class HomeViewModel : ViewModel() {
         minPrice: Double? = null,
         maxPrice: Double? = null,
         category: String? = null,
+        department: String? = null,
+        brand: String? = null,
+        city: String? = null,
         condition: String? = null,
         sortDescending: Boolean = true
     ) {
         _isLoading.value = true
         viewModelScope.launch {
-            val result = repository.searchProducts(query, minPrice, maxPrice, category, condition, sortDescending)
+            val result = repository.searchProducts(query, minPrice, maxPrice, category, department, brand, city, condition, sortDescending)
             if (result.isSuccess) {
                 _products.value = result.getOrNull() ?: emptyList()
             } else {

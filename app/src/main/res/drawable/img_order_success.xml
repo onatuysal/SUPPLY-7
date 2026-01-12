@@ -1,0 +1,52 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+  <!-- Circle Background -->
+  <path
+      android:fillColor="#00000000"
+      android:pathData="M100,100m-90,0a90,90 0,1 1,180 0a90,90 0,1 1,-180 0" />
+      
+  <!-- Box -->
+  <path
+      android:fillColor="#F8BBD0"
+      android:pathData="M50,120 L150,120 L150,170 L50,170 Z" />
+  <path
+      android:fillColor="#EC407A"
+      android:pathData="M50,120 L100,140 L150,120 M50,120 L50,170 M150,120 L150,170 M100,140 L100,190"
+      android:strokeWidth="2"
+      android:strokeColor="#C2185B"/>
+      
+  <!-- Person (Abstract) -->
+  <path
+      android:fillColor="#333333"
+      android:pathData="M100,60 L120,90 L130,120 L70,120 L80,90 Z" />
+      
+  <!-- Head (Circle cx=100 cy=50 r=15 converted to path) -->
+  <path
+      android:fillColor="#333333"
+      android:pathData="M100,35 A15,15 0 1,1 100,65 A15,15 0 1,1 100,35" />
+      
+  <!-- Checkmark Badge Background (Circle cx=100 cy=160 r=30 converted to path) -->
+  <path
+      android:fillColor="#FFFFFF"
+      android:pathData="M100,130 A30,30 0 1,1 100,190 A30,30 0 1,1 100,130" />
+      
+  <!-- Checkmark tick -->
+  <path
+      android:fillColor="#E91E63"
+      android:pathData="M85,160 L95,170 L115,145"
+      android:strokeWidth="5"
+      android:strokeColor="#E91E63"
+      android:strokeLineCap="round"
+      android:strokeLineJoin="round"
+      android:fillType="nonZero"/> 
+      
+   <!-- Checkmark ring -->
+   <path
+       android:pathData="M100,130a30,30 0 1,0 30,30"
+       android:strokeColor="#E91E63"
+       android:strokeWidth="4"
+       android:fillColor="#00000000"/>
+</vector>

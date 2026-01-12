@@ -73,7 +73,7 @@ class AddProductFragment : Fragment(R.layout.fragment_add_product) {
                 selectedImageUri = uri
                 takePicture.launch(uri)
             } else {
-                Toast.makeText(context, "Error creating image file", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.msg_error_image), Toast.LENGTH_SHORT).show()
 
             }
         }
@@ -92,7 +92,7 @@ class AddProductFragment : Fragment(R.layout.fragment_add_product) {
             val condition = bind.editCondition.text.toString()
 
             if (title.isBlank() || priceStr.isBlank()) {
-                Toast.makeText(context, "Please fill required fields", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.msg_fill_required), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -113,7 +113,7 @@ class AddProductFragment : Fragment(R.layout.fragment_add_product) {
 
         viewModel.uploadStatus.observe(viewLifecycleOwner) { result ->
             if (result.isSuccess) {
-                Toast.makeText(context, "Product Posted!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.msg_product_posted), Toast.LENGTH_SHORT).show()
                 parentFragmentManager.popBackStack()
             } else {
                 Toast.makeText(

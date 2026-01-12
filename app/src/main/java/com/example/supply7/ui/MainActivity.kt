@@ -11,6 +11,10 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    override fun attachBaseContext(newBase: android.content.Context) {
+        super.attachBaseContext(com.example.supply7.util.LocaleHelper.onAttach(newBase))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -45,12 +49,21 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (savedInstanceState == null) {
-            // App entry
-            bottomNav.visibility = View.GONE
-
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, WelcomeFragment())
-                .commit()
+            // Check if user is already logged in
+            val currentUser = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser
+            if (currentUser != null) {
+                // User logged in -> Go to Home
+                bottomNav.visibility = View.VISIBLE
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, HomeFragment())
+                    .commit()
+            } else {
+                // Not logged in -> Go to Welcome
+                bottomNav.visibility = View.GONE
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, WelcomeFragment())
+                    .commit()
+            }
         }
     }
 

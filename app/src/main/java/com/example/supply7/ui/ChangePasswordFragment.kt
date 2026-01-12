@@ -25,13 +25,13 @@ class ChangePasswordFragment : Fragment(R.layout.fragment_change_password) {
         binding.btnSave.setOnClickListener {
             val user = auth.currentUser
             if (user == null) {
-                Toast.makeText(requireContext(), "Not logged in", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.msg_not_logged_in), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             val email = user.email
             if (email.isNullOrBlank()) {
-                Toast.makeText(requireContext(), "Email not found", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.msg_email_not_found), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -40,17 +40,17 @@ class ChangePasswordFragment : Fragment(R.layout.fragment_change_password) {
             val confirmPw = binding.edtConfirmPassword.text.toString()
 
             if (currentPw.isBlank() || newPw.isBlank() || confirmPw.isBlank()) {
-                Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.msg_fill_all_fields), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             if (newPw.length < 6) {
-                Toast.makeText(requireContext(), "New password must be at least 6 characters", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.msg_password_min_length), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             if (newPw != confirmPw) {
-                Toast.makeText(requireContext(), "Passwords do not match", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.msg_password_mismatch), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -60,31 +60,33 @@ class ChangePasswordFragment : Fragment(R.layout.fragment_change_password) {
                 .addOnSuccessListener {
                     user.updatePassword(newPw)
                         .addOnSuccessListener {
-                            Toast.makeText(requireContext(), "Password updated", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), getString(R.string.msg_update_success), Toast.LENGTH_SHORT).show()
                             parentFragmentManager.popBackStack()
                         }
                         .addOnFailureListener { e ->
-                            Toast.makeText(requireContext(), e.message ?: "Update failed", Toast.LENGTH_LONG).show()
+                            val fallback = getString(R.string.msg_update_failed)
+                            Toast.makeText(requireContext(), e.message ?: fallback, Toast.LENGTH_LONG).show()
                         }
                 }
                 .addOnFailureListener {
-                    Toast.makeText(requireContext(), "Current password is incorrect", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), getString(R.string.msg_error_password_incorrect), Toast.LENGTH_LONG).show()
                 }
         }
 
         binding.btnSendResetEmail.setOnClickListener {
             val email = auth.currentUser?.email
             if (email.isNullOrBlank()) {
-                Toast.makeText(requireContext(), "Email not found", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.msg_email_not_found), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             auth.sendPasswordResetEmail(email)
                 .addOnSuccessListener {
-                    Toast.makeText(requireContext(), "Reset email sent", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.msg_reset_email_sent), Toast.LENGTH_SHORT).show()
                 }
                 .addOnFailureListener { e ->
-                    Toast.makeText(requireContext(), e.message ?: "Error", Toast.LENGTH_LONG).show()
+                    val fallback = getString(R.string.msg_error_generic, "")
+                    Toast.makeText(requireContext(), e.message ?: fallback, Toast.LENGTH_LONG).show()
                 }
         }
     }

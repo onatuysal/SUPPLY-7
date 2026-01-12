@@ -5,42 +5,148 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@color/background_cream"
+    android:background="@color/white"
     android:padding="32dp">
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/ic_check_circle" 
-        app:tint="@color/success_green"/>
-        <!-- Assuming ic_check_circle exists, else placeholder needed -->
-
-    <TextView
-        android:layout_width="wrap_content"
+    <!-- Header -->
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/success_title"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
+        android:layout_marginBottom="24dp">
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/u_turn_to_l"
+            app:tint="@color/primary_pink"
+            android:layout_alignParentStart="true"/>
+            
+        <TextView
+            android:id="@+id/textDone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Done"
+            android:textColor="@color/primary_pink"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/img_order_success" 
         android:layout_marginTop="24dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/success_message"
-        android:gravity="center"
-        android:textColor="@color/text_light"
-        android:textSize="16sp"
-        android:layout_marginTop="8dp"/>
+        android:text="@string/msg_order_placed"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_dark"
+        android:layout_marginTop="16dp"
+        android:gravity="center"/>
+
+    <!-- Order Summary Card -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        app:cardCornerRadius="20dp"
+        app:strokeColor="@color/text_light_gray"
+        app:strokeWidth="1dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardElevation="0dp">
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp">
+            
+            <ImageView
+                android:id="@+id/imgProduct"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/ic_launcher_foreground"
+                android:scaleType="centerCrop"
+                android:background="@drawable/bg_rounded_input"/>
+                
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="16dp">
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <TextView
+                        android:id="@+id/textTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Product Title"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_dark"
+                        android:textSize="14sp"/>
+                    <TextView
+                        android:id="@+id/textPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="250₺"
+                        android:background="@drawable/bg_rounded_input"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="4dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_dark"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+                
+                <TextView
+                    android:id="@+id/textDimensions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="35x50"
+                    android:textColor="@color/text_light"
+                    android:textSize="12sp"
+                    android:visibility="gone"/>
+                    
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="2"
+                    android:layout_marginTop="8dp">
+                    
+                    <TextView android:text="Category" android:textSize="10sp" android:textColor="@color/text_light"/>
+                    <TextView android:text="Brand" android:textSize="10sp" android:textColor="@color/text_light"/>
+                    
+                    <TextView android:id="@+id/textCategory" android:text="Stationery" android:textSize="12sp" android:textColor="@color/text_dark"/>
+                    <TextView android:id="@+id/textBrand" android:text="Faber Castell" android:textSize="12sp" android:textColor="@color/text_dark"/>
+
+                    <TextView android:text="Faculty" android:textSize="10sp" android:textColor="@color/text_light" android:layout_marginTop="4dp"/>
+                    <TextView android:text="Condition" android:textSize="10sp" android:textColor="@color/text_light" android:layout_marginTop="4dp"/>
+                    
+                    <TextView android:id="@+id/textFaculty" android:text="Art" android:textSize="12sp" android:textColor="@color/text_dark"/>
+                    <TextView android:id="@+id/textCondition" android:text="Underused" android:textSize="12sp" android:textColor="@color/text_dark"/>
+                </GridLayout>
+            </LinearLayout>
+        </LinearLayout>        
+    </com.google.android.material.card.MaterialCardView>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnHome"
+        android:id="@+id/btnCheckOrders"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:text="@string/continue_shopping"
+        android:text="Check Your Orders"
         android:background="@drawable/bg_button_primary"
         android:textColor="@color/white"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="32dp"
         android:textStyle="bold"
         android:textAllCaps="false"/>
 

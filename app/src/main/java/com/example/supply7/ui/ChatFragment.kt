@@ -102,7 +102,7 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
 
         // Auto-send offer if present
         if (offerAmount.isNotBlank() && receiverId.isNotBlank()) {
-            val content = "Offer: $offerAmount TL for $productTitle"
+            val content = getString(R.string.msg_offer_format, offerAmount, productTitle)
             // We need to wait for chatId to be ready if it's new
              if (chatId.isNotBlank()) {
                  viewModel.sendMessage(chatId, content, receiverId, offerAmount, productTitle)

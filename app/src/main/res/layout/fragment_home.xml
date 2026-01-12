@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_cream"
+    android:background="@color/white"
     tools:context=".ui.HomeFragment">
 
     <!-- Header: Search & Icons -->
@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@null"
-                android:hint="Search any item..."
+                android:hint="@string/search_hint"
                 android:textColorHint="@color/text_dark"
                 android:textColor="@color/text_dark"
                 android:textSize="@dimen/text_caption"
@@ -56,6 +56,18 @@
                 android:inputType="text" />
 
         </androidx.cardview.widget.CardView>
+        
+        <!-- Cart Button -->
+        <ImageView
+            android:id="@+id/btnCart"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/bg_button_secondary"
+            android:padding="6dp"
+            android:src="@drawable/ic_shopping_cart"
+            app:tint="@color/primary_pink"
+            android:contentDescription="Cart" />
 
         <!-- Sağdaki bildirim/zil ikonu -->
         <ImageView
@@ -99,7 +111,7 @@
         android:id="@+id/textEmpty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No items found."
+        android:text="@string/no_items_found"
         android:visibility="gone"
         android:textColor="@color/text_light"
         app:layout_constraintBottom_toBottomOf="parent"

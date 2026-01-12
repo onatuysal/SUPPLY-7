@@ -25,7 +25,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
             val password = bind.editPassword.text.toString()
             
             if (name.isBlank() || email.isBlank() || password.isBlank()) {
-                Toast.makeText(context, "Please fill all fields", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.msg_fill_all_fields), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             
@@ -56,7 +56,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
 
         viewModel.user.observe(viewLifecycleOwner) { user ->
             if (user != null) {
-                Toast.makeText(requireContext(), "Registration Successful", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.msg_register_success), Toast.LENGTH_SHORT).show()
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, HomeFragment())
                     .commit()

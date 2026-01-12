@@ -55,6 +55,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
                 bind.textTitle.text = p.title
                 bind.textPrice.text = "₺${p.price}"
                 bind.textDescription.text = p.description
+                bind.textSellerName.text = p.sellerName.ifBlank { "Unknown Seller" }
 
                 // FOTOĞRAF
                 if (p.imageUrl.isNotBlank()) {
@@ -62,6 +63,14 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
                         .load(p.imageUrl)
                         .centerCrop()
                         .into(bind.imageProduct)
+                }
+                
+                // Navigate to Seller Profile
+                bind.textViewProfile.setOnClickListener {
+                     parentFragmentManager.beginTransaction()
+                         .replace(R.id.fragment_container, ProfileFragment.newInstance(p.sellerId, p.sellerName))
+                         .addToBackStack(null)
+                         .commit()
                 }
 
                 // Detaylar
@@ -84,12 +93,12 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
 
                     bind.btnDeleteProduct.setOnClickListener {
                         android.app.AlertDialog.Builder(requireContext())
-                            .setTitle("Delete product")
-                            .setMessage("Are you sure you want to delete this product?")
-                            .setPositiveButton("Yes") { _, _ ->
+                            .setTitle(getString(R.string.dialog_title_delete))
+                            .setMessage(getString(R.string.dialog_msg_delete))
+                            .setPositiveButton(getString(R.string.dialog_yes)) { _, _ ->
                                 deleteProductFromFirebase(p)
                             }
-                            .setNegativeButton("No", null)
+                            .setNegativeButton(getString(R.string.dialog_no), null)
                             .show()
                     }
                 } else {
@@ -103,14 +112,14 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
                 product?.let { p ->
                     val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
                     if (currentUserId != null && p.sellerId == currentUserId) {
-                        Toast.makeText(context, "You cannot buy your own product!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, getString(R.string.msg_cannot_buy_own), Toast.LENGTH_SHORT).show()
                         return@setOnClickListener
                     }
 
                     val cartViewModel =
                         androidx.lifecycle.ViewModelProvider(this)[com.example.supply7.viewmodel.CartViewModel::class.java]
                     cartViewModel.addToCart(p)
-                    Toast.makeText(context, "Added to Cart!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, getString(R.string.msg_added_to_cart), Toast.LENGTH_SHORT).show()
 
                     parentFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, CartFragment())
@@ -120,7 +129,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
             }
 
             // RATE SELLER
-            bind.btnExchangeOffer.text = "Rate Seller"
+            bind.btnExchangeOffer.text = getString(R.string.btn_rate_seller)
             bind.btnExchangeOffer.setOnClickListener {
                 product?.let { p ->
                     val dialogView =
@@ -131,15 +140,15 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
                     android.app.AlertDialog.Builder(context)
                         .setTitle("Rate ${p.sellerName}")
                         .setView(dialogView)
-                        .setPositiveButton("Submit") { _, _ ->
+                        .setPositiveButton(getString(R.string.btn_publish_item)) { _, _ ->
                             val rating = ratingBar.rating
                             val comment = input.text.toString()
                             val reviewsViewModel =
                                 androidx.lifecycle.ViewModelProvider(this)[com.example.supply7.viewmodel.ReviewsViewModel::class.java]
                             reviewsViewModel.submitReview(p.sellerId, rating, comment, "Me")
-                            Toast.makeText(context, "Review Submitted!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, getString(R.string.msg_review_submitted), Toast.LENGTH_SHORT).show()
                         }
-                        .setNegativeButton("Cancel", null)
+                        .setNegativeButton(getString(R.string.btn_cancel), null)
                         .show()
                 }
             }
@@ -149,7 +158,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
                 product?.let { p ->
                     val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
                     if (currentUserId != null && p.sellerId == currentUserId) {
-                        Toast.makeText(context, "You cannot message yourself.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, getString(R.string.msg_cannot_message_self), Toast.LENGTH_SHORT).show()
                         return@setOnClickListener
                     }
 
@@ -174,7 +183,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
                 product?.let { p ->
                     val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
                     if (currentUserId != null && p.sellerId == currentUserId) {
-                        Toast.makeText(context, "You cannot offer on your own product.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, getString(R.string.msg_cannot_buy_own), Toast.LENGTH_SHORT).show()
                         return@setOnClickListener
                     }
 
@@ -182,12 +191,12 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
                     val input = android.widget.EditText(context)
                     input.inputType =
                         android.text.InputType.TYPE_CLASS_NUMBER or android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
-                    input.hint = "Offer Amount (TL)"
+                    input.hint = getString(R.string.hint_offer_amount)
                     dialog.setView(input)
-                    dialog.setTitle("Make an Offer")
-                    dialog.setMessage("Enter your price offer for ${p.title}")
+                    dialog.setTitle(getString(R.string.dialog_title_offer))
+                    dialog.setMessage(getString(R.string.dialog_msg_offer, p.title))
 
-                    dialog.setPositiveButton("Send Offer") { _, _ ->
+                    dialog.setPositiveButton(getString(R.string.btn_send_offer)) { _, _ ->
                         val amount = input.text.toString().trim()
                         if (amount.isNotBlank()) {
                             parentFragmentManager.beginTransaction()
@@ -205,7 +214,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
                                 .commit()
                         }
                     }
-                    dialog.setNegativeButton("Cancel", null)
+                    dialog.setNegativeButton(getString(R.string.btn_cancel), null)
                     dialog.show()
                 }
             }

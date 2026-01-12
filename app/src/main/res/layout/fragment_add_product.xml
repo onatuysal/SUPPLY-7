@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_cream"
+    android:background="@color/white"
     android:padding="16dp">
 
     <!-- Header -->
@@ -35,7 +35,7 @@
             android:id="@+id/textHeaderTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Product"
+            android:text="@string/title_add_product"
             android:textSize="@dimen/text_subheading"
             android:textStyle="bold"
             android:textColor="@color/black"
@@ -48,7 +48,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add Photo of the Product"
+            android:text="@string/title_add_photo"
             android:textColor="@color/text_dark"
             android:textStyle="bold"
             android:layout_marginBottom="8dp"/>
@@ -64,7 +64,7 @@
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:text="Camera"
+                android:text="@string/btn_camera"
                 android:background="@drawable/bg_button_secondary"
                 android:textColor="@color/text_dark"
                 android:textAllCaps="false"
@@ -75,7 +75,7 @@
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:text="Gallery"
+                android:text="@string/btn_gallery"
                 android:background="@drawable/bg_button_secondary"
                 android:textColor="@color/text_dark"
                 android:textAllCaps="false"
@@ -94,14 +94,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Product Name"
+            android:text="@string/label_product_name"
             android:textColor="@color/text_light"
             android:layout_marginBottom="4dp"/>
         <EditText
             android:id="@+id/editTextTitle"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Exp: Architecture set"
+            android:hint="@string/hint_product_name"
             android:background="@drawable/bg_rounded_input"
             android:paddingHorizontal="16dp"
             android:layout_marginBottom="16dp"/>
@@ -110,7 +110,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="About Product"
+            android:text="@string/label_about_product"
              android:textColor="@color/text_light"
             android:layout_marginBottom="4dp"/>
         <EditText
@@ -118,7 +118,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:gravity="top|start"
-            android:hint="Give info about condition, brand etc."
+            android:hint="@string/hint_about_product"
             android:background="@drawable/bg_rounded_input"
             android:padding="16dp"
             android:layout_marginBottom="16dp"/>
@@ -127,14 +127,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Category"
+            android:text="@string/label_category"
              android:textColor="@color/text_light"
             android:layout_marginBottom="4dp"/>
         <EditText
             android:id="@+id/editCategory"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Stationery"
+            android:hint="@string/hint_category_ex"
             android:background="@drawable/bg_rounded_input"
             android:paddingHorizontal="16dp"
             android:layout_marginBottom="16dp"/>
@@ -143,14 +143,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Department"
+            android:text="@string/label_department"
              android:textColor="@color/text_light"
             android:layout_marginBottom="4dp"/>
         <EditText
             android:id="@+id/editDepartment"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Electrical Engineering"
+            android:hint="@string/hint_department_ex"
             android:background="@drawable/bg_rounded_input"
             android:paddingHorizontal="16dp"
             android:layout_marginBottom="16dp"/>
@@ -159,14 +159,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Faculty"
+            android:text="@string/label_faculty"
              android:textColor="@color/text_light"
             android:layout_marginBottom="4dp"/>
         <EditText
             android:id="@+id/editFaculty"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Architecture"
+            android:hint="@string/hint_faculty_ex"
             android:background="@drawable/bg_rounded_input"
             android:paddingHorizontal="16dp"
             android:layout_marginBottom="16dp"/>
@@ -175,14 +175,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Brand"
+            android:text="@string/label_brand"
              android:textColor="@color/text_light"
             android:layout_marginBottom="4dp"/>
         <EditText
             android:id="@+id/editBrand"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Faber Castell"
+            android:hint="@string/hint_brand_ex"
             android:background="@drawable/bg_rounded_input"
             android:paddingHorizontal="16dp"
             android:layout_marginBottom="16dp"/>
@@ -191,14 +191,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Color"
+            android:text="@string/label_color"
              android:textColor="@color/text_light"
             android:layout_marginBottom="4dp"/>
         <EditText
             android:id="@+id/editColor"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Mixed"
+            android:hint="@string/hint_color_ex"
             android:background="@drawable/bg_rounded_input"
             android:paddingHorizontal="16dp"
             android:layout_marginBottom="16dp"/>
@@ -207,14 +207,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Condition"
+            android:text="@string/label_condition"
              android:textColor="@color/text_light"
             android:layout_marginBottom="4dp"/>
         <EditText
             android:id="@+id/editCondition"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="New / Used"
+            android:hint="@string/hint_condition_ex"
             android:background="@drawable/bg_rounded_input"
             android:paddingHorizontal="16dp"
             android:layout_marginBottom="16dp"/>
@@ -241,7 +241,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:background="@drawable/bg_button_primary"
-            android:text="Publish My Item"
+            android:text="@string/btn_publish_item"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="16sp"

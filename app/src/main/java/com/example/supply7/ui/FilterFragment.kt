@@ -39,6 +39,35 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
             binding.textMaxPrice.text = "₺${values[1].toInt()}"
         }
 
+        // Selection Logic Variables
+        var selectedDepartment = "All"
+        var selectedBrand = "All"
+        var selectedCity = "All"
+
+        binding.textDepartment.setOnClickListener {
+            val items = arrayOf("All", "Engineering", "Architecture", "Medicine", "Arts", "Business")
+            showSelectionDialog("Select Department", items) { selected ->
+                selectedDepartment = selected
+                binding.textDepartment.text = "Department: $selected"
+            }
+        }
+
+        binding.textBrand.setOnClickListener {
+            val items = arrayOf("All", "Apple", "Samsung", "Nike", "Adidas", "Sony", "Zara")
+            showSelectionDialog("Select Brand", items) { selected ->
+                selectedBrand = selected
+                binding.textBrand.text = "Brand: $selected"
+            }
+        }
+
+        binding.textCity.setOnClickListener {
+            val items = arrayOf("All", "Istanbul", "Ankara", "Izmir", "Bursa", "Antalya")
+            showSelectionDialog("Select City", items) { selected ->
+                selectedCity = selected
+                binding.textCity.text = "City: $selected"
+            }
+        }
+
         // Apply Filters butonu
         binding.btnApplyFilters.setOnClickListener {
             val minPrice = binding.sliderPrice.values[0].toDouble()
@@ -52,16 +81,27 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
                 else -> null
             }
 
-            // İleride kategori / fakülte vs eklersek buraya da koyarız
             val bundle = Bundle().apply {
                 putDouble("minPrice", minPrice)
                 putDouble("maxPrice", maxPrice)
                 putString("condition", condition)
+                putString("department", if (selectedDepartment != "All") selectedDepartment else null)
+                putString("brand", if (selectedBrand != "All") selectedBrand else null)
+                putString("city", if (selectedCity != "All") selectedCity else null)
             }
 
             parentFragmentManager.setFragmentResult("requestKeyFilters", bundle)
             parentFragmentManager.popBackStack()
         }
+    }
+
+    private fun showSelectionDialog(title: String, items: Array<String>, onSelected: (String) -> Unit) {
+        android.app.AlertDialog.Builder(requireContext())
+            .setTitle(title)
+            .setItems(items) { _, which ->
+                onSelected(items[which])
+            }
+            .show()
     }
 }
 

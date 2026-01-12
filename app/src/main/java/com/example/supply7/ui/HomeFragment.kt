@@ -45,7 +45,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     .commit()
             },
             onFavoriteClick = { product ->
-                Toast.makeText(requireContext(), "Favorite clicked: ${product.title}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.msg_favorite_clicked, product.title), Toast.LENGTH_SHORT).show()
                 favoritesViewModel.toggleFavorite(product)
             }
         )
@@ -73,6 +73,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         })
 
         // Butonlar
+        bind.btnCart.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, CartFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
         bind.btnNotification.setOnClickListener {
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, NotificationsFragment())
@@ -94,13 +101,19 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             val minPrice = bundle.getDouble("minPrice")
             val maxPrice = bundle.getDouble("maxPrice")
             val condition = bundle.getString("condition")
+            val department = bundle.getString("department")
+            val brand = bundle.getString("brand")
+            val city = bundle.getString("city")
 
             val query = bind.editSearch.text.toString()
             homeViewModel.searchProducts(
                 query = query,
                 minPrice = minPrice,
                 maxPrice = maxPrice,
-                condition = condition
+                condition = condition,
+                department = department,
+                brand = brand,
+                city = city
             )
         }
 

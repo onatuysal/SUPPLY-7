@@ -1,6 +1,7 @@
 package com.example.supply7.data
 
 import com.google.firebase.firestore.DocumentId
+import java.io.Serializable
 
 data class CartItem(
     @DocumentId
@@ -11,4 +12,4 @@ data class CartItem(
     val imageUrl: String = "",
     val quantity: Int = 1,
     val sellerId: String = ""
-)
+) : Serializable

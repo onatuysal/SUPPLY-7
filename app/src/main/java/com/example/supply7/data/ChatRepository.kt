@@ -35,6 +35,9 @@ class ChatRepository {
                 lastMessageTimestamp = System.currentTimeMillis()
             )
             chatRef.set(chat).await()
+        } else {
+             // Ensure participants are correct (fix for visibility)
+             chatRef.update("participants", participants).await()
         }
         return chatId
     }

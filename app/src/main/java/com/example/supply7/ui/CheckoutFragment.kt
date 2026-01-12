@@ -24,6 +24,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
     private var selectedCard: Card? = null
 
     private var currentCartItems: List<com.example.supply7.data.CartItem> = emptyList()
+    private var isDirectPurchase = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -93,15 +94,32 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
              showAddCardDialog()
         }
 
-        // 3. Totals
-        cartViewModel.loadCart()
-        cartViewModel.cartItems.observe(viewLifecycleOwner) { items ->
-            currentCartItems = items // Capture items
-            val total = items.sumOf { it.price * it.quantity }
+        // 3. Totals - Check arguments first for direct purchase
+        @Suppress("UNCHECKED_CAST")
+        val directItems = arguments?.getSerializable("items") as? ArrayList<com.example.supply7.data.CartItem>
+        
+        if (directItems != null && directItems.isNotEmpty()) {
+            // Direct purchase from offer
+            isDirectPurchase = true
+            currentCartItems = directItems
+            val total = directItems.sumOf { it.price * it.quantity }
             bind.textTotalPrice.text = "₺$total"
-
+            
             bind.btnConfirmPayment.setOnClickListener {
                 processCheckout(total)
+            }
+        } else {
+            // Normal cart checkout
+            isDirectPurchase = false
+            cartViewModel.loadCart()
+            cartViewModel.cartItems.observe(viewLifecycleOwner) { items ->
+                currentCartItems = items
+                val total = items.sumOf { it.price * it.quantity }
+                bind.textTotalPrice.text = "₺$total"
+
+                bind.btnConfirmPayment.setOnClickListener {
+                    processCheckout(total)
+                }
             }
         }
         
@@ -163,7 +181,49 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
             zip = "00000"
         )
 
-        cartViewModel.checkout(shippingAddress)
+        if (isDirectPurchase) {
+            // Direct purchase - create order manually
+            createOrderDirectly(shippingAddress)
+        } else {
+            // Normal cart flow
+            cartViewModel.checkout(shippingAddress)
+        }
+    }
+
+    private fun createOrderDirectly(shippingAddress: Address) {
+        val currentUser = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser
+        if (currentUser == null) {
+            Toast.makeText(context, "Not logged in", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val order = com.example.supply7.data.Order(
+            id = "",
+            userId = currentUser.uid,
+            items = currentCartItems,
+            totalAmount = currentCartItems.sumOf { it.price * it.quantity },
+            status = "pending",
+            timestamp = System.currentTimeMillis(),
+            shippingAddress = shippingAddress
+        )
+
+        val db = com.google.firebase.firestore.FirebaseFirestore.getInstance()
+        db.collection("orders")
+            .add(order)
+            .addOnSuccessListener {
+                // Navigate to success
+                val fragment = SuccessFragment()
+                val args = Bundle()
+                args.putSerializable("items", ArrayList(currentCartItems))
+                fragment.arguments = args
+
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .commit()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(context, "Checkout Failed: ${e.message}", Toast.LENGTH_LONG).show()
+            }
     }
 
     override fun onDestroyView() {

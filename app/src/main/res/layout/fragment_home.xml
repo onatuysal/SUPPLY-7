@@ -18,17 +18,6 @@
         android:clipToPadding="false"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Soldaki filtre butonu -->
-        <ImageView
-            android:id="@+id/btnFilter"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:padding="4dp"
-            android:background="@drawable/bg_button_secondary"
-            android:src="@drawable/ic_filter_list_24"
-            app:tint="@color/primary_pink"
-            android:contentDescription="Filter" />
-
         <!-- Search Bar -->
         <androidx.cardview.widget.CardView
             android:layout_width="0dp"

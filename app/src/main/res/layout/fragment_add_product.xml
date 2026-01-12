@@ -102,6 +102,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="@string/hint_product_name"
+            android:textColor="@color/text_dark"
+            android:textColorHint="@color/text_light"
             android:background="@drawable/bg_rounded_input"
             android:paddingHorizontal="16dp"
             android:layout_marginBottom="16dp"/>
@@ -119,6 +121,8 @@
             android:layout_height="100dp"
             android:gravity="top|start"
             android:hint="@string/hint_about_product"
+            android:textColor="@color/text_dark"
+            android:textColorHint="@color/text_light"
             android:background="@drawable/bg_rounded_input"
             android:padding="16dp"
             android:layout_marginBottom="16dp"/>
@@ -135,6 +139,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="@string/hint_category_ex"
+            android:textColor="@color/text_dark"
+            android:textColorHint="@color/text_light"
             android:background="@drawable/bg_rounded_input"
             android:paddingHorizontal="16dp"
             android:layout_marginBottom="16dp"/>
@@ -151,6 +157,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="@string/hint_department_ex"
+            android:textColor="@color/text_dark"
+            android:textColorHint="@color/text_light"
             android:background="@drawable/bg_rounded_input"
             android:paddingHorizontal="16dp"
             android:layout_marginBottom="16dp"/>
@@ -167,6 +175,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="@string/hint_faculty_ex"
+            android:textColor="@color/text_dark"
+            android:textColorHint="@color/text_light"
             android:background="@drawable/bg_rounded_input"
             android:paddingHorizontal="16dp"
             android:layout_marginBottom="16dp"/>
@@ -183,6 +193,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="@string/hint_brand_ex"
+            android:textColor="@color/text_dark"
+            android:textColorHint="@color/text_light"
             android:background="@drawable/bg_rounded_input"
             android:paddingHorizontal="16dp"
             android:layout_marginBottom="16dp"/>
@@ -199,6 +211,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="@string/hint_color_ex"
+            android:textColor="@color/text_dark"
+            android:textColorHint="@color/text_light"
             android:background="@drawable/bg_rounded_input"
             android:paddingHorizontal="16dp"
             android:layout_marginBottom="16dp"/>
@@ -215,6 +229,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="@string/hint_condition_ex"
+            android:textColor="@color/text_dark"
+            android:textColorHint="@color/text_light"
             android:background="@drawable/bg_rounded_input"
             android:paddingHorizontal="16dp"
             android:layout_marginBottom="16dp"/>
@@ -232,6 +248,8 @@
             android:layout_height="50dp"
             android:hint="0.00"
             android:inputType="numberDecimal"
+            android:textColor="@color/text_dark"
+            android:textColorHint="@color/text_light"
             android:background="@drawable/bg_rounded_input"
             android:paddingHorizontal="16dp"
             android:layout_marginBottom="24dp"/>

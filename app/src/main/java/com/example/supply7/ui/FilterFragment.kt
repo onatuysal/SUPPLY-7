@@ -60,8 +60,12 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
 
         // Apply Filters butonu
         binding.btnApplyFilters.setOnClickListener {
-            val minPrice = binding.sliderPrice.values[0].toDouble()
-            val maxPrice = binding.sliderPrice.values[1].toDouble()
+            val minPriceValue = binding.sliderPrice.values[0].toDouble()
+            val maxPriceValue = binding.sliderPrice.values[1].toDouble()
+            
+            // Only send price if it's not the default range (0-1000)
+            val minPrice = if (minPriceValue > 0.0) minPriceValue else null
+            val maxPrice = if (maxPriceValue < 1000.0) maxPriceValue else null
 
             val selectedConditionId = binding.radioGroupCondition.checkedRadioButtonId
             val condition = when (selectedConditionId) {
@@ -72,11 +76,13 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
             }
 
             val bundle = Bundle().apply {
-                putDouble("minPrice", minPrice)
-                putDouble("maxPrice", maxPrice)
+                if (minPrice != null) putDouble("minPrice", minPrice)
+                if (maxPrice != null) putDouble("maxPrice", maxPrice)
                 putString("condition", condition)
                 putString("department", if (selectedDepartment != getString(R.string.filter_all)) selectedDepartment else null)
             }
+            
+            android.util.Log.d("FilterFragment", "Applying filters: minPrice=$minPrice, maxPrice=$maxPrice, condition=$condition, department=$selectedDepartment")
 
             parentFragmentManager.setFragmentResult("requestKeyFilters", bundle)
             parentFragmentManager.popBackStack()

@@ -28,24 +28,17 @@ class HomeViewModel : ViewModel() {
         searchProducts("")
     }
 
-    fun searchProducts(
-        query: String = "",
-        minPrice: Double? = null,
-        maxPrice: Double? = null,
-        category: String? = null,
-        department: String? = null,
-        brand: String? = null,
-        city: String? = null,
-        condition: String? = null,
-        sortDescending: Boolean = true
-    ) {
+    fun searchProducts(query: String = "") {
         _isLoading.value = true
+        android.util.Log.d("HomeViewModel", "searchProducts called: query=$query")
         viewModelScope.launch {
-            val result = repository.searchProducts(query, minPrice, maxPrice, category, department, brand, city, condition, sortDescending)
+            val result = repository.searchProducts(query)
             if (result.isSuccess) {
                 _products.value = result.getOrNull() ?: emptyList()
+                android.util.Log.d("HomeViewModel", "Products loaded: ${_products.value?.size} items")
             } else {
                 _error.value = result.exceptionOrNull()?.message
+                android.util.Log.e("HomeViewModel", "Error loading products", result.exceptionOrNull())
             }
             _isLoading.value = false
         }

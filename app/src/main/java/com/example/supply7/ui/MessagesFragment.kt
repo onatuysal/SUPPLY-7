@@ -74,16 +74,6 @@ class MessagesFragment : Fragment(R.layout.fragment_messages) {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
-        // Tabs (UI only)
-        updateTabs(bind, "All")
-        bind.tabAll.setOnClickListener {
-            updateTabs(bind, "All")
-            viewModel.filterChats("")
-        }
-        bind.tabPurchases.setOnClickListener { updateTabs(bind, "Purchases") }
-        bind.tabSales.setOnClickListener { updateTabs(bind, "Sales") }
-        bind.tabTrades.setOnClickListener { updateTabs(bind, "Trades") }
-
         updateTrashState()
 
         // ✅ DELETE: UI'dan anında kaldır + Firestore'dan sil
@@ -120,19 +110,7 @@ class MessagesFragment : Fragment(R.layout.fragment_messages) {
         bind.btnDelete.alpha = if (enabled) 1f else 0.35f
     }
 
-    private fun updateTabs(bind: FragmentMessagesBinding, selected: String) {
-        val selectedBg = R.drawable.bg_tab_selected
-        val unselectedBg = R.drawable.bg_tab_unselected
 
-        fun setTab(view: android.widget.TextView, isSelected: Boolean) {
-            view.setBackgroundResource(if (isSelected) selectedBg else unselectedBg)
-        }
-
-        setTab(bind.tabAll, selected == "All")
-        setTab(bind.tabPurchases, selected == "Purchases")
-        setTab(bind.tabSales, selected == "Sales")
-        setTab(bind.tabTrades, selected == "Trades")
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -87,31 +87,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 .commit()
         }
 
-        bind.btnFilter.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, FilterFragment())
-                .addToBackStack(null)
-                .commit()
-        }
 
-        parentFragmentManager.setFragmentResultListener(
-            "requestKeyFilters",
-            viewLifecycleOwner
-        ) { _, bundle ->
-            val minPrice = bundle.getDouble("minPrice")
-            val maxPrice = bundle.getDouble("maxPrice")
-            val condition = bundle.getString("condition")
-            val department = bundle.getString("department")
-
-            val query = bind.editSearch.text.toString()
-            homeViewModel.searchProducts(
-                query = query,
-                minPrice = minPrice,
-                maxPrice = maxPrice,
-                condition = condition,
-                department = department
-            )
-        }
 
         // Ürün listesi
         homeViewModel.products.observe(viewLifecycleOwner) { products ->

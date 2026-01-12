@@ -74,7 +74,8 @@ class ChatRepository {
             batch.update(db.collection("chats").document(chatId), 
                 mapOf(
                     "lastMessage" to if (type == "offer") "Offer: $content" else content,
-                    "lastMessageTimestamp" to message.timestamp
+                    "lastMessageTimestamp" to message.timestamp,
+                    "participants" to listOf(uid, receiverId).sorted()
                 )
             )
             

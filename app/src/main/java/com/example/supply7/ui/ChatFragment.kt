@@ -170,6 +170,19 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
             }
         }
 
+        viewModel.fetchedOtherUserName.observe(viewLifecycleOwner) { name ->
+             if (otherUserName == "Chat" || otherUserName.isBlank()) {
+                 otherUserName = name
+                 bind.textNameHeader.text = name
+             }
+        }
+
+        viewModel.fetchedReceiverId.observe(viewLifecycleOwner) { id ->
+             if (receiverId.isBlank()) {
+                 receiverId = id
+             }
+        }
+
         bind.btnSend.setOnClickListener {
              sendMessage(bind)
         }

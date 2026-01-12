@@ -99,8 +99,37 @@ class ChatViewModel : ViewModel() {
         }
     }
 
+    private val _fetchedOtherUserName = MutableLiveData<String>()
+    val fetchedOtherUserName: LiveData<String> = _fetchedOtherUserName
+
+    private val _fetchedReceiverId = MutableLiveData<String>()
+    val fetchedReceiverId: LiveData<String> = _fetchedReceiverId
+
     fun loadMessages(chatId: String) {
         messagesListener?.remove()
+        
+        // Also fetch Chat details to identify other user
+        viewModelScope.launch {
+            try {
+                val chatDoc = FirebaseFirestore.getInstance().collection("chats").document(chatId).get().await()
+                val chat = chatDoc.toObject(Chat::class.java)
+                if (chat != null && repository.currentUserId != null) {
+                    val otherId = chat.participants.firstOrNull { it != repository.currentUserId } ?: ""
+                    if (otherId.isNotBlank()) {
+                         _fetchedReceiverId.value = otherId
+                         // Try fetch name
+                         val userDoc = FirebaseFirestore.getInstance().collection("users").document(otherId).get().await()
+                         val name = userDoc.getString("displayName")
+                         if (!name.isNullOrBlank()) {
+                             _fetchedOtherUserName.value = name
+                         }
+                    }
+                }
+            } catch (e: Exception) {
+               // ignore
+            }
+        }
+
         val query = repository.getMessagesQuery(chatId)
         messagesListener = query.addSnapshotListener { value, error ->
             if (error != null) return@addSnapshotListener

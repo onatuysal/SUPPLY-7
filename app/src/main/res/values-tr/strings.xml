@@ -147,7 +147,7 @@
     <string name="view_profile">Profili Gör</string>
 
     <string name="hint_search_chat">Sohbetlerde Ara...</string>
-    <string name="filter_all">Tümü</string>
+
     <string name="filter_purchases">Alışlar</string>
     <string name="filter_sales">Satışlar</string>
     <string name="filter_trades">Takaslar</string>

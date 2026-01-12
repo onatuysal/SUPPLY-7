@@ -199,4 +199,21 @@
     <string name="msg_name_required">Display Name required</string>
     <string name="msg_name_update_failed">Name update failed</string>
     <string name="msg_deleted_count">Deleted: %1$d</string>
+    <!-- Filter Screen -->
+    <string name="filter_title">Filters</string>
+    <string name="filter_price_range">Price Range</string>
+    <string name="filter_condition">Condition</string>
+    <string name="filter_condition_new">New</string>
+    <string name="filter_condition_like_new">Like-New</string>
+    <string name="filter_condition_used">Used</string>
+    <string name="filter_department">Department: All</string>
+    <string name="filter_brand">Brand: All</string>
+    <string name="filter_city">City: All</string>
+    <string name="filter_select_department">Select Department</string>
+    <string name="filter_select_brand">Select Brand</string>
+    <string name="filter_select_city">Select City</string>
+    <string name="btn_reset_filters">Reset</string>
+    <string name="btn_apply_filters">Apply Filters</string>
+    <string name="filter_discounted">Discounted Items</string>
+    <string name="filter_top_seller">Top Sellers</string>
 </resources>

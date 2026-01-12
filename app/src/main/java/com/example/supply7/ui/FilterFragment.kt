@@ -41,7 +41,6 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
 
         // Selection Logic Variables
         var selectedDepartment = "All"
-        var selectedBrand = "All"
 
         binding.textDepartment.setOnClickListener {
             val items = arrayOf(
@@ -50,27 +49,12 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
                 "Mimarlık",
                 "Tıp",
                 "Sanat",
-                "İşletme"
+                "İşletme",
+                "Diğer"
             )
             showSelectionDialog(getString(R.string.filter_select_department), items) { selected ->
                 selectedDepartment = selected
                 binding.textDepartment.text = "${getString(R.string.label_department)}: $selected"
-            }
-        }
-
-        binding.textBrand.setOnClickListener {
-            val items = arrayOf(
-                getString(R.string.filter_all),
-                "Apple",
-                "Samsung",
-                "Nike",
-                "Adidas",
-                "Sony",
-                "Zara"
-            )
-            showSelectionDialog(getString(R.string.filter_select_brand), items) { selected ->
-                selectedBrand = selected
-                binding.textBrand.text = "${getString(R.string.label_brand)}: $selected"
             }
         }
 
@@ -92,7 +76,6 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
                 putDouble("maxPrice", maxPrice)
                 putString("condition", condition)
                 putString("department", if (selectedDepartment != getString(R.string.filter_all)) selectedDepartment else null)
-                putString("brand", if (selectedBrand != getString(R.string.filter_all)) selectedBrand else null)
             }
 
             parentFragmentManager.setFragmentResult("requestKeyFilters", bundle)

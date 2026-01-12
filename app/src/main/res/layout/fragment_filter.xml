@@ -23,7 +23,7 @@
         android:id="@+id/textFiltersTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Filters"
+        android:text="@string/filter_title"
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="@color/text_dark"
@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="Reset"
+        android:text="@string/btn_reset_filters"
         android:textColor="@color/primary_pink"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/btnBack"
@@ -66,58 +66,23 @@
                 android:id="@+id/textDepartment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Department: All"
+                android:text="@string/filter_department"
                 android:textColor="@color/text_dark"
                 android:background="?attr/selectableItemBackground"
                 android:paddingVertical="12dp"
                 android:drawableEnd="@drawable/ic_arrow_drop_down"
                 android:drawableTint="@color/text_light" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#EEE" />
 
-            <!-- Brand -->
-            <TextView
-                android:id="@+id/textBrand"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Brand: All"
-                android:textColor="@color/text_dark"
-                android:background="?attr/selectableItemBackground"
-                android:paddingVertical="12dp"
-                android:drawableEnd="@drawable/ic_arrow_drop_down"
-                android:drawableTint="@color/text_light" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#EEE" />
 
-            <!-- City -->
-            <TextView
-                android:id="@+id/textCity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="City: All"
-                android:textColor="@color/text_dark"
-                android:background="?attr/selectableItemBackground"
-                android:paddingVertical="12dp"
-                android:drawableEnd="@drawable/ic_arrow_drop_down"
-                android:drawableTint="@color/text_light" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#EEE" />
 
             <!-- Item Condition -->
             <TextView
                 android:id="@+id/textItemCondition"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Item Condition"
+                android:text="@string/filter_condition"
                 android:textColor="@color/text_dark"
                 android:paddingTop="12dp"
                 android:paddingBottom="8dp" />
@@ -131,21 +96,21 @@
                     android:id="@+id/radioNew"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="New"
+                    android:text="@string/filter_condition_new"
                     android:buttonTint="@color/primary_pink" />
 
                 <RadioButton
                     android:id="@+id/radioLikeNew"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Like-New"
+                    android:text="@string/filter_condition_like_new"
                     android:buttonTint="@color/primary_pink" />
 
                 <RadioButton
                     android:id="@+id/radioUsed"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Used-Good"
+                    android:text="@string/filter_condition_used"
                     android:buttonTint="@color/primary_pink" />
             </RadioGroup>
 
@@ -160,7 +125,7 @@
                 android:id="@+id/textPriceRange"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Price Range"
+                android:text="@string/filter_price_range"
                 android:textColor="@color/text_dark"
                 android:paddingTop="12dp" />
 
@@ -205,7 +170,7 @@
                 android:id="@+id/switchDiscounted"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Discounted Products"
+                android:text="@string/filter_discounted"
                 android:textColor="@color/text_dark"
                 android:layout_marginTop="12dp"
                 app:thumbTint="@color/primary_pink"
@@ -215,7 +180,7 @@
                 android:id="@+id/switchTopSeller"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="4 Star And Above Sellers"
+                android:text="@string/filter_top_seller"
                 android:textColor="@color/text_dark"
                 android:layout_marginTop="8dp"
                 app:thumbTint="@color/primary_pink"
@@ -229,7 +194,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_margin="16dp"
-        android:text="Apply Filters (3)"
+        android:text="@string/btn_apply_filters"
         android:background="@drawable/bg_button_primary"
         android:textColor="@color/white"
         android:textAllCaps="false"

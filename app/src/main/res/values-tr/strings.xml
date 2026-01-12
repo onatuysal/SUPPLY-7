@@ -196,4 +196,22 @@
     <string name="msg_name_update_failed">Ad güncelleme başarısız</string>
     <string name="msg_deleted_count">Silindi: %1$d</string>
     <string name="desc_back">Geri</string>
+    <!-- Filter Screen -->
+    <string name="filter_title">Filtreler</string>
+    <string name="filter_price_range">Fiyat Aralığı</string>
+    <string name="filter_condition">Durum</string>
+    <string name="filter_condition_new">Yeni</string>
+    <string name="filter_condition_like_new">Sıfır Gibi</string>
+    <string name="filter_condition_used">Kullanılmış</string>
+    <string name="filter_department">Bölüm: Tümü</string>
+    <string name="filter_brand">Marka: Tümü</string>
+    <string name="filter_city">Şehir: Tümü</string>
+    <string name="filter_select_department">Bölüm Seç</string>
+    <string name="filter_select_brand">Marka Seç</string>
+    <string name="filter_select_city">Şehir Seç</string>
+    <string name="filter_all">Tümü</string>
+    <string name="btn_reset_filters">Sıfırla</string>
+    <string name="btn_apply_filters">Filtreleri Uygula</string>
+    <string name="filter_discounted">İndirimli Ürünler</string>
+    <string name="filter_top_seller">En Çok Satanlar</string>
 </resources>

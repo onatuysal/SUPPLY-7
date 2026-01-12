@@ -45,26 +45,48 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
         var selectedCity = "All"
 
         binding.textDepartment.setOnClickListener {
-            val items = arrayOf("All", "Engineering", "Architecture", "Medicine", "Arts", "Business")
-            showSelectionDialog("Select Department", items) { selected ->
+            val items = arrayOf(
+                getString(R.string.filter_all),
+                "Mühendislik",
+                "Mimarlık",
+                "Tıp",
+                "Sanat",
+                "İşletme"
+            )
+            showSelectionDialog(getString(R.string.filter_select_department), items) { selected ->
                 selectedDepartment = selected
-                binding.textDepartment.text = "Department: $selected"
+                binding.textDepartment.text = "${getString(R.string.label_department)}: $selected"
             }
         }
 
         binding.textBrand.setOnClickListener {
-            val items = arrayOf("All", "Apple", "Samsung", "Nike", "Adidas", "Sony", "Zara")
-            showSelectionDialog("Select Brand", items) { selected ->
+            val items = arrayOf(
+                getString(R.string.filter_all),
+                "Apple",
+                "Samsung",
+                "Nike",
+                "Adidas",
+                "Sony",
+                "Zara"
+            )
+            showSelectionDialog(getString(R.string.filter_select_brand), items) { selected ->
                 selectedBrand = selected
-                binding.textBrand.text = "Brand: $selected"
+                binding.textBrand.text = "${getString(R.string.label_brand)}: $selected"
             }
         }
 
         binding.textCity.setOnClickListener {
-            val items = arrayOf("All", "Istanbul", "Ankara", "Izmir", "Bursa", "Antalya")
-            showSelectionDialog("Select City", items) { selected ->
+            val items = arrayOf(
+                getString(R.string.filter_all),
+                "İstanbul",
+                "Ankara",
+                "İzmir",
+                "Bursa",
+                "Antalya"
+            )
+            showSelectionDialog(getString(R.string.filter_select_city), items) { selected ->
                 selectedCity = selected
-                binding.textCity.text = "City: $selected"
+                binding.textCity.text = "${getString(R.string.filter_city).substringBefore(':')}: $selected"
             }
         }
 
@@ -75,9 +97,9 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
 
             val selectedConditionId = binding.radioGroupCondition.checkedRadioButtonId
             val condition = when (selectedConditionId) {
-                R.id.radioNew -> "New"
-                R.id.radioLikeNew -> "Like-New"
-                R.id.radioUsed -> "Used-Good"
+                R.id.radioNew -> getString(R.string.filter_condition_new)
+                R.id.radioLikeNew -> getString(R.string.filter_condition_like_new)
+                R.id.radioUsed -> getString(R.string.filter_condition_used)
                 else -> null
             }
 
@@ -85,9 +107,9 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
                 putDouble("minPrice", minPrice)
                 putDouble("maxPrice", maxPrice)
                 putString("condition", condition)
-                putString("department", if (selectedDepartment != "All") selectedDepartment else null)
-                putString("brand", if (selectedBrand != "All") selectedBrand else null)
-                putString("city", if (selectedCity != "All") selectedCity else null)
+                putString("department", if (selectedDepartment != getString(R.string.filter_all)) selectedDepartment else null)
+                putString("brand", if (selectedBrand != getString(R.string.filter_all)) selectedBrand else null)
+                putString("city", if (selectedCity != getString(R.string.filter_all)) selectedCity else null)
             }
 
             parentFragmentManager.setFragmentResult("requestKeyFilters", bundle)

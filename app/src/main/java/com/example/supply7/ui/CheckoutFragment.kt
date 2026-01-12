@@ -202,28 +202,43 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
             userId = currentUser.uid,
             items = currentCartItems,
             totalAmount = currentCartItems.sumOf { it.price * it.quantity },
-            status = "pending",
+            status = "CONFIRMED",
             timestamp = System.currentTimeMillis(),
             shippingAddress = shippingAddress
         )
 
         val db = com.google.firebase.firestore.FirebaseFirestore.getInstance()
-        db.collection("orders")
-            .add(order)
-            .addOnSuccessListener {
-                // Navigate to success
-                val fragment = SuccessFragment()
-                val args = Bundle()
-                args.putSerializable("items", ArrayList(currentCartItems))
-                fragment.arguments = args
+        
+        // Use a transaction to ensure stock is updated atomically
+        db.runTransaction { transaction ->
+            // 1. Deduct stock from each product
+            currentCartItems.forEach { item ->
+                val productRef = db.collection("products").document(item.productId)
+                val snapshot = transaction.get(productRef)
+                
+                if (snapshot.exists()) {
+                    val currentStock = snapshot.getLong("stock")?.toInt() ?: 0
+                    val newStock = (currentStock - item.quantity).coerceAtLeast(0)
+                    transaction.update(productRef, "stock", newStock)
+                }
+            }
+            
+            // 2. Create the order
+            val orderRef = db.collection("orders").document()
+            transaction.set(orderRef, order.copy(id = orderRef.id))
+        }.addOnSuccessListener {
+            // Navigate to success
+            val fragment = SuccessFragment()
+            val args = Bundle()
+            args.putSerializable("items", ArrayList(currentCartItems))
+            fragment.arguments = args
 
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-                    .commit()
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(context, "Checkout Failed: ${e.message}", Toast.LENGTH_LONG).show()
-            }
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit()
+        }.addOnFailureListener { e ->
+            Toast.makeText(context, "Checkout Failed: ${e.message}", Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun onDestroyView() {

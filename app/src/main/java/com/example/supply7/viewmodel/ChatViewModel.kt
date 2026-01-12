@@ -8,20 +8,21 @@ import com.example.supply7.data.Chat
 import com.example.supply7.data.ChatRepository
 import com.example.supply7.data.Message
 import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 
 class ChatViewModel : ViewModel() {
     private val repository = ChatRepository()
-    
+
     private val _chats = MutableLiveData<List<Chat>>()
     val chats: LiveData<List<Chat>> = _chats
-    
+
     private val _messages = MutableLiveData<List<Message>>()
     val messages: LiveData<List<Message>> = _messages
-    
+
     private var messagesListener: ListenerRegistration? = null
     private var chatsListener: ListenerRegistration? = null
-    
+
     val currentUserId = repository.currentUserId
 
     private var originalChats = listOf<Chat>()
@@ -33,19 +34,19 @@ class ChatViewModel : ViewModel() {
             chatsListener = query.addSnapshotListener { value, error ->
                 if (error != null) return@addSnapshotListener
                 val chatList = value?.toObjects(Chat::class.java) ?: emptyList()
-                
-                // Determine otherUserName based on participants
+
                 val processedList = chatList.map { chat ->
-                    // Find the ID that is NOT the current user
                     val otherId = chat.participants.firstOrNull { it != currentUserId } ?: "Unknown"
-                    val displayName = if (chat.otherUserName.isNotBlank()) chat.otherUserName else "User ${otherId.take(4)}"
+                    val displayName =
+                        if (chat.otherUserName.isNotBlank()) chat.otherUserName else "User ${otherId.take(4)}"
                     chat.copy(otherUserName = displayName)
                 }
+
                 originalChats = processedList
                 _chats.value = processedList
             }
         } catch (e: Exception) {
-            // Handle error (user not logged in etc)
+            // Handle error
         }
     }
 
@@ -54,9 +55,9 @@ class ChatViewModel : ViewModel() {
             _chats.value = originalChats
         } else {
             val q = query.lowercase()
-            _chats.value = originalChats.filter { 
-                it.otherUserName.lowercase().contains(q) || 
-                it.lastMessage.lowercase().contains(q)
+            _chats.value = originalChats.filter {
+                it.otherUserName.lowercase().contains(q) ||
+                        (it.lastMessage?.lowercase()?.contains(q) == true)
             }
         }
     }
@@ -79,15 +80,15 @@ class ChatViewModel : ViewModel() {
         messagesListener?.remove()
         val query = repository.getMessagesQuery(chatId)
         messagesListener = query.addSnapshotListener { value, error ->
-             if (error != null) return@addSnapshotListener
-             val msgList = value?.toObjects(Message::class.java) ?: emptyList()
-             _messages.value = msgList
+            if (error != null) return@addSnapshotListener
+            val msgList = value?.toObjects(Message::class.java) ?: emptyList()
+            _messages.value = msgList
         }
     }
-    
+
     fun sendMessage(
-        chatId: String, 
-        content: String, 
+        chatId: String,
+        content: String,
         receiverId: String,
         offerAmount: String? = null,
         productTitle: String? = null
@@ -101,16 +102,37 @@ class ChatViewModel : ViewModel() {
         viewModelScope.launch {
             val status = if (accepted) "accepted" else "declined"
             repository.updateMessageStatus(chatId, message.id, status)
-            
-            // Send system message
+
             val content = if (accepted) {
                 "I accepted your offer of ₺${message.offerAmount} for ${message.productTitle}."
             } else {
                 "I declined your offer for ${message.productTitle}."
             }
-            // Sender of offer is the receiver of this response
+
             repository.sendMessage(chatId, content, message.senderId)
         }
+    }
+
+    // ✅ Kalıcı silme (Firestore)
+    // Not: Koleksiyon adı sizde farklıysa "chats" kısmını değiştir (ör: "conversations")
+    fun deleteChats(chatIds: Set<String>) {
+        if (chatIds.isEmpty()) return
+
+        val db = FirebaseFirestore.getInstance()
+        val batch = db.batch()
+
+        for (id in chatIds) {
+            val ref = db.collection("chats").document(id)
+            batch.delete(ref)
+        }
+
+        batch.commit()
+            .addOnSuccessListener {
+                // Snapshot listener zaten otomatik güncelleyecek
+            }
+            .addOnFailureListener {
+                // ignore / log
+            }
     }
 
     override fun onCleared() {
@@ -119,3 +141,4 @@ class ChatViewModel : ViewModel() {
         chatsListener?.remove()
     }
 }
+

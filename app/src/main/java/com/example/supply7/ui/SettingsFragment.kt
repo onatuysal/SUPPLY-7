@@ -43,7 +43,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             openFragment(PaymentMethodsFragment())
         }
 
-        // ✅ Change Password artık yeni ekrana götürüyor
         setupRow(binding.rowChangePassword, R.drawable.ic_lock_24, "Change Password") {
             openFragment(ChangePasswordFragment())
         }
@@ -91,9 +90,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             toast("Download your data (TODO)")
         }
 
-        setupRow(binding.rowDeactivate, R.drawable.ic_block_24, "Deactivate Account") {
-            toast("Deactivate Account (TODO)")
-        }
+        // ✅ Deactivate kaldırıldı (rowDeactivate yok)
 
         setupRow(binding.rowLogout, R.drawable.ic_logout, "Log Out") {
             authRepository.logout()
@@ -227,6 +224,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         _binding = null
     }
 }
+
 
 
 

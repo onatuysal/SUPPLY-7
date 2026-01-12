@@ -143,6 +143,12 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        val user = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser ?: return
+        binding?.textUserName?.text = user.displayName ?: "User ${user.uid.take(4)}"
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null

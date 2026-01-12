@@ -72,7 +72,8 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
                 bind.textCondition.text = p.condition.ifBlank { "N/A" }
                 try {
                     bind.textDepartment.text = p.department.ifBlank { "N/A" }
-                } catch (_: Exception) {}
+                } catch (_: Exception) {
+                }
 
                 // ---------- DELETE BUTTON LOGIC ----------
                 val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
@@ -97,17 +98,15 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
                 // ---------- DELETE BUTTON LOGIC END ----------
             }
 
-
-
             // BUY + CART
             bind.btnBuy.setOnClickListener {
                 product?.let { p ->
-                     val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
-                     if (currentUserId != null && p.sellerId == currentUserId) {
-                         Toast.makeText(context, "You cannot buy your own product!", Toast.LENGTH_SHORT).show()
-                         return@setOnClickListener
-                     }
-                    
+                    val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
+                    if (currentUserId != null && p.sellerId == currentUserId) {
+                        Toast.makeText(context, "You cannot buy your own product!", Toast.LENGTH_SHORT).show()
+                        return@setOnClickListener
+                    }
+
                     val cartViewModel =
                         androidx.lifecycle.ViewModelProvider(this)[com.example.supply7.viewmodel.CartViewModel::class.java]
                     cartViewModel.addToCart(p)
@@ -124,7 +123,8 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
             bind.btnExchangeOffer.text = "Rate Seller"
             bind.btnExchangeOffer.setOnClickListener {
                 product?.let { p ->
-                    val dialogView = android.view.LayoutInflater.from(context).inflate(R.layout.dialog_rate_seller, null)
+                    val dialogView =
+                        android.view.LayoutInflater.from(context).inflate(R.layout.dialog_rate_seller, null)
                     val ratingBar = dialogView.findViewById<android.widget.RatingBar>(R.id.ratingBar)
                     val input = dialogView.findViewById<android.widget.EditText>(R.id.inputComment)
 
@@ -144,9 +144,40 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
                 }
             }
 
-            // PRICE OFFER
+            // ✅ MESSAGE OWNER (normal chat)
             bind.btnMessageSeller.setOnClickListener {
                 product?.let { p ->
+                    val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
+                    if (currentUserId != null && p.sellerId == currentUserId) {
+                        Toast.makeText(context, "You cannot message yourself.", Toast.LENGTH_SHORT).show()
+                        return@setOnClickListener
+                    }
+
+                    parentFragmentManager.beginTransaction()
+                        .replace(
+                            R.id.fragment_container,
+                            ChatFragment.newInstance(
+                                chatId = null,
+                                otherUserName = p.sellerName,
+                                receiverId = p.sellerId,
+                                offerAmount = null,
+                                productTitle = null
+                            )
+                        )
+                        .addToBackStack(null)
+                        .commit()
+                }
+            }
+
+            // ✅ MAKE OFFER (dialog -> offer message)
+            bind.btnMakeOffer.setOnClickListener {
+                product?.let { p ->
+                    val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
+                    if (currentUserId != null && p.sellerId == currentUserId) {
+                        Toast.makeText(context, "You cannot offer on your own product.", Toast.LENGTH_SHORT).show()
+                        return@setOnClickListener
+                    }
+
                     val dialog = android.app.AlertDialog.Builder(context)
                     val input = android.widget.EditText(context)
                     input.inputType =
@@ -157,7 +188,7 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
                     dialog.setMessage("Enter your price offer for ${p.title}")
 
                     dialog.setPositiveButton("Send Offer") { _, _ ->
-                        val amount = input.text.toString()
+                        val amount = input.text.toString().trim()
                         if (amount.isNotBlank()) {
                             parentFragmentManager.beginTransaction()
                                 .replace(
@@ -186,37 +217,29 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
     }
 
     // ------------------ FIREBASE DELETE ------------------
-
     private fun deleteProductFromFirebase(p: Product) {
         val db = FirebaseFirestore.getInstance()
         val storage = FirebaseStorage.getInstance()
 
-        // 1) Firestore dokümanı sil
-        db.collection("products") // <- koleksiyon adın farklıysa burayı değiştir
+        db.collection("products")
             .document(p.id)
             .delete()
             .addOnSuccessListener {
-                // 2) Fotoğraf varsa Storage'dan da sil
                 if (p.imageUrl.isNotBlank()) {
                     try {
-                        storage.getReferenceFromUrl(p.imageUrl)
-                            .delete()
+                        storage.getReferenceFromUrl(p.imageUrl).delete()
                     } catch (_: Exception) {
-                        // URL bozuksa app patlamasın
                     }
                 }
 
                 Toast.makeText(requireContext(), "Product deleted", Toast.LENGTH_SHORT).show()
-                parentFragmentManager.popBackStack() // geri dön (Home'a veya önceki ekrana)
+                parentFragmentManager.popBackStack()
             }
             .addOnFailureListener { e ->
-                Toast.makeText(
-                    requireContext(),
-                    "Delete failed: ${e.localizedMessage}",
-                    Toast.LENGTH_LONG
-                ).show()
+                Toast.makeText(requireContext(), "Delete failed: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
             }
     }
 }
+
 
 

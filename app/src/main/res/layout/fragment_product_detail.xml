@@ -23,7 +23,7 @@
             app:tint="@color/primary_pink"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <TextView
             android:id="@+id/textHeaderTitle"
@@ -36,7 +36,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- ScrollView: Content -->
@@ -109,7 +109,7 @@
                 android:textColor="@color/text_dark"
                 android:textSize="@dimen/text_subheading"
                 android:textStyle="bold" />
-                
+
             <TextView
                 android:id="@+id/textDescription"
                 android:layout_width="match_parent"
@@ -129,41 +129,154 @@
                 android:rowCount="3"
                 android:useDefaultMargins="true">
 
-                <!-- Detail Items... Simplified for brevity but keeping IDs -->
                 <!-- Category -->
-                <LinearLayout android:orientation="vertical" android:layout_columnWeight="1" android:layout_marginBottom="16dp">
-                    <TextView android:text="Category" android:textColor="@color/text_light" android:textSize="12sp"/>
-                    <TextView android:id="@+id/textCategory" android:text="Stationery" android:textColor="@color/text_dark" android:textSize="14sp" android:textStyle="bold"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_marginBottom="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Category"
+                        android:textColor="@color/text_light"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/textCategory"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Stationery"
+                        android:textColor="@color/text_dark"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <!-- Faculty -->
-                <LinearLayout android:orientation="vertical" android:layout_columnWeight="1" android:layout_marginBottom="16dp">
-                    <TextView android:text="Faculty" android:textColor="@color/text_light" android:textSize="12sp"/>
-                    <TextView android:id="@+id/textFaculty" android:text="Art" android:textColor="@color/text_dark" android:textSize="14sp" android:textStyle="bold"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_marginBottom="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Faculty"
+                        android:textColor="@color/text_light"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/textFaculty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Art"
+                        android:textColor="@color/text_dark"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
-                 <!-- Condition -->
-                <LinearLayout android:orientation="vertical" android:layout_columnWeight="1" android:layout_marginBottom="16dp">
-                    <TextView android:text="Condition" android:textColor="@color/text_light" android:textSize="12sp"/>
-                    <TextView android:id="@+id/textCondition" android:text="Underused" android:textColor="@color/text_dark" android:textSize="14sp" android:textStyle="bold"/>
-                </LinearLayout>
-                
-                 <!-- Brand -->
-                <LinearLayout android:orientation="vertical" android:layout_columnWeight="1" android:layout_marginBottom="16dp">
-                    <TextView android:text="Brand" android:textColor="@color/text_light" android:textSize="12sp"/>
-                    <TextView android:id="@+id/textBrand" android:text="Faber Castell" android:textColor="@color/text_dark" android:textSize="14sp" android:textStyle="bold"/>
+                <!-- Condition -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_marginBottom="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Condition"
+                        android:textColor="@color/text_light"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/textCondition"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Underused"
+                        android:textColor="@color/text_dark"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
-                 <!-- Department (Added back) -->
-                <LinearLayout android:orientation="vertical" android:layout_columnWeight="1" android:layout_marginBottom="16dp">
-                    <TextView android:text="Department" android:textColor="@color/text_light" android:textSize="12sp"/>
-                    <TextView android:id="@+id/textDepartment" android:text="Fine Arts" android:textColor="@color/text_dark" android:textSize="14sp" android:textStyle="bold"/>
+                <!-- Brand -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_marginBottom="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Brand"
+                        android:textColor="@color/text_light"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/textBrand"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Faber Castell"
+                        android:textColor="@color/text_dark"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
-                 <!-- Color (Added back & Renamed to avoid 'textColor' conflict) -->
-                <LinearLayout android:orientation="vertical" android:layout_columnWeight="1" android:layout_marginBottom="16dp">
-                    <TextView android:text="Color" android:textColor="@color/text_light" android:textSize="12sp"/>
-                    <TextView android:id="@+id/textProductColor" android:text="Black" android:textColor="@color/text_dark" android:textSize="14sp" android:textStyle="bold"/>
+                <!-- Department -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_marginBottom="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Department"
+                        android:textColor="@color/text_light"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/textDepartment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Fine Arts"
+                        android:textColor="@color/text_dark"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- Color -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_marginBottom="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Color"
+                        android:textColor="@color/text_light"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/textProductColor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Black"
+                        android:textColor="@color/text_dark"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
             </GridLayout>
@@ -180,7 +293,7 @@
         android:paddingTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <!-- Main Actions Row -->
+        <!-- Row 1: Message + Make Offer -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -198,40 +311,52 @@
                 android:textAllCaps="false"
                 android:textColor="@color/text_dark"
                 android:textSize="16sp"
-                android:stateListAnimator="@null"/>
+                android:stateListAnimator="@null" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnBuy"
+                android:id="@+id/btnMakeOffer"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
-                android:background="@drawable/bg_button_primary"
-                android:text="Buy Now"
+                android:background="@drawable/bg_button_secondary"
+                android:text="Make Offer"
                 android:textAllCaps="false"
-                android:textColor="@color/white"
+                android:textColor="@color/text_dark"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:stateListAnimator="@null"/>
+                android:stateListAnimator="@null" />
         </LinearLayout>
-        
+
+        <!-- Row 2: Buy Now -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnBuy"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/bg_button_primary"
+            android:text="Buy Now"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:stateListAnimator="@null" />
+
         <!-- Secondary Actions Row -->
         <LinearLayout
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:orientation="horizontal">
-             
-             <TextView
-                 android:id="@+id/btnExchangeOffer"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:text="Or send an exchange offer"
-                 android:textColor="@color/primary_pink"
-                 android:gravity="center"
-                 android:padding="8dp"
-                 android:textSize="14sp"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/btnExchangeOffer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Rate Seller"
+                android:textColor="@color/primary_pink"
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="14sp" />
         </LinearLayout>
-        
+
         <!-- Delete Button (Hidden by default) -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnDeleteProduct"
@@ -241,10 +366,11 @@
             android:backgroundTint="@color/error_red"
             android:text="Delete Product"
             android:textColor="@color/white"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 

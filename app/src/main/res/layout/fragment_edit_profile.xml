@@ -3,7 +3,8 @@
     android:id="@+id/scrollEditProfile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/background_cream">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,69 +18,74 @@
             android:text="Edit Profile"
             android:textSize="22sp"
             android:textStyle="bold"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp" />
 
+        <!-- Email (read-only) -->
         <TextView
             android:id="@+id/textEmailLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Email"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/textEmailValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="-"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp" />
 
+        <!-- Display Name -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Display Name"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/editDisplayName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="e.g., Onat Uysal"
+            android:hint=""
             android:inputType="textPersonName"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp" />
 
+        <!-- Faculty -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Faculty"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/editFaculty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="e.g., Engineering"
+            android:hint=""
             android:inputType="text"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp" />
 
+        <!-- Department -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Department"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/editDepartment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="e.g., Computer Engineering"
+            android:hint=""
             android:inputType="text"
-            android:layout_marginBottom="24dp"/>
+            android:layout_marginBottom="24dp" />
 
+        <!-- Profile photo (fake) -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Profile Photo"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/imageProfile"
@@ -89,15 +95,16 @@
             android:layout_marginBottom="12dp"
             android:contentDescription="Profile photo"
             android:scaleType="centerCrop"
-            android:src="@android:drawable/sym_def_app_icon"/>
+            android:src="@android:drawable/sym_def_app_icon" />
 
         <Button
             android:id="@+id/btnSelectPhoto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Select Photo"
-            android:layout_marginBottom="24dp"/>
+            android:layout_marginBottom="24dp" />
 
+        <!-- Actions -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -108,7 +115,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Save"/>
+                android:text="Save" />
 
             <Button
                 android:id="@+id/btnCancel"
@@ -116,9 +123,11 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Cancel"
-                android:layout_marginStart="12dp"/>
+                android:layout_marginStart="12dp" />
         </LinearLayout>
 
     </LinearLayout>
 </ScrollView>
+
+
 

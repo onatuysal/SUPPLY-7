@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import com.example.supply7.R
 import com.example.supply7.databinding.FragmentEditProfileBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
 
 class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
@@ -52,19 +53,13 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
         db.collection("users").document(user.uid)
             .get()
             .addOnSuccessListener { doc ->
-                binding.editDisplayName.setText(doc.getString("displayName") ?: "")
+                binding.editDisplayName.setText(doc.getString("displayName") ?: (user.displayName ?: ""))
                 binding.editFaculty.setText(doc.getString("faculty") ?: "")
                 binding.editDepartment.setText(doc.getString("department") ?: "")
             }
-            .addOnFailureListener { e ->
-                Toast.makeText(requireContext(), e.message ?: "Error", Toast.LENGTH_LONG).show()
-            }
 
         binding.btnSelectPhoto.setOnClickListener {
-            val intent = Intent(
-                Intent.ACTION_PICK,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            )
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             intent.type = "image/*"
             pickImageFromGallery.launch(intent)
         }
@@ -79,21 +74,34 @@ class EditProfileFragment : Fragment(R.layout.fragment_edit_profile) {
                 return@setOnClickListener
             }
 
-            val data = hashMapOf(
-                "displayName" to displayName,
-                "faculty" to faculty,
-                "department" to department,
-                "email" to (user.email ?: "")
-            )
+            val profileUpdates = UserProfileChangeRequest.Builder()
+                .setDisplayName(displayName)
+                .build()
 
-            db.collection("users").document(user.uid)
-                .set(data)
-                .addOnSuccessListener {
-                    Toast.makeText(requireContext(), "Profile updated", Toast.LENGTH_SHORT).show()
-                    parentFragmentManager.popBackStack()
-                }
-                .addOnFailureListener { e ->
-                    Toast.makeText(requireContext(), e.message ?: "Error", Toast.LENGTH_LONG).show()
+            user.updateProfile(profileUpdates)
+                .addOnCompleteListener { updateTask ->
+                    if (!updateTask.isSuccessful) {
+                        Toast.makeText(requireContext(), "Name update failed", Toast.LENGTH_SHORT).show()
+                        return@addOnCompleteListener
+                    }
+
+                    val data = hashMapOf(
+                        "displayName" to displayName,
+                        "faculty" to faculty,
+                        "department" to department,
+                        "email" to (user.email ?: "")
+                    )
+
+                    db.collection("users").document(user.uid)
+                        .set(data)
+                        .addOnSuccessListener {
+                            auth.currentUser?.reload()
+                            Toast.makeText(requireContext(), "Profile updated", Toast.LENGTH_SHORT).show()
+                            parentFragmentManager.popBackStack()
+                        }
+                        .addOnFailureListener { e ->
+                            Toast.makeText(requireContext(), e.message ?: "Error", Toast.LENGTH_LONG).show()
+                        }
                 }
         }
 

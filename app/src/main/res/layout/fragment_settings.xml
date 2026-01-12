@@ -125,8 +125,6 @@
                     android:orientation="vertical"
                     android:padding="8dp">
 
-                    <!-- ✅ rowEditProfile kaldırıldı -->
-
                     <include
                         android:id="@+id/rowManageAccount"
                         layout="@layout/item_setting_row" />
@@ -219,9 +217,7 @@
                         android:id="@+id/rowDownloadData"
                         layout="@layout/item_setting_row" />
 
-                    <include
-                        android:id="@+id/rowDeactivate"
-                        layout="@layout/item_setting_row" />
+                    <!-- ✅ rowDeactivate kaldırıldı -->
 
                     <include
                         android:id="@+id/rowLogout"
@@ -244,6 +240,7 @@
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 

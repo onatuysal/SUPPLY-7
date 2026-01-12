@@ -42,7 +42,6 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
         // Selection Logic Variables
         var selectedDepartment = "All"
         var selectedBrand = "All"
-        var selectedCity = "All"
 
         binding.textDepartment.setOnClickListener {
             val items = arrayOf(
@@ -75,21 +74,6 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
             }
         }
 
-        binding.textCity.setOnClickListener {
-            val items = arrayOf(
-                getString(R.string.filter_all),
-                "İstanbul",
-                "Ankara",
-                "İzmir",
-                "Bursa",
-                "Antalya"
-            )
-            showSelectionDialog(getString(R.string.filter_select_city), items) { selected ->
-                selectedCity = selected
-                binding.textCity.text = "${getString(R.string.filter_city).substringBefore(':')}: $selected"
-            }
-        }
-
         // Apply Filters butonu
         binding.btnApplyFilters.setOnClickListener {
             val minPrice = binding.sliderPrice.values[0].toDouble()
@@ -109,7 +93,6 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
                 putString("condition", condition)
                 putString("department", if (selectedDepartment != getString(R.string.filter_all)) selectedDepartment else null)
                 putString("brand", if (selectedBrand != getString(R.string.filter_all)) selectedBrand else null)
-                putString("city", if (selectedCity != getString(R.string.filter_all)) selectedCity else null)
             }
 
             parentFragmentManager.setFragmentResult("requestKeyFilters", bundle)

@@ -103,7 +103,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             val condition = bundle.getString("condition")
             val department = bundle.getString("department")
             val brand = bundle.getString("brand")
-            val city = bundle.getString("city")
 
             val query = bind.editSearch.text.toString()
             homeViewModel.searchProducts(
@@ -112,8 +111,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 maxPrice = maxPrice,
                 condition = condition,
                 department = department,
-                brand = brand,
-                city = city
+                brand = brand
             )
         }
 

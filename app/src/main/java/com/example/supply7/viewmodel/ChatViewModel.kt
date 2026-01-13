@@ -47,21 +47,27 @@ class ChatViewModel : ViewModel() {
                     val processedList = chatList.map { chat ->
                         val otherId = chat.participants.firstOrNull { it != currentUserId } ?: "Unknown"
                         var displayName = if (chat.otherUserName.isNotBlank()) chat.otherUserName else "User ${otherId.take(4)}"
-                        
-                        // Try to fetch real name from users collection
+                        var displayImage = if (chat.otherUserImage.isNotBlank()) chat.otherUserImage else ""
+
+                        // Try to fetch real name and image from users collection
                         if (otherId != "Unknown") {
                             try {
                                 val docSnapshot = db.collection("users").document(otherId).get().await()
                                 val realName = docSnapshot.getString("displayName")
+                                val realImage = docSnapshot.getString("photoUrl")
+                                
                                 if (!realName.isNullOrBlank()) {
                                     displayName = realName
+                                }
+                                if (!realImage.isNullOrBlank()) {
+                                    displayImage = realImage
                                 }
                             } catch (e: Exception) {
                                 // Failed to fetch, keep existing/fallback
                             }
                         }
                         
-                        chat.copy(otherUserName = displayName)
+                        chat.copy(otherUserName = displayName, otherUserImage = displayImage)
                     }
 
                     originalChats = processedList
@@ -80,7 +86,7 @@ class ChatViewModel : ViewModel() {
             val q = query.lowercase()
             _chats.value = originalChats.filter {
                 it.otherUserName.lowercase().contains(q) ||
-                        (it.lastMessage?.lowercase()?.contains(q) == true)
+                        it.lastMessage.lowercase().contains(q)
             }
         }
     }
@@ -115,7 +121,7 @@ class ChatViewModel : ViewModel() {
                 val chat = chatDoc.toObject(Chat::class.java)
                 if (chat != null && repository.currentUserId != null) {
                     val otherId = chat.participants.firstOrNull { it != repository.currentUserId } ?: ""
-                    if (otherId.isNotBlank()) {
+                     if (otherId.isNotBlank()) {
                          _fetchedReceiverId.value = otherId
                          // Try fetch name
                          val userDoc = FirebaseFirestore.getInstance().collection("users").document(otherId).get().await()
@@ -131,7 +137,7 @@ class ChatViewModel : ViewModel() {
         }
 
         val query = repository.getMessagesQuery(chatId)
-        messagesListener = query.addSnapshotListener { value, error ->
+        messagesListener = query.addSnapshotListener { value: com.google.firebase.firestore.QuerySnapshot?, error: com.google.firebase.firestore.FirebaseFirestoreException? ->
             if (error != null) return@addSnapshotListener
             val msgList = value?.toObjects(Message::class.java) ?: emptyList()
             _messages.value = msgList

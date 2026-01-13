@@ -65,6 +65,9 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
                         .into(bind.imageProduct)
                 }
                 
+                // Load seller's profile photo
+                loadSellerAvatar(p.sellerId, bind)
+                
                 // Navigate to Seller Profile
                 bind.textViewProfile.setOnClickListener {
                      parentFragmentManager.beginTransaction()
@@ -232,6 +235,28 @@ class ProductDetailFragment : Fragment(R.layout.fragment_product_detail) {
             Toast.makeText(context, "Error showing details: ${e.message}", Toast.LENGTH_LONG).show()
             e.printStackTrace()
         }
+    }
+
+    // ------------------ LOAD SELLER AVATAR ------------------
+    private fun loadSellerAvatar(sellerId: String, bind: FragmentProductDetailBinding) {
+        FirebaseFirestore.getInstance()
+            .collection("users")
+            .document(sellerId)
+            .get()
+            .addOnSuccessListener { doc ->
+                val photoUrl = doc.getString("photoUrl")
+                if (!photoUrl.isNullOrBlank()) {
+                    Glide.with(this)
+                        .load(photoUrl)
+                        .circleCrop()
+                        .into(bind.imgSellerAvatar)
+                }
+                // If photoUrl is null/blank, the default drawable from XML will remain
+            }
+            .addOnFailureListener { e ->
+                android.util.Log.e("SELLER_AVATAR", "Failed to load seller avatar", e)
+                // Keep default avatar on failure
+            }
     }
 
     // ------------------ FIREBASE DELETE ------------------

@@ -28,16 +28,57 @@ class ChatRepository {
         val snapshot = chatRef.get().await()
         
         if (!snapshot.exists()) {
+            // Fetch other user's displayName and photoUrl
+            var otherUserName = "User ${otherUserId.take(4)}"
+            var otherUserImage = ""
+            try {
+                val userDoc = db.collection("users").document(otherUserId).get().await()
+                val displayName = userDoc.getString("displayName")
+                val photoUrl = userDoc.getString("photoUrl")
+                
+                if (!displayName.isNullOrBlank()) {
+                    otherUserName = displayName
+                }
+                if (!photoUrl.isNullOrBlank()) {
+                    otherUserImage = photoUrl
+                }
+            } catch (e: Exception) {
+                // Keep fallback name if fetch fails
+            }
+            
             val chat = Chat(
                 id = chatId,
                 participants = participants,
                 lastMessage = "",
-                lastMessageTimestamp = System.currentTimeMillis()
+                lastMessageTimestamp = System.currentTimeMillis(),
+                otherUserName = otherUserName,
+                otherUserImage = otherUserImage
             )
             chatRef.set(chat).await()
         } else {
-             // Ensure participants are correct (fix for visibility)
-             chatRef.update("participants", participants).await()
+            // Ensure participants are correct (fix for visibility)
+            val updates = mutableMapOf<String, Any>("participants" to participants)
+            
+            // Update user info if missing
+            val existingChat = snapshot.toObject(Chat::class.java)
+            if (existingChat?.otherUserName.isNullOrBlank() || existingChat?.otherUserImage.isNullOrBlank()) {
+                var otherUserName = existingChat?.otherUserName ?: "User ${otherUserId.take(4)}"
+                var otherUserImage = existingChat?.otherUserImage ?: ""
+                
+                try {
+                    val userDoc = db.collection("users").document(otherUserId).get().await()
+                    val displayName = userDoc.getString("displayName")
+                    val photoUrl = userDoc.getString("photoUrl")
+                    
+                    if (!displayName.isNullOrBlank()) otherUserName = displayName
+                    if (!photoUrl.isNullOrBlank()) otherUserImage = photoUrl
+                } catch (e: Exception) { }
+                
+                updates["otherUserName"] = otherUserName
+                updates["otherUserImage"] = otherUserImage
+            }
+            
+            chatRef.update(updates).await()
         }
         return chatId
     }
@@ -69,13 +110,27 @@ class ChatRepository {
             productImageUrl = productImageUrl
         )
         
+        // Fetch other user's displayName/photo for chat list display
+        var otherUserName = "User ${receiverId.take(4)}"
+        var otherUserImage = ""
+        try {
+            val userDoc = db.collection("users").document(receiverId).get().await()
+            val displayName = userDoc.getString("displayName")
+            val photoUrl = userDoc.getString("photoUrl")
+            
+            if (!displayName.isNullOrBlank()) otherUserName = displayName
+            if (!photoUrl.isNullOrBlank()) otherUserImage = photoUrl
+        } catch (e: Exception) { }
+        
         db.runBatch { batch ->
             batch.set(messageRef, message)
             batch.update(db.collection("chats").document(chatId), 
                 mapOf(
                     "lastMessage" to if (type == "offer") "Offer: $content" else content,
                     "lastMessageTimestamp" to message.timestamp,
-                    "participants" to listOf(uid, receiverId).sorted()
+                    "participants" to listOf(uid, receiverId).sorted(),
+                    "otherUserName" to otherUserName,
+                    "otherUserImage" to otherUserImage
                 )
             )
             

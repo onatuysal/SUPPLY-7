@@ -3,10 +3,13 @@ package com.example.supply7.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.supply7.R
 import com.example.supply7.data.Chat
+import com.google.firebase.firestore.FirebaseFirestore
 
 class MessagesAdapter(
     private var chats: List<Chat> = emptyList(),
@@ -17,6 +20,7 @@ class MessagesAdapter(
     private var selectedIds: Set<String> = emptySet()
 
     class ChatViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val imageAvatar: ImageView = view.findViewById(R.id.imageAvatar)
         val textName: TextView = view.findViewById(R.id.textName)
         val textLastMessage: TextView = view.findViewById(R.id.textLastMessage)
         val textTime: TextView = view.findViewById(R.id.textTime)
@@ -34,6 +38,9 @@ class MessagesAdapter(
         holder.textName.text = chat.otherUserName
         holder.textLastMessage.text = chat.lastMessage
         holder.textTime.text = if (chat.lastMessageTimestamp > 0) "10:23" else ""
+        
+        // Load profile photo
+        loadUserAvatar(chat, holder.imageAvatar)
 
         if (chat.unreadCount > 0) {
             holder.badgeUnread.visibility = View.VISIBLE
@@ -77,6 +84,49 @@ class MessagesAdapter(
         if (ids.isEmpty()) return
         chats = chats.filterNot { ids.contains(it.id) }
         notifyDataSetChanged()
+    }
+    
+    private fun loadUserAvatar(chat: Chat, imageView: ImageView) {
+        val context = imageView.context
+        val pinkColor = androidx.core.content.ContextCompat.getColor(context, R.color.primary_pink)
+
+        if (chat.otherUserImage.isNotBlank()) {
+            imageView.imageTintList = null // Clear tint for real photo
+            Glide.with(context)
+                .load(chat.otherUserImage)
+                .placeholder(R.drawable.user_male)
+                .error(R.drawable.user_male) // Revert to user_male on error
+                .circleCrop()
+                .into(imageView)
+            return
+        }
+
+        // Fallback: Fetch from Firestore
+        val currentUserId = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid
+        val otherUserId = chat.participants.firstOrNull { it != currentUserId } ?: return
+        
+        FirebaseFirestore.getInstance()
+            .collection("users")
+            .document(otherUserId)
+            .get()
+            .addOnSuccessListener { doc ->
+                val photoUrl = doc.getString("photoUrl")
+                if (!photoUrl.isNullOrBlank()) {
+                    imageView.imageTintList = null // Clear tint
+                    Glide.with(context)
+                        .load(photoUrl)
+                        .placeholder(R.drawable.user_male)
+                        .circleCrop()
+                        .into(imageView)
+                } else {
+                    imageView.setImageResource(R.drawable.user_male)
+                    imageView.setColorFilter(pinkColor)
+                }
+            }
+            .addOnFailureListener {
+                imageView.setImageResource(R.drawable.user_male)
+                imageView.setColorFilter(pinkColor)
+            }
     }
 }
 

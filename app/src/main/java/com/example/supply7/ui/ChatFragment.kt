@@ -84,6 +84,12 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
         }
 
         val currentUserId = viewModel.currentUserId ?: ""
+        
+        // Load other user's profile photo if receiverId is available
+        if (receiverId.isNotBlank()) {
+            loadOtherUserAvatar(receiverId, bind)
+        }
+        
         chatAdapter = ChatAdapter(currentUserId)
 
         bind.recyclerChat.layoutManager = LinearLayoutManager(context).apply {
@@ -171,7 +177,7 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
         }
 
         viewModel.fetchedOtherUserName.observe(viewLifecycleOwner) { name ->
-             if (otherUserName == "Chat" || otherUserName.isBlank()) {
+             if (!name.isNullOrBlank()) {
                  otherUserName = name
                  bind.textNameHeader.text = name
              }
@@ -180,6 +186,10 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
         viewModel.fetchedReceiverId.observe(viewLifecycleOwner) { id ->
              if (receiverId.isBlank()) {
                  receiverId = id
+                 // Load avatar when receiverId becomes available
+                 if (id.isNotBlank()) {
+                     loadOtherUserAvatar(id, bind)
+                 }
              }
         }
 
@@ -205,6 +215,25 @@ class ChatFragment : Fragment(R.layout.fragment_chat) {
             viewModel.sendMessage(chatId, content, targetId)
             bind.inputMessage.text.clear()
         }
+    }
+    
+    private fun loadOtherUserAvatar(userId: String, bind: FragmentChatBinding) {
+        com.google.firebase.firestore.FirebaseFirestore.getInstance()
+            .collection("users")
+            .document(userId)
+            .get()
+            .addOnSuccessListener { doc ->
+                val photoUrl = doc.getString("photoUrl")
+                if (!photoUrl.isNullOrBlank()) {
+                    com.bumptech.glide.Glide.with(this)
+                        .load(photoUrl)
+                        .circleCrop()
+                        .into(bind.imageAvatarHeader)
+                }
+            }
+            .addOnFailureListener { e ->
+                android.util.Log.e("CHAT_AVATAR", "Failed to load avatar", e)
+            }
     }
     
     override fun onDestroyView() {

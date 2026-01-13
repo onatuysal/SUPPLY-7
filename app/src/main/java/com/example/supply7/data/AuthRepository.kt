@@ -20,6 +20,20 @@ class AuthRepository {
             val result = auth.signInWithEmailAndPassword(email, password).await()
             val user = result.user
             if (user != null) {
+                // Sync user data to Firestore on login to fix existing users
+                val userData = hashMapOf(
+                    "uid" to user.uid,
+                    "email" to (user.email ?: ""),
+                )
+                if (!user.displayName.isNullOrBlank()) {
+                    userData["displayName"] = user.displayName!!
+                }
+                
+                com.google.firebase.firestore.FirebaseFirestore.getInstance()
+                    .collection("users")
+                    .document(user.uid)
+                    .set(userData, com.google.firebase.firestore.SetOptions.merge())
+                
                 Result.success(user)
             } else {
                 Result.failure(Exception("Login failed, user is null"))
@@ -37,11 +51,23 @@ class AuthRepository {
             val result = auth.createUserWithEmailAndPassword(email, password).await()
             val user = result.user
             if (user != null) {
-                // Update Display Name
+                // Update Display Name in Auth
                 val profileUpdates = com.google.firebase.auth.UserProfileChangeRequest.Builder()
                     .setDisplayName(name)
                     .build()
                 user.updateProfile(profileUpdates).await()
+                
+                // Save user data to Firestore
+                val userData = mapOf(
+                    "uid" to user.uid,
+                    "displayName" to name,
+                    "email" to email
+                )
+                com.google.firebase.firestore.FirebaseFirestore.getInstance()
+                    .collection("users")
+                    .document(user.uid)
+                    .set(userData, com.google.firebase.firestore.SetOptions.merge())
+                    .await()
                 
                 Result.success(user)
             } else {

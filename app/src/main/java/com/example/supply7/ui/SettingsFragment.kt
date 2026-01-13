@@ -2,10 +2,12 @@ package com.example.supply7.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.example.supply7.R
 import com.example.supply7.data.AuthRepository
 import com.example.supply7.databinding.FragmentSettingsBinding
@@ -34,7 +36,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         val notificationsEnabled = prefs.getBoolean("notifications_enabled", true)
         val languageValue = prefs.getString("language", "English") ?: "English"
 
-        // ---- ACCOUNT ----
         setupRow(binding.rowManageAccount, R.drawable.ic_settings_24, getString(R.string.settings_manage_account)) {
             openFragment(ManageAccountFragment())
         }
@@ -51,7 +52,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             openFragment(PrivacySettingsFragment())
         }
 
-        // Notifications switch row
         setupRowAsSwitch(
             row = binding.rowNotifications,
             iconRes = R.drawable.ic_notifications_24,
@@ -62,7 +62,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             toast(if (isChecked) "Notifications Enabled" else "Notifications Disabled")
         }
 
-        // Language value row
         setupRowWithValue(
             row = binding.rowLanguage,
             iconRes = R.drawable.ic_language_24,
@@ -72,7 +71,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             openFragment(LanguageFragment())
         }
 
-        // ---- SUPPORT & LEGAL ----
         setupRow(binding.rowHelpSupport, R.drawable.ic_help_24, getString(R.string.settings_help)) {
             openFragment(HelpSupportFragment())
         }
@@ -85,12 +83,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             openFragment(PrivacyPolicyFragment())
         }
 
-        // ---- ACCOUNT ACTIONS ----
         setupRow(binding.rowDownloadData, R.drawable.ic_download_24, getString(R.string.settings_download_data)) {
             toast("Download your data (TODO)")
         }
-
-        // ✅ Deactivate kaldırıldı (rowDeactivate yok)
 
         setupRow(binding.rowLogout, R.drawable.ic_logout, getString(R.string.settings_logout)) {
             authRepository.logout()
@@ -114,7 +109,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 userRef.set(data)
             }
             .addOnFailureListener {
-                // no-op
             }
     }
 
@@ -129,6 +123,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
         binding.txtUserName.text = fallbackName
         binding.txtUserEmail.text = fallbackEmail
+        binding.imgAvatar.setImageResource(R.drawable.generic_ava)
 
         val uid = user?.uid ?: return
 
@@ -140,12 +135,21 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
                 val fullName = doc.getString("fullName")
                 val email = doc.getString("email")
+                val photoUrl = doc.getString("photoUrl")
 
                 if (!fullName.isNullOrBlank()) binding.txtUserName.text = fullName
                 if (!email.isNullOrBlank()) binding.txtUserEmail.text = email
+
+                if (!photoUrl.isNullOrBlank()) {
+                    Glide.with(this)
+                        .load(photoUrl)
+                        .placeholder(R.drawable.generic_ava)
+                        .error(R.drawable.generic_ava)
+                        .into(binding.imgAvatar)
+                }
             }
-            .addOnFailureListener {
-                // fallback already shown
+            .addOnFailureListener { e ->
+                Log.e("SETTINGS_HEADER", "Failed to load user header", e)
             }
     }
 
@@ -224,6 +228,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         _binding = null
     }
 }
+
 
 
 

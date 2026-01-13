@@ -46,17 +46,33 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
                     if (document.exists()) {
                          val name = document.getString("name") ?: document.getString("fullName") ?: currentUser.displayName
                          bind.textUserName.text = name ?: "User"
+                         
+                         // Load photo from Firestore
+                         val photoUrl = document.getString("photoUrl")
+                         if (!photoUrl.isNullOrBlank()) {
+                             Glide.with(this)
+                                 .load(photoUrl)
+                                 .placeholder(R.drawable.user_male)
+                                 .error(R.drawable.user_male)
+                                 .circleCrop()
+                                 .into(bind.imgUserAvatar)
+                         } else if (currentUser.photoUrl != null) {
+                             // Fallback to Auth photo
+                             Glide.with(this)
+                                 .load(currentUser.photoUrl)
+                                 .placeholder(R.drawable.user_male)
+                                 .circleCrop()
+                                 .into(bind.imgUserAvatar)
+                         }
                     } else {
                          bind.textUserName.text = currentUser.displayName ?: "User"
+                         loadAuthPhoto(currentUser, bind.imgUserAvatar)
                     }
                 }
                 .addOnFailureListener {
                     bind.textUserName.text = currentUser.displayName ?: "User"
+                    loadAuthPhoto(currentUser, bind.imgUserAvatar)
                 }
-
-            if (currentUser.photoUrl != null) {
-                Glide.with(this).load(currentUser.photoUrl).circleCrop().into(bind.imgUserAvatar)
-            }
         }
 
         bind.btnBack.setOnClickListener { parentFragmentManager.popBackStack() }
@@ -95,7 +111,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
         }
 
         // 3. Totals - Check arguments first for direct purchase
-        @Suppress("UNCHECKED_CAST")
+        @Suppress("UNCHECKED_CAST", "DEPRECATION")
         val directItems = arguments?.getSerializable("items") as? ArrayList<com.example.supply7.data.CartItem>
         
         if (directItems != null && directItems.isNotEmpty()) {
@@ -106,7 +122,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
             bind.textTotalPrice.text = "₺$total"
             
             bind.btnConfirmPayment.setOnClickListener {
-                processCheckout(total)
+                processCheckout()
             }
         } else {
             // Normal cart checkout
@@ -118,7 +134,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
                 bind.textTotalPrice.text = "₺$total"
 
                 bind.btnConfirmPayment.setOnClickListener {
-                    processCheckout(total)
+                    processCheckout()
                 }
             }
         }
@@ -168,7 +184,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
             .show()
     }
 
-    private fun processCheckout(amount: Double) {
+    private fun processCheckout() {
         if (selectedDeliveryLocation == null) {
             Toast.makeText(context, "Please select a delivery point", Toast.LENGTH_SHORT).show()
             return
@@ -238,6 +254,16 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
                 .commit()
         }.addOnFailureListener { e ->
             Toast.makeText(context, "Checkout Failed: ${e.message}", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun loadAuthPhoto(user: com.google.firebase.auth.FirebaseUser, imageView: android.widget.ImageView) {
+        if (user.photoUrl != null) {
+            Glide.with(this)
+                .load(user.photoUrl)
+                .placeholder(R.drawable.user_male)
+                .circleCrop()
+                .into(imageView)
         }
     }
 
